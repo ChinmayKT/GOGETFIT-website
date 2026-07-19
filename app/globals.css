@@ -1,0 +1,276 @@
+@import "tailwindcss";
+
+/* ============================================
+   GOGETFIT — Design Tokens
+   ============================================ */
+:root {
+  --bg: #080808;
+  --bg-elevated: #0e0e10;
+  --primary: #ff6a00;
+  --primary-soft: #ff8a3d;
+  --primary-deep: #cc4d00;
+  --white: #ffffff;
+  --silver: #c8ccd4;
+  --silver-dim: #8a8f99;
+
+  --glass-bg: rgba(255, 255, 255, 0.04);
+  --glass-bg-strong: rgba(255, 255, 255, 0.07);
+  --glass-border: rgba(255, 255, 255, 0.1);
+  --glass-highlight: rgba(255, 255, 255, 0.18);
+
+  --glow-orange: rgba(255, 106, 0, 0.35);
+
+  --ease-out-expo: cubic-bezier(0.16, 1, 0.3, 1);
+  --ease-spring: cubic-bezier(0.34, 1.56, 0.64, 1);
+}
+
+@theme inline {
+  --color-bg: var(--bg);
+  --color-bg-elevated: var(--bg-elevated);
+  --color-primary: var(--primary);
+  --color-primary-soft: var(--primary-soft);
+  --color-primary-deep: var(--primary-deep);
+  --color-silver: var(--silver);
+  --color-silver-dim: var(--silver-dim);
+  --font-sans: var(--font-manrope);
+  --font-display: var(--font-space-grotesk);
+}
+
+html {
+  scroll-behavior: auto;
+}
+
+html.lenis,
+html.lenis body {
+  height: auto;
+}
+
+.lenis.lenis-smooth {
+  scroll-behavior: auto !important;
+}
+
+body {
+  background: var(--bg);
+  color: var(--white);
+  font-family: var(--font-manrope), system-ui, sans-serif;
+  overflow-x: clip;
+  -webkit-font-smoothing: antialiased;
+}
+
+::selection {
+  background: var(--primary);
+  color: var(--white);
+}
+
+/* ============================================
+   Liquid Glass
+   ============================================ */
+.glass {
+  background: var(--glass-bg);
+  backdrop-filter: blur(20px) saturate(1.4);
+  -webkit-backdrop-filter: blur(20px) saturate(1.4);
+  border: 1px solid var(--glass-border);
+  box-shadow:
+    inset 0 1px 0 var(--glass-highlight),
+    inset 0 -1px 0 rgba(255, 255, 255, 0.03),
+    0 8px 32px rgba(0, 0, 0, 0.35);
+}
+
+.glass-strong {
+  background: var(--glass-bg-strong);
+  backdrop-filter: blur(28px) saturate(1.6);
+  -webkit-backdrop-filter: blur(28px) saturate(1.6);
+  border: 1px solid var(--glass-border);
+  box-shadow:
+    inset 0 1px 0 var(--glass-highlight),
+    0 16px 48px rgba(0, 0, 0, 0.45);
+}
+
+/* diagonal sheen sweep on hover */
+.glass-sheen {
+  position: relative;
+  overflow: hidden;
+}
+.glass-sheen::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(
+    115deg,
+    transparent 30%,
+    rgba(255, 255, 255, 0.08) 45%,
+    rgba(255, 255, 255, 0.14) 50%,
+    rgba(255, 255, 255, 0.08) 55%,
+    transparent 70%
+  );
+  transform: translateX(-120%);
+  transition: transform 1s var(--ease-out-expo);
+  pointer-events: none;
+}
+.glass-sheen:hover::after {
+  transform: translateX(120%);
+}
+
+/* ============================================
+   Noise overlay
+   ============================================ */
+.noise::before {
+  content: "";
+  position: fixed;
+  inset: 0;
+  z-index: 100;
+  pointer-events: none;
+  opacity: 0.035;
+  background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
+  background-size: 256px 256px;
+}
+
+/* ============================================
+   Typography helpers
+   ============================================ */
+.headline {
+  font-family: var(--font-space-grotesk), var(--font-manrope), sans-serif;
+  letter-spacing: -0.04em;
+  line-height: 0.95;
+  font-weight: 600;
+}
+
+.text-gradient-orange {
+  background: linear-gradient(120deg, #fff 20%, var(--primary-soft) 50%, var(--primary) 80%);
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: transparent;
+}
+
+.text-gradient-silver {
+  background: linear-gradient(180deg, #fff 0%, var(--silver) 60%, var(--silver-dim) 100%);
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: transparent;
+}
+
+/* ============================================
+   Mesh gradient blobs (GPU: transform only)
+   ============================================ */
+@keyframes blob-drift-a {
+  0%, 100% { transform: translate3d(0, 0, 0) scale(1); }
+  33% { transform: translate3d(8vw, -6vh, 0) scale(1.15); }
+  66% { transform: translate3d(-6vw, 8vh, 0) scale(0.92); }
+}
+@keyframes blob-drift-b {
+  0%, 100% { transform: translate3d(0, 0, 0) scale(1); }
+  40% { transform: translate3d(-10vw, 5vh, 0) scale(1.1); }
+  75% { transform: translate3d(6vw, -8vh, 0) scale(0.95); }
+}
+.blob-a { animation: blob-drift-a 26s ease-in-out infinite; }
+.blob-b { animation: blob-drift-b 34s ease-in-out infinite; }
+
+/* ============================================
+   Phone breathing float (composited)
+   ============================================ */
+@keyframes breathe {
+  0%, 100% { transform: translateY(0) rotate(0.001deg); }
+  50% { transform: translateY(-14px) rotate(0.001deg); }
+}
+.breathe {
+  animation: breathe 6s ease-in-out infinite;
+  will-change: transform;
+}
+
+/* Scroll indicator */
+@keyframes scroll-dot {
+  0% { transform: translateY(0); opacity: 1; }
+  70% { transform: translateY(14px); opacity: 0; }
+  100% { transform: translateY(0); opacity: 0; }
+}
+.scroll-dot { animation: scroll-dot 1.8s var(--ease-out-expo) infinite; }
+
+/* Hidden scrollbar for carousels */
+.no-scrollbar {
+  scrollbar-width: none;
+  -ms-overflow-style: none;
+}
+.no-scrollbar::-webkit-scrollbar {
+  display: none;
+}
+
+/* App showcase: hovering one phone gently recedes the others */
+@media (hover: hover) {
+  .app-stage:has(.app-phone:hover) .app-phone:not(:hover) {
+    opacity: 0.55;
+    transform: scale(0.98);
+  }
+  .app-phone {
+    transition:
+      opacity 0.45s ease,
+      transform 0.45s cubic-bezier(0.16, 1, 0.3, 1);
+  }
+  .app-phone:hover {
+    transform: translateY(-12px) scale(1.03);
+  }
+  article:has(.app-phone:hover) .app-title {
+    color: var(--primary);
+  }
+}
+
+/* Leadership: restrained executive hover — lift, warm photo, dim siblings.
+   While the deck-deal entrance runs, .is-dealing suspends hover transitions
+   and pointer events so CSS never fights the GSAP transforms. */
+.lead-grid.is-dealing .lead-card {
+  transition: none !important;
+  pointer-events: none;
+}
+@media (hover: hover) {
+  .lead-card {
+    transition:
+      transform 0.45s cubic-bezier(0.16, 1, 0.3, 1),
+      opacity 0.45s ease,
+      box-shadow 0.45s ease;
+  }
+  .lead-card:hover {
+    transform: translateY(-6px);
+  }
+  .lead-card [data-lead-img] {
+    transition: box-shadow 0.45s ease;
+  }
+  .lead-card:hover [data-lead-img] {
+    box-shadow:
+      inset 0 0 0 1px rgba(255, 106, 0, 0.35),
+      0 18px 40px rgba(0, 0, 0, 0.45);
+  }
+  .lead-photo {
+    filter: saturate(0.85);
+    transition: filter 0.5s ease, transform 0.5s cubic-bezier(0.16, 1, 0.3, 1);
+  }
+  .lead-card:hover .lead-photo {
+    filter: saturate(1);
+    transform: scale(1.03);
+  }
+  .lead-name {
+    transition: color 0.3s ease;
+  }
+  .lead-card:hover .lead-name {
+    color: #fff;
+  }
+  .lead-grid:has(.lead-card:hover) .lead-card:not(:hover) {
+    opacity: 0.72;
+  }
+}
+
+/* Marquee for reel gallery */
+@keyframes marquee {
+  from { transform: translateX(0); }
+  to { transform: translateX(-50%); }
+}
+.marquee { animation: marquee 40s linear infinite; }
+.marquee:hover { animation-play-state: paused; }
+
+/* Reduced motion */
+@media (prefers-reduced-motion: reduce) {
+  .blob-a, .blob-b, .breathe, .scroll-dot, .marquee {
+    animation: none !important;
+  }
+  *, *::before, *::after {
+    transition-duration: 0.01ms !important;
+  }
+}
