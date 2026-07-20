@@ -23,27 +23,27 @@ export default function Contact() {
   return (
     <section
       id="contact"
-      className="relative z-10 flex min-h-screen items-center px-6 py-28 lg:h-screen lg:min-h-[100svh] lg:items-start lg:overflow-hidden lg:py-0 lg:pt-[11vh]"
+      className="relative z-10 flex min-h-[100svh] items-center px-6 py-28 lg:h-screen lg:items-start lg:overflow-hidden lg:py-0 lg:pt-[11vh]"
     >
       <div className="mx-auto w-full max-w-[1440px] lg:pr-[34%]">
         <Reveal as="p" className="text-xs font-semibold tracking-[0.35em] text-primary uppercase">
           Contact Us
         </Reveal>
-        <Reveal as="h2" delay={0.08} className="headline mt-3 text-4xl md:text-5xl lg:text-[3.2rem]">
+        <Reveal as="h2" delay={0.08} mobileReveal="left" className="headline mt-3 text-4xl md:text-5xl lg:text-[3.2rem]">
           <span className="text-gradient-silver">Get in</span>{" "}
           <span className="text-gradient-orange">Touch.</span>
         </Reveal>
-        <Reveal as="p" delay={0.15} className="mt-3 max-w-lg text-sm text-silver-dim md:text-base">
+        <Reveal as="p" delay={0.15} mobileReveal="right" className="mt-3 max-w-lg text-sm text-silver-dim md:text-base">
           We&apos;d love to hear from you. Fill the form and our team will get
           back to you soon.
         </Reveal>
 
-        <Reveal delay={0.22} className="mt-6">
+        <Reveal delay={0.22} mobileReveal="left" className="mt-6">
           <ConsultationForm />
         </Reveal>
 
         {/* Unified contact info panel — directly under the form */}
-        <Reveal delay={0.3} margin="0px" className="glass mt-4 rounded-2xl border border-white/10 p-5">
+        <Reveal delay={0.3} margin="0px" mobileReveal="right" className="glass mt-4 rounded-2xl border border-white/10 p-5">
           <div className="grid gap-5 sm:grid-cols-3 sm:divide-x sm:divide-white/10">
             <div className="flex items-start gap-3 sm:pr-4">
               <span className="glass flex h-10 w-10 shrink-0 items-center justify-center rounded-full border-primary/30 text-primary">
@@ -90,7 +90,7 @@ export default function Contact() {
         </Reveal>
 
         {/* Social links — directly under the contact panel */}
-        <Reveal delay={0.36} margin="0px" className="mt-4 flex gap-3">
+        <Reveal delay={0.36} margin="0px" mobileReveal="left" className="mt-4 flex gap-3">
           {FOOTER_LINKS.social.map((s) => (
             <a
               key={s.label}

@@ -4,6 +4,7 @@ import { useEffect, useRef } from "react";
 import { gsap } from "gsap";
 import { Observer } from "gsap/Observer";
 import { ScrollToPlugin } from "gsap/ScrollToPlugin";
+import { QUERY_DESKTOP } from "@/lib/breakpoints";
 
 gsap.registerPlugin(Observer, ScrollToPlugin);
 
@@ -34,14 +35,20 @@ export default function SnapScroll() {
   const goToRef = useRef<(idx: number) => void>(() => {});
 
   useEffect(() => {
-    const desktop = window.matchMedia("(min-width: 1024px)").matches;
-    const reduced = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
-    if (!desktop || reduced) return;
+    const mm = gsap.matchMedia();
+    mm.add(
+      { isDesktop: QUERY_DESKTOP, reduced: "(prefers-reduced-motion: reduce)" },
+      (context) => {
+        const { isDesktop, reduced } = context.conditions as {
+          isDesktop: boolean;
+          reduced: boolean;
+        };
+        if (!isDesktop || reduced) return;
 
-    const els = SNAP_SECTIONS.map((id) => document.getElementById(id)).filter(
-      Boolean
-    ) as HTMLElement[];
-    if (els.length < 2) return;
+        const els = SNAP_SECTIONS.map((id) => document.getElementById(id)).filter(
+          Boolean
+        ) as HTMLElement[];
+        if (els.length < 2) return;
 
     const s = { current: 0, animating: false, unlockAt: 0 };
 
@@ -170,14 +177,17 @@ export default function SnapScroll() {
     };
     document.addEventListener("click", onClick);
 
-    return () => {
-      cancelAnimationFrame(rafId);
-      obs.kill();
-      window.removeEventListener("scroll", resync);
-      window.removeEventListener("keydown", onKey);
-      document.removeEventListener("click", onClick);
-      gsap.killTweensOf(window);
-    };
+        return () => {
+          cancelAnimationFrame(rafId);
+          obs.kill();
+          window.removeEventListener("scroll", resync);
+          window.removeEventListener("keydown", onKey);
+          document.removeEventListener("click", onClick);
+          gsap.killTweensOf(window);
+        };
+      }
+    );
+    return () => mm.revert();
   }, []);
 
   // Pure orchestration — no visible UI. Section state travels via the

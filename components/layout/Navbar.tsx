@@ -9,11 +9,13 @@ import GlassButton from "@/components/shared/GlassButton";
 import SmartLink from "@/components/shared/SmartLink";
 import GoGetFitLogo from "@/components/brand/GoGetFitLogo";
 import { cn, toSectionHref } from "@/lib/utils";
+import { useIsMobile } from "@/hooks/useMediaQuery";
 
 export default function Navbar() {
   const [scrolled, setScrolled] = useState(false);
   const [open, setOpen] = useState(false);
   const isHome = usePathname() === "/";
+  const isMobile = useIsMobile();
 
   useEffect(() => {
     const onScroll = () => setScrolled(window.scrollY > 40);
@@ -41,7 +43,7 @@ export default function Navbar() {
         </SmartLink>
 
         {/* Desktop links */}
-        <div className="hidden items-center gap-8 md:flex">
+        <div className="hidden items-center gap-8 lg:flex">
           {NAV_LINKS.map((l) => (
             <SmartLink
               key={l.href}
@@ -53,7 +55,7 @@ export default function Navbar() {
           ))}
         </div>
 
-        <div className="hidden items-center gap-3 md:flex">
+        <div className="hidden items-center gap-3 lg:flex">
           <GlassButton href={toSectionHref("#download", isHome)} className="px-5 py-2.5 text-xs">
             <Download size={14} /> Download
           </GlassButton>
@@ -66,25 +68,27 @@ export default function Navbar() {
           </GlassButton>
         </div>
 
-        {/* Mobile toggle */}
-        <button
-          aria-label="Toggle menu"
-          onClick={() => setOpen((v) => !v)}
-          className="glass rounded-full p-2.5 md:hidden"
-        >
-          {open ? <X size={18} /> : <Menu size={18} />}
-        </button>
+        {/* Tablet toggle — mobile (<768px) shows the logo only, no hamburger */}
+        {!isMobile && (
+          <button
+            aria-label="Toggle menu"
+            onClick={() => setOpen((v) => !v)}
+            className="glass rounded-full p-2.5 lg:hidden"
+          >
+            {open ? <X size={18} /> : <Menu size={18} />}
+          </button>
+        )}
       </nav>
 
-      {/* Mobile menu */}
+      {/* Tablet menu */}
       <AnimatePresence>
-        {open && (
+        {!isMobile && open && (
           <motion.div
             initial={{ opacity: 0, y: -12, scale: 0.98 }}
             animate={{ opacity: 1, y: 0, scale: 1 }}
             exit={{ opacity: 0, y: -12, scale: 0.98 }}
             transition={{ duration: 0.35, ease: [0.16, 1, 0.3, 1] }}
-            className="glass-strong absolute top-full right-4 left-4 mt-2 flex flex-col gap-1 rounded-3xl p-4 md:hidden"
+            className="glass-strong absolute top-full right-4 left-4 mt-2 flex flex-col gap-1 rounded-3xl p-4 lg:hidden"
           >
             {NAV_LINKS.map((l) => (
               <SmartLink

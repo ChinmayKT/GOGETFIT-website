@@ -6,13 +6,19 @@ import DeviceFrame from "@/components/phone/DeviceFrame";
 import { PhoneScreen } from "@/components/phone/screens";
 import Reveal from "@/components/shared/Reveal";
 import StoreButton from "@/components/shared/StoreButton";
+import { ScrollTrigger } from "gsap/ScrollTrigger";
 import { SNAP_SECTIONS } from "@/components/animations/SnapScroll";
+import { QUERY_DESKTOP, QUERY_MOBILE } from "@/lib/breakpoints";
 import {
   DOWNLOAD_BENEFITS,
   IOS_APP_STORE_URL,
   ANDROID_PLAY_STORE_URL,
 } from "@/lib/data";
 import { Dumbbell, Utensils, BarChart3, MessageSquare, Apple, Play } from "lucide-react";
+
+gsap.registerPlugin(ScrollTrigger);
+
+const MOBILE_OFFSET_X: Record<"left" | "right", number> = { left: -60, right: 60 };
 
 const DOWNLOAD_IDX = (SNAP_SECTIONS as readonly string[]).indexOf("download");
 const FOOTER_IDX = (SNAP_SECTIONS as readonly string[]).indexOf("footer");
@@ -45,7 +51,9 @@ function AndroidPhone() {
     const root = rootRef.current;
     const stage = stageRef.current;
     if (!root || !stage) return;
-    if (!window.matchMedia("(min-width: 1024px)").matches) return;
+
+    const mm = gsap.matchMedia();
+    mm.add(QUERY_DESKTOP, () => {
     const reduced = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
 
     gsap.set(root, { autoAlpha: 0 });
@@ -170,6 +178,8 @@ function AndroidPhone() {
       window.removeEventListener("snap:section", onSnap);
       tl?.kill();
     };
+    });
+    return () => mm.revert();
   }, []);
 
   return (
@@ -177,7 +187,7 @@ function AndroidPhone() {
       ref={rootRef}
       aria-hidden
       className="pointer-events-none fixed inset-0 z-30 hidden items-center justify-center lg:flex"
-      style={{ perspective: 1600 }}
+      style={{ perspective: 1600, opacity: 0, visibility: "hidden" }}
     >
       <div ref={stageRef} className="will-change-transform" style={{ transformStyle: "preserve-3d" }}>
         <DeviceFrame>
@@ -229,10 +239,18 @@ export default function DownloadCta() {
   useEffect(() => {
     const section = sectionRef.current;
     if (!section) return;
-    if (!window.matchMedia("(min-width: 1024px)").matches) return;
-    if (window.matchMedia("(prefers-reduced-motion: reduce)").matches) return;
 
-    const ctx = gsap.context(() => {
+    const mm = gsap.matchMedia();
+    mm.add(
+      { isDesktop: QUERY_DESKTOP, reduced: "(prefers-reduced-motion: reduce)" },
+      (context) => {
+        const { isDesktop, reduced } = context.conditions as {
+          isDesktop: boolean;
+          reduced: boolean;
+        };
+        if (!isDesktop || reduced) return;
+
+        const ctx = gsap.context(() => {
       let tl: gsap.core.Timeline | null = null;
       const play = () => {
         tl?.kill();
@@ -265,15 +283,69 @@ export default function DownloadCta() {
         window.removeEventListener("snap:section", onSnap);
         tl?.kill();
       };
-    }, section);
-    return () => ctx.revert();
+        }, section);
+        return () => ctx.revert();
+      }
+    );
+
+    // Mobile — repeating alternating left/right reveal on the headline block
+    // and each benefit row. Independent of the desktop timeline above and of
+    // the travelling-phone system (never touches [data-phone-spin]/AndroidPhone).
+    mm.add(
+      { isMobile: QUERY_MOBILE, reduced: "(prefers-reduced-motion: reduce)" },
+      (context) => {
+        const { isMobile, reduced } = context.conditions as {
+          isMobile: boolean;
+          reduced: boolean;
+        };
+        if (!isMobile || reduced) return;
+
+        const targets = [
+          section.querySelector<HTMLElement>("[data-dl-head]"),
+          ...gsap.utils.toArray<HTMLElement>("[data-dl-benefit]", section),
+        ].filter((el): el is HTMLElement => el !== null);
+
+        const triggers: ScrollTrigger[] = [];
+        targets.forEach((el, i) => {
+          const dir = i % 2 === 0 ? "left" : "right";
+          const x = MOBILE_OFFSET_X[dir];
+          const hide = () => gsap.set(el, { opacity: 0, x, scale: 0.97 });
+          const reveal = () =>
+            gsap.to(el, {
+              opacity: 1,
+              x: 0,
+              scale: 1,
+              duration: 0.9,
+              ease: "power3.out",
+              overwrite: "auto",
+            });
+
+          hide();
+          triggers.push(
+            ScrollTrigger.create({
+              trigger: el,
+              start: "top 88%",
+              end: "bottom 12%",
+              onEnter: reveal,
+              onEnterBack: reveal,
+              onLeave: hide,
+              onLeaveBack: hide,
+            })
+          );
+        });
+
+        return () => triggers.forEach((t) => t.kill());
+      }
+    );
+
+    return () => mm.revert();
   }, []);
 
   return (
     <section
       id="download"
       ref={sectionRef}
-      className="relative z-10 flex min-h-screen flex-col px-6 py-28 lg:h-screen lg:min-h-[100svh] lg:overflow-hidden lg:py-0 lg:pt-[11vh] lg:pb-3"
+      className="relative z-10 flex min-h-[100svh] flex-col px-6 py-28 lg:h-screen lg:overflow-hidden lg:py-0 lg:pt-[11vh] lg:pb-3"
     >
       {/* Black titanium product-display platform the twin devices stand on.
           Centered under the midpoint of iOS (IOS_VW) and Android (ANDROID_VW)
@@ -429,7 +501,7 @@ export default function DownloadCta() {
 
       {/* Mobile: static single-phone showcase (no persistent-phone choreography) */}
       <div className="mt-10 flex flex-col items-center gap-6 lg:hidden">
-        <DeviceFrame className="w-[240px]">
+        <DeviceFrame className="w-[clamp(200px,62vw,260px)]">
           <div
             className="h-full w-full"
             style={{ background: "linear-gradient(160deg, #101014 0%, #0a0a0c 60%, #16100b 100%)" }}
@@ -437,13 +509,14 @@ export default function DownloadCta() {
             <PhoneScreen screen="qr" />
           </div>
         </DeviceFrame>
-        <div className="flex flex-wrap justify-center gap-3">
+        <div className="flex w-full flex-col items-center gap-4 md:w-auto md:flex-row md:flex-wrap md:justify-center md:gap-3">
           <StoreButton
             icon={<Apple size={20} className="text-white" />}
             top="Download on the"
             bottom="App Store"
             href={IOS_APP_STORE_URL}
             label="Download GOGETFIT on the App Store"
+            className="cta-shimmer mx-auto w-[90%] max-w-[420px] justify-center md:mx-0 md:w-auto md:max-w-none md:justify-start"
           />
           <StoreButton
             icon={<Play size={18} className="text-white" />}
@@ -451,6 +524,7 @@ export default function DownloadCta() {
             bottom="Google Play"
             href={ANDROID_PLAY_STORE_URL}
             label="Get GOGETFIT on Google Play"
+            className="cta-shimmer mx-auto w-[90%] max-w-[420px] justify-center md:mx-0 md:w-auto md:max-w-none md:justify-start"
           />
         </div>
       </div>

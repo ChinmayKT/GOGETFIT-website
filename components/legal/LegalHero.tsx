@@ -16,7 +16,7 @@ export default function LegalHero({
   lastUpdated: string;
 }) {
   return (
-    <div className="relative">
+    <div className="relative overflow-hidden">
       <div
         aria-hidden
         className="pointer-events-none absolute -top-24 -left-24 -z-10 h-72 w-72 rounded-full opacity-30"

@@ -9,6 +9,7 @@ import {
   type TransformationStory,
 } from "@/lib/data";
 import { SNAP_SECTIONS } from "@/components/animations/SnapScroll";
+import { QUERY_DESKTOP } from "@/lib/breakpoints";
 import {
   Play,
   X,
@@ -95,42 +96,45 @@ function CarouselRow({
   };
 
   useEffect(() => {
-    if (!window.matchMedia("(min-width: 1024px)").matches) return;
-    const t = setTimeout(drift, 3500);
+    const mm = gsap.matchMedia();
+    mm.add(QUERY_DESKTOP, () => {
+      const t = setTimeout(drift, 3500);
 
-    // drag support
-    const vp = viewportRef.current!;
-    let dragging = false;
-    let startX = 0;
-    let startPos = 0;
-    const onDown = (e: PointerEvent) => {
-      dragging = true;
-      startX = e.clientX;
-      startPos = pos.current;
-      pause();
-    };
-    const onMove = (e: PointerEvent) => {
-      if (!dragging) return;
-      pos.current = gsap.utils.clamp(-bounds(), 0, startPos + e.clientX - startX);
-      gsap.set(trackRef.current, { x: pos.current });
-    };
-    const onUp = () => {
-      if (!dragging) return;
-      dragging = false;
-      scheduleResume();
-    };
-    vp.addEventListener("pointerdown", onDown);
-    window.addEventListener("pointermove", onMove);
-    window.addEventListener("pointerup", onUp);
+      // drag support
+      const vp = viewportRef.current!;
+      let dragging = false;
+      let startX = 0;
+      let startPos = 0;
+      const onDown = (e: PointerEvent) => {
+        dragging = true;
+        startX = e.clientX;
+        startPos = pos.current;
+        pause();
+      };
+      const onMove = (e: PointerEvent) => {
+        if (!dragging) return;
+        pos.current = gsap.utils.clamp(-bounds(), 0, startPos + e.clientX - startX);
+        gsap.set(trackRef.current, { x: pos.current });
+      };
+      const onUp = () => {
+        if (!dragging) return;
+        dragging = false;
+        scheduleResume();
+      };
+      vp.addEventListener("pointerdown", onDown);
+      window.addEventListener("pointermove", onMove);
+      window.addEventListener("pointerup", onUp);
 
-    return () => {
-      clearTimeout(t);
-      if (resumeTimer.current) clearTimeout(resumeTimer.current);
-      idleTween.current?.kill();
-      vp.removeEventListener("pointerdown", onDown);
-      window.removeEventListener("pointermove", onMove);
-      window.removeEventListener("pointerup", onUp);
-    };
+      return () => {
+        clearTimeout(t);
+        if (resumeTimer.current) clearTimeout(resumeTimer.current);
+        idleTween.current?.kill();
+        vp.removeEventListener("pointerdown", onDown);
+        window.removeEventListener("pointermove", onMove);
+        window.removeEventListener("pointerup", onUp);
+      };
+    });
+    return () => mm.revert();
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
@@ -159,7 +163,7 @@ function CarouselRow({
       <div className="relative">
         <div
           ref={viewportRef}
-          className="no-scrollbar cursor-grab touch-pan-y overflow-hidden active:cursor-grabbing max-lg:snap-x max-lg:snap-mandatory max-lg:overflow-x-auto"
+          className="no-scrollbar cursor-grab overflow-hidden active:cursor-grabbing max-lg:snap-x max-lg:snap-mandatory max-lg:overflow-x-auto lg:touch-pan-y"
         >
           <div ref={trackRef} className="flex gap-3.5 will-change-transform">
             {items.map((s) => (
@@ -240,10 +244,18 @@ export default function Transformations() {
   useEffect(() => {
     const section = sectionRef.current;
     if (!section) return;
-    if (!window.matchMedia("(min-width: 1024px)").matches) return;
-    if (window.matchMedia("(prefers-reduced-motion: reduce)").matches) return;
 
-    const ctx = gsap.context(() => {
+    const mm = gsap.matchMedia();
+    mm.add(
+      { isDesktop: QUERY_DESKTOP, reduced: "(prefers-reduced-motion: reduce)" },
+      (context) => {
+        const { isDesktop, reduced } = context.conditions as {
+          isDesktop: boolean;
+          reduced: boolean;
+        };
+        if (!isDesktop || reduced) return;
+
+        const ctx = gsap.context(() => {
       let tl: gsap.core.Timeline | null = null;
       const play = () => {
         tl?.kill();
@@ -291,15 +303,18 @@ export default function Transformations() {
         window.removeEventListener("snap:section", onSnap);
         tl?.kill();
       };
-    }, section);
-    return () => ctx.revert();
+        }, section);
+        return () => ctx.revert();
+      }
+    );
+    return () => mm.revert();
   }, []);
 
   return (
     <section
       id="transformations"
       ref={sectionRef}
-      className="relative z-10 flex min-h-screen flex-col px-6 py-28 lg:h-screen lg:min-h-[100svh] lg:overflow-hidden lg:py-0 lg:pt-[9.5vh] lg:pb-3"
+      className="relative z-10 flex min-h-[100svh] flex-col px-6 py-28 lg:h-screen lg:overflow-hidden lg:py-0 lg:pt-[9.5vh] lg:pb-3"
     >
       {/* ---------- Center-top header ---------- */}
       <div data-thead className="mx-auto mb-4 max-w-6xl text-center lg:mb-[2.4vh]">

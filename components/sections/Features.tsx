@@ -4,8 +4,11 @@ import { useEffect, useRef } from "react";
 import { gsap } from "gsap";
 import { APP_SHOWCASE } from "@/lib/data";
 import { SNAP_SECTIONS } from "@/components/animations/SnapScroll";
+import { QUERY_DESKTOP } from "@/lib/breakpoints";
+import { cn } from "@/lib/utils";
 import DeviceFrame from "@/components/phone/DeviceFrame";
 import { PhoneScreen, type ScreenKey } from "@/components/phone/screens";
+import Reveal from "@/components/shared/Reveal";
 import {
   Activity,
   UtensilsCrossed,
@@ -43,10 +46,18 @@ export default function Features() {
     const section = sectionRef.current;
     const stage = stageRef.current;
     if (!section || !stage) return;
-    if (!window.matchMedia("(min-width: 1024px)").matches) return;
-    if (window.matchMedia("(prefers-reduced-motion: reduce)").matches) return;
 
-    const ctx = gsap.context(() => {
+    const mm = gsap.matchMedia();
+    mm.add(
+      { isDesktop: QUERY_DESKTOP, reduced: "(prefers-reduced-motion: reduce)" },
+      (context) => {
+        const { isDesktop, reduced } = context.conditions as {
+          isDesktop: boolean;
+          reduced: boolean;
+        };
+        if (!isDesktop || reduced) return;
+
+        const ctx = gsap.context(() => {
       const header = section.querySelectorAll("[data-showcase-header] > *");
       const phones = gsap.utils.toArray<HTMLElement>("[data-showcase-item]");
       const floats = gsap.utils.toArray<HTMLElement>("[data-float]");
@@ -227,16 +238,19 @@ export default function Features() {
         window.removeEventListener("mousemove", onMove);
         tl?.kill();
       };
-    }, section);
+        }, section);
 
-    return () => ctx.revert();
+        return () => ctx.revert();
+      }
+    );
+    return () => mm.revert();
   }, []);
 
   return (
     <section
       id="features"
       ref={sectionRef}
-      className="relative z-10 flex min-h-screen flex-col justify-center px-6 py-24 lg:h-screen lg:min-h-[100svh] lg:overflow-hidden lg:pt-24 lg:pb-4"
+      className="relative z-10 flex min-h-[100svh] flex-col justify-center px-6 py-24 lg:h-screen lg:overflow-hidden lg:pt-24 lg:pb-4"
     >
       {/* Stage glow — light rising off the product floor */}
       <div
@@ -261,10 +275,11 @@ export default function Features() {
         </p>
       </div>
 
-      {/* Six-device stage — desktop row / mobile swipe */}
+      {/* Six-device stage — desktop only. Tablet/mobile get their own
+          non-carousel layouts below (see APP_SHOWCASE.map blocks). */}
       <div
         ref={stageRef}
-        className="app-stage no-scrollbar relative mt-10 flex snap-x snap-mandatory gap-6 overflow-x-auto px-2 lg:mt-8 lg:snap-none lg:justify-center lg:gap-[1.6vw] lg:overflow-visible"
+        className="app-stage no-scrollbar relative mt-10 hidden snap-x snap-mandatory gap-6 overflow-x-auto px-2 lg:mt-8 lg:flex lg:snap-none lg:justify-center lg:gap-[1.6vw] lg:overflow-visible"
       >
         {APP_SHOWCASE.map((f, i) => {
           const Icon = ICONS[i];
@@ -331,10 +346,81 @@ export default function Features() {
         })}
       </div>
 
-      {/* Mobile pagination hint */}
-      <p className="mt-6 text-center text-xs tracking-[0.3em] text-silver-dim lg:hidden">
-        SWIPE · 01 / 06
-      </p>
+      {/* Tablet — alternating text | phone rows, simple reveal, no carousel */}
+      <div className="mt-10 hidden flex-col gap-16 md:flex lg:hidden">
+        {APP_SHOWCASE.map((f, i) => {
+          const Icon = ICONS[i];
+          const reverse = i % 2 === 1;
+          return (
+            <div
+              key={f.id}
+              className={cn("flex items-center gap-10", reverse && "flex-row-reverse")}
+            >
+              <Reveal className="flex-1">
+                <span className="glass inline-flex shrink-0 rounded-xl p-2 text-primary">
+                  <Icon size={18} strokeWidth={2} />
+                </span>
+                <h3 className="app-title mt-3 text-lg font-semibold text-white">
+                  {i + 1}. {f.title}
+                </h3>
+                <p className="mt-1.5 text-sm leading-relaxed text-white/60">
+                  {f.desc}
+                </p>
+              </Reveal>
+              <Reveal delay={0.1} className="flex flex-1 justify-center">
+                <DeviceFrame className="w-[clamp(200px,62vw,260px)]">
+                  <div
+                    className="h-full w-full"
+                    style={{
+                      background:
+                        "linear-gradient(160deg, #101014 0%, #0a0a0c 60%, #16100b 100%)",
+                    }}
+                  >
+                    <PhoneScreen screen={f.screen as ScreenKey} />
+                  </div>
+                </DeviceFrame>
+              </Reveal>
+            </div>
+          );
+        })}
+      </div>
+
+      {/* Mobile — fully vertical, one feature per screen, simple reveal, native scroll */}
+      <div className="mt-10 flex flex-col gap-16 md:hidden">
+        {APP_SHOWCASE.map((f, i) => {
+          const Icon = ICONS[i];
+          return (
+            <Reveal
+              key={f.id}
+              className="flex flex-col items-center gap-5 text-center"
+              mobileReveal={i % 2 === 0 ? "left" : "right"}
+            >
+              <span className="glass inline-flex shrink-0 rounded-xl p-2 text-primary">
+                <Icon size={18} strokeWidth={2} />
+              </span>
+              <div>
+                <h3 className="app-title text-lg font-semibold text-white">
+                  {i + 1}. {f.title}
+                </h3>
+                <p className="mt-1.5 text-sm leading-relaxed text-white/60">
+                  {f.desc}
+                </p>
+              </div>
+              <DeviceFrame className="w-[clamp(200px,62vw,260px)]">
+                <div
+                  className="h-full w-full"
+                  style={{
+                    background:
+                      "linear-gradient(160deg, #101014 0%, #0a0a0c 60%, #16100b 100%)",
+                  }}
+                >
+                  <PhoneScreen screen={f.screen as ScreenKey} />
+                </div>
+              </DeviceFrame>
+            </Reveal>
+          );
+        })}
+      </div>
     </section>
   );
 }

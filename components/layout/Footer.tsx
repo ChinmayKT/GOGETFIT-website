@@ -3,12 +3,18 @@
 import { useEffect, useRef } from "react";
 import { usePathname } from "next/navigation";
 import { gsap } from "gsap";
+import { ScrollTrigger } from "gsap/ScrollTrigger";
 import { FOOTER_LINKS } from "@/lib/data";
 import SocialIcon from "@/components/shared/SocialIcon";
 import SmartLink from "@/components/shared/SmartLink";
 import GoGetFitLogo from "@/components/brand/GoGetFitLogo";
 import { toSectionHref } from "@/lib/utils";
+import { QUERY_DESKTOP, QUERY_MOBILE } from "@/lib/breakpoints";
 import { MapPin, Mail, Phone } from "lucide-react";
+
+gsap.registerPlugin(ScrollTrigger);
+
+const MOBILE_OFFSET_X: Record<"left" | "right", number> = { left: -60, right: 60 };
 
 const SOCIAL_ICON: Record<string, "instagram" | "youtube" | "linkedin" | "x"> = {
   Instagram: "instagram",
@@ -43,10 +49,18 @@ export default function Footer() {
   useEffect(() => {
     const section = sectionRef.current;
     if (!section) return;
-    if (!window.matchMedia("(min-width: 1024px)").matches) return;
-    if (window.matchMedia("(prefers-reduced-motion: reduce)").matches) return;
 
-    const ctx = gsap.context(() => {
+    const mm = gsap.matchMedia();
+    mm.add(
+      { isDesktop: QUERY_DESKTOP, reduced: "(prefers-reduced-motion: reduce)" },
+      (context) => {
+        const { isDesktop, reduced } = context.conditions as {
+          isDesktop: boolean;
+          reduced: boolean;
+        };
+        if (!isDesktop || reduced) return;
+
+        const ctx = gsap.context(() => {
       let tl: gsap.core.Timeline | null = null;
       const play = () => {
         tl?.kill();
@@ -94,15 +108,71 @@ export default function Footer() {
         observer.disconnect();
         tl?.kill();
       };
-    }, section);
-    return () => ctx.revert();
+        }, section);
+        return () => ctx.revert();
+      }
+    );
+
+    // Mobile — repeating alternating left/right reveal on each content
+    // group (header, nav columns, socials, bottom line). Independent of
+    // the desktop IntersectionObserver timeline above.
+    mm.add(
+      { isMobile: QUERY_MOBILE, reduced: "(prefers-reduced-motion: reduce)" },
+      (context) => {
+        const { isMobile, reduced } = context.conditions as {
+          isMobile: boolean;
+          reduced: boolean;
+        };
+        if (!isMobile || reduced) return;
+
+        const targets = [
+          section.querySelector<HTMLElement>("[data-ft-head]"),
+          ...gsap.utils.toArray<HTMLElement>("[data-ft-col]", section),
+          section.querySelector<HTMLElement>("[data-ft-social]"),
+          section.querySelector<HTMLElement>("[data-ft-bottom]"),
+        ].filter((el): el is HTMLElement => el !== null);
+
+        const triggers: ScrollTrigger[] = [];
+        targets.forEach((el, i) => {
+          const dir = i % 2 === 0 ? "left" : "right";
+          const x = MOBILE_OFFSET_X[dir];
+          const hide = () => gsap.set(el, { opacity: 0, x, scale: 0.97 });
+          const reveal = () =>
+            gsap.to(el, {
+              opacity: 1,
+              x: 0,
+              scale: 1,
+              duration: 0.9,
+              ease: "power3.out",
+              overwrite: "auto",
+            });
+
+          hide();
+          triggers.push(
+            ScrollTrigger.create({
+              trigger: el,
+              start: "top 88%",
+              end: "bottom 12%",
+              onEnter: reveal,
+              onEnterBack: reveal,
+              onLeave: hide,
+              onLeaveBack: hide,
+            })
+          );
+        });
+
+        return () => triggers.forEach((t) => t.kill());
+      }
+    );
+
+    return () => mm.revert();
   }, []);
 
   return (
     <footer
       id="footer"
       ref={sectionRef}
-      className="relative z-10 flex min-h-screen flex-col overflow-hidden px-6 py-20 lg:h-screen lg:min-h-[100svh] lg:py-0 lg:pt-[11vh] lg:pb-8"
+      className="relative z-10 flex min-h-[100svh] flex-col overflow-hidden px-6 py-20 lg:h-screen lg:py-0 lg:pt-[11vh] lg:pb-8"
     >
       {/* Huge low-opacity closing wordmark — the official logo at the same
           scale the old styled text occupied (~80vw). */}

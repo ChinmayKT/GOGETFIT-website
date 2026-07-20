@@ -177,6 +177,26 @@ body {
   will-change: transform;
 }
 
+/* Hero mobile phone — continuous rest → swing left → swing right → rest
+   loop, with a brief hold at rest each cycle so it reads as a recurring
+   beat rather than nonstop motion. */
+@keyframes hero-phone-rotate {
+  0% { transform: perspective(1600px) rotateY(-8deg) rotateX(2deg); }
+  8% { transform: perspective(1600px) rotateY(-8deg) rotateX(2deg); }
+  38% { transform: perspective(1600px) rotateY(-68deg) rotateX(2deg); }
+  78% { transform: perspective(1600px) rotateY(52deg) rotateX(2deg); }
+  92% { transform: perspective(1600px) rotateY(-8deg) rotateX(2deg); }
+  100% { transform: perspective(1600px) rotateY(-8deg) rotateX(2deg); }
+}
+.hero-phone-spin {
+  transform: perspective(1600px) rotateY(-8deg) rotateX(2deg);
+  animation-name: hero-phone-rotate;
+  animation-duration: 3.6s;
+  animation-timing-function: ease-in-out;
+  animation-iteration-count: infinite;
+  will-change: transform;
+}
+
 /* Scroll indicator */
 @keyframes scroll-dot {
   0% { transform: translateY(0); opacity: 1; }
@@ -265,9 +285,35 @@ body {
 .marquee { animation: marquee 40s linear infinite; }
 .marquee:hover { animation-play-state: paused; }
 
+/* CTA shimmer — fast silver sweep, left to right */
+@keyframes cta-shimmer-sweep {
+  0% { transform: translateX(-150%); }
+  100% { transform: translateX(150%); }
+}
+.cta-shimmer {
+  position: relative;
+  overflow: hidden;
+}
+.cta-shimmer::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(
+    115deg,
+    transparent 25%,
+    rgba(255, 255, 255, 0.45) 47%,
+    rgba(200, 204, 212, 0.65) 50%,
+    rgba(255, 255, 255, 0.45) 53%,
+    transparent 75%
+  );
+  transform: translateX(-150%);
+  animation: cta-shimmer-sweep 1.8s ease-in-out infinite;
+  pointer-events: none;
+}
+
 /* Reduced motion */
 @media (prefers-reduced-motion: reduce) {
-  .blob-a, .blob-b, .breathe, .scroll-dot, .marquee {
+  .blob-a, .blob-b, .breathe, .scroll-dot, .marquee, .cta-shimmer::after, .hero-phone-spin {
     animation: none !important;
   }
   *, *::before, *::after {

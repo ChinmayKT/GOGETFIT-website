@@ -1,4 +1,5 @@
 import type { ReactNode } from "react";
+import { cn } from "@/lib/utils";
 
 /** App Store / Google Play badge — used in Hero and the Download section. */
 export default function StoreButton({
@@ -7,18 +8,23 @@ export default function StoreButton({
   bottom,
   href,
   label,
+  className,
 }: {
   icon: ReactNode;
   top: string;
   bottom: string;
   href: string;
   label: string;
+  className?: string;
 }) {
   return (
     <a
       href={href}
       aria-label={label}
-      className="flex items-center gap-2.5 rounded-2xl border border-white/15 bg-black px-5 py-2.5 transition-transform duration-300 hover:scale-105 active:scale-95"
+      className={cn(
+        "flex items-center gap-2.5 rounded-2xl border border-white/15 bg-black px-5 py-2.5 transition-transform duration-300 hover:scale-105 active:scale-95",
+        className
+      )}
     >
       {icon}
       <span className="text-left leading-tight">

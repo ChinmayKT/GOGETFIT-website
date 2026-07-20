@@ -115,17 +115,17 @@ export default function Coaches() {
   return (
     <section
       id="coaches"
-      className="relative z-10 flex min-h-screen items-center px-6 py-28 lg:h-screen lg:min-h-[100svh] lg:items-start lg:overflow-hidden lg:py-0 lg:pt-[13vh]"
+      className="relative z-10 flex min-h-[100svh] items-center px-6 py-28 lg:h-screen lg:items-start lg:overflow-hidden lg:py-0 lg:pt-[13vh]"
     >
       <div className="mx-auto w-full max-w-[1440px] lg:pl-[30%]">
         <Reveal as="p" className="text-xs font-semibold tracking-[0.35em] text-primary uppercase">
           Your Corner
         </Reveal>
-        <Reveal as="h2" delay={0.1} className="headline mt-4 text-5xl md:text-6xl">
+        <Reveal as="h2" delay={0.1} mobileReveal="left" className="headline mt-4 text-5xl md:text-6xl">
           <span className="text-gradient-silver">Coaches who never</span>{" "}
           <span className="text-gradient-orange">let go.</span>
         </Reveal>
-        <Reveal as="p" delay={0.2} className="mt-5 max-w-xl text-base text-silver-dim md:text-lg">
+        <Reveal as="p" delay={0.2} mobileReveal="right" className="mt-5 max-w-xl text-base text-silver-dim md:text-lg">
           Certified experts. Daily check-ins. Weekly plan reviews. Real humans
           who know your name, your goals, and your journey.
         </Reveal>

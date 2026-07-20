@@ -4,6 +4,7 @@ import { useEffect, type ReactNode } from "react";
 import Lenis from "lenis";
 import { gsap } from "gsap";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
+import { QUERY_DESKTOP } from "@/lib/breakpoints";
 
 gsap.registerPlugin(ScrollTrigger);
 
@@ -17,28 +18,36 @@ gsap.registerPlugin(ScrollTrigger);
  */
 export default function SmoothScroll({ children }: { children: ReactNode }) {
   useEffect(() => {
-    const desktop = window.matchMedia("(min-width: 1024px)").matches;
-    const reduced = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+    const mm = gsap.matchMedia();
+    mm.add(
+      { isDesktop: QUERY_DESKTOP, reduced: "(prefers-reduced-motion: reduce)" },
+      (context) => {
+        const { isDesktop, reduced } = context.conditions as {
+          isDesktop: boolean;
+          reduced: boolean;
+        };
+        // Snap mode owns desktop scrolling; reduced-motion users get native scroll.
+        if (isDesktop || reduced) return;
 
-    // Snap mode owns desktop scrolling; reduced-motion users get native scroll.
-    if (desktop || reduced) return;
+        const lenis = new Lenis({
+          lerp: 0.09,
+          wheelMultiplier: 1,
+          touchMultiplier: 1.4,
+        });
 
-    const lenis = new Lenis({
-      lerp: 0.09,
-      wheelMultiplier: 1,
-      touchMultiplier: 1.4,
-    });
+        lenis.on("scroll", ScrollTrigger.update);
 
-    lenis.on("scroll", ScrollTrigger.update);
+        const raf = (time: number) => lenis.raf(time * 1000);
+        gsap.ticker.add(raf);
+        gsap.ticker.lagSmoothing(0);
 
-    const raf = (time: number) => lenis.raf(time * 1000);
-    gsap.ticker.add(raf);
-    gsap.ticker.lagSmoothing(0);
-
-    return () => {
-      gsap.ticker.remove(raf);
-      lenis.destroy();
-    };
+        return () => {
+          gsap.ticker.remove(raf);
+          lenis.destroy();
+        };
+      }
+    );
+    return () => mm.revert();
   }, []);
 
   return <>{children}</>;

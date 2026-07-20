@@ -27,7 +27,7 @@ export default function Hero() {
   return (
     <section
       id="hero"
-      className="relative z-10 flex min-h-screen items-center px-6 pt-28 pb-16 lg:h-screen lg:min-h-[100svh] lg:overflow-hidden lg:pt-0 lg:pb-0"
+      className="relative z-10 flex min-h-[100svh] items-center overflow-hidden px-6 pt-28 pb-16 lg:h-screen lg:pt-0 lg:pb-0"
     >
       {/* Big orange floor glow */}
       <div
@@ -55,7 +55,7 @@ export default function Hero() {
 
         <motion.h1
           variants={item}
-          className="headline text-[13vw] font-bold sm:text-7xl lg:text-[5.6rem] xl:text-8xl"
+          className="headline text-[clamp(2.4rem,11vw,4.5rem)] font-bold break-words sm:text-7xl lg:text-[5.6rem] xl:text-8xl"
         >
           <span className="text-gradient-silver">Your Transformation</span>
           <br />
@@ -81,6 +81,7 @@ export default function Hero() {
             bottom="App Store"
             href={IOS_APP_STORE_URL}
             label="Download GOGETFIT on the App Store"
+            className="cta-shimmer"
           />
           <StoreButton
             icon={<Play size={18} className="text-white" />}
@@ -88,18 +89,17 @@ export default function Hero() {
             bottom="Google Play"
             href={ANDROID_PLAY_STORE_URL}
             label="Get GOGETFIT on Google Play"
+            className="cta-shimmer"
           />
         </motion.div>
 
         {/* Mobile phone (stacked storytelling) */}
         <motion.div variants={item} className="mt-14 flex justify-center lg:hidden">
           <div
-            style={{
-              transform: "perspective(1600px) rotateY(-8deg) rotateX(2deg)",
-              transformStyle: "preserve-3d",
-            }}
+            className="hero-phone-spin"
+            style={{ transformStyle: "preserve-3d" }}
           >
-          <DeviceFrame className="w-[240px]">
+          <DeviceFrame className="w-[clamp(200px,62vw,260px)]">
             <div
               className="h-full w-full"
               style={{

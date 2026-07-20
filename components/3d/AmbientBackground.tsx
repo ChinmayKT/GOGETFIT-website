@@ -2,17 +2,20 @@
 
 import { useEffect, useRef } from "react";
 import { gsap } from "gsap";
+import { useIsDesktop } from "@/hooks/useMediaQuery";
 
 /**
  * Global cinematic backdrop, fixed behind everything:
  * - two drifting mesh-gradient blobs (CSS keyframes, transform-only)
  * - canvas particle field with slow upward drift
- * - mouse-reactive radial glow (rAF-lerped, no re-render)
+ * - mouse-reactive radial glow (rAF-lerped, no re-render; desktop only —
+ *   mousemove never fires on touch, so skip the loop entirely below desktop)
  */
 export default function AmbientBackground() {
   const canvasRef = useRef<HTMLCanvasElement>(null);
   const glowRef = useRef<HTMLDivElement>(null);
   const sectionGlowRef = useRef<HTMLDivElement>(null);
+  const isDesktop = useIsDesktop();
 
   // Section-reactive ambient light: the orange glow drifts to the opposite
   // side of the phone and breathes as SnapScroll changes chapters.
@@ -92,8 +95,9 @@ export default function AmbientBackground() {
     };
   }, []);
 
-  // Mouse glow — lerped toward cursor for a weighty, liquid feel
+  // Mouse glow — lerped toward cursor for a weighty, liquid feel (desktop only)
   useEffect(() => {
+    if (!isDesktop) return;
     const glow = glowRef.current;
     if (!glow) return;
     let tx = window.innerWidth / 2;
@@ -120,7 +124,7 @@ export default function AmbientBackground() {
       window.removeEventListener("mousemove", onMove);
       cancelAnimationFrame(raf);
     };
-  }, []);
+  }, [isDesktop]);
 
   return (
     <div aria-hidden className="fixed inset-0 z-0 overflow-hidden">
