@@ -200,7 +200,9 @@ export default function Footer() {
             <GoGetFitLogo alt="GOGETFIT — The Right Way" className="mx-auto h-12 md:h-14" priority />
           </div>
           <p className="mx-auto mt-4 max-w-md text-sm text-silver-dim">
-            Transform your health. Build a lifestyle that lasts.
+            We Don&apos;t Just Transform Bodies.
+            <br />
+            We Transform Lifestyles.
           </p>
         </div>
 

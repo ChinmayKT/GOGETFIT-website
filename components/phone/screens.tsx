@@ -8,17 +8,16 @@ import {
   Dumbbell,
   TrendingDown,
   ChefHat,
-  QrCode,
   CalendarCheck,
   Heart,
   Send,
   ChevronRight,
   Sparkles,
-  Apple,
-  Play,
 } from "lucide-react";
 import type { ReactNode } from "react";
 import GoGetFitLogo from "@/components/brand/GoGetFitLogo";
+import { BADGES } from "@/components/shared/StoreButton";
+import { COACHES } from "@/lib/data";
 
 export type ScreenKey =
   | "dashboard"
@@ -358,33 +357,51 @@ function CoachIntro({
   showPortrait?: boolean;
 }) {
   return (
-    <div className="flex h-full w-full flex-col items-center px-4 pt-10 pb-5 text-white">
-      <div className="text-[8px] font-bold tracking-[0.3em] text-[#FF8A3D] uppercase">
-        Your GOGETFIT Coach
+    <div className="relative h-full w-full text-white">
+      <div data-coach-slot className="absolute inset-0 overflow-hidden">
+        {showPortrait && (() => {
+          const coach = COACHES.find((c) => c.name === coachName);
+          return coach?.image ? (
+            <Image
+              src={coach.image}
+              alt={coach.alt}
+              fill
+              sizes="260px"
+              className="object-cover"
+            />
+          ) : (
+            <CoachPortrait name={coachName} />
+          );
+        })()}
       </div>
-      <div
-        data-coach-slot
-        className="relative mt-3 w-[72%] overflow-hidden rounded-3xl border border-white/10"
-        style={{ aspectRatio: "3/4" }}
-      >
-        {showPortrait && <CoachPortrait name={coachName} />}
-        {showPortrait && (
-          <div
-            className="absolute inset-x-0 bottom-0 p-2.5 pt-8 text-center"
-            style={{
-              background: "linear-gradient(180deg, transparent, rgba(8,8,8,0.85) 70%)",
-            }}
-          >
-            <span className="headline text-sm">{coachName}</span>
+      {showPortrait && (
+        <div
+          className="absolute inset-x-0 top-0 px-4 pt-10 pb-6"
+          style={{
+            background: "linear-gradient(180deg, rgba(8,8,8,0.8), transparent)",
+          }}
+        >
+          <div className="text-[8px] font-bold tracking-[0.3em] text-[#FF8A3D] uppercase">
+            Your GOGETFIT Coach
           </div>
-        )}
-      </div>
-      <div className="mt-3 flex items-center gap-1.5 text-[9px] text-[--silver-dim]">
-        <span className="h-1.5 w-1.5 rounded-full bg-green-400" /> Online · ready to chat
-      </div>
-      <div className="mt-auto flex w-full items-center justify-center gap-2 rounded-full bg-[#FF6A00] py-3 text-[11px] font-bold">
-        Start chatting
-      </div>
+        </div>
+      )}
+      {showPortrait && (
+        <div
+          className="absolute inset-x-0 bottom-0 flex flex-col items-center gap-2.5 px-4 pt-16 pb-5 text-center"
+          style={{
+            background: "linear-gradient(180deg, transparent, rgba(8,8,8,0.92) 55%)",
+          }}
+        >
+          <span className="headline text-base">{coachName}</span>
+          <div className="flex items-center gap-1.5 text-[9px] text-[--silver-dim]">
+            <span className="h-1.5 w-1.5 rounded-full bg-green-400" /> Online · ready to chat
+          </div>
+          <div className="mt-1 flex w-full items-center justify-center gap-2 rounded-full bg-[#FF6A00] py-3 text-[11px] font-bold">
+            Book the coach
+          </div>
+        </div>
+      )}
     </div>
   );
 }
@@ -572,17 +589,16 @@ function DownloadDashboard({
   workoutMeta,
   mealTitle,
   mealKcal,
-  storeIcon,
-  storeLabel,
+  store,
 }: {
   name: string;
   workoutTitle: string;
   workoutMeta: string;
   mealTitle: string;
   mealKcal: string;
-  storeIcon: ReactNode;
-  storeLabel: string;
+  store: keyof typeof BADGES;
 }) {
+  const badge = BADGES[store];
   return (
     <div className="flex h-full w-full flex-col px-4 pt-11 pb-3 text-white">
       <div className="flex items-center justify-between">
@@ -628,18 +644,14 @@ function DownloadDashboard({
         <ChefHat size={14} className="text-[#FF8A3D]" />
       </div>
 
-      <div className="mt-auto rounded-2xl bg-white p-2.5 text-black">
-        <div className="flex items-center gap-2.5">
-          <QrCode size={44} strokeWidth={1.3} />
-          <div className="flex items-center gap-1.5">
-            {storeIcon}
-            <span className="text-[10px] leading-tight font-semibold">
-              Scan to download for
-              <br />
-              <span className="text-[12px] font-bold">{storeLabel}</span>
-            </span>
-          </div>
-        </div>
+      <div className="mt-auto flex justify-center pb-1">
+        <Image
+          src={badge.src}
+          alt={store === "apple" ? "Download on the App Store" : "Get it on Google Play"}
+          width={badge.width}
+          height={badge.height}
+          style={{ width: "90%", height: "auto" }}
+        />
       </div>
     </div>
   );
@@ -653,8 +665,7 @@ function Qr() {
       workoutMeta="45 min · Intermediate"
       mealTitle="High Protein Meal"
       mealKcal="520 kcal"
-      storeIcon={<Apple size={18} />}
-      storeLabel="iOS"
+      store="apple"
     />
   );
 }
@@ -667,8 +678,7 @@ function DownloadAndroid() {
       workoutMeta="50 min · Intermediate"
       mealTitle="Power Protein Bowl"
       mealKcal="560 kcal"
-      storeIcon={<Play size={16} />}
-      storeLabel="Android"
+      store="google"
     />
   );
 }

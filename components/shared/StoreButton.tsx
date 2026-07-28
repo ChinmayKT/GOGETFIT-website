@@ -1,36 +1,42 @@
-import type { ReactNode } from "react";
+import Image from "next/image";
 import { cn } from "@/lib/utils";
 
-/** App Store / Google Play badge — used in Hero and the Download section. */
+const BADGE_HEIGHT = 44;
+
+export const BADGES = {
+  apple: { src: "/badges/apple-app-store-badge.png", width: 807, height: 249 },
+  google: { src: "/badges/google-play-badge.png", width: 819, height: 249 },
+} as const;
+
+/** Official Apple/Google store badge — used in Hero and the Download section. */
 export default function StoreButton({
-  icon,
-  top,
-  bottom,
+  store,
   href,
   label,
   className,
 }: {
-  icon: ReactNode;
-  top: string;
-  bottom: string;
+  store: keyof typeof BADGES;
   href: string;
   label: string;
   className?: string;
 }) {
+  const badge = BADGES[store];
   return (
     <a
       href={href}
       aria-label={label}
       className={cn(
-        "flex items-center gap-2.5 rounded-2xl border border-white/15 bg-black px-5 py-2.5 transition-transform duration-300 hover:scale-105 active:scale-95",
+        "inline-flex items-center transition-transform duration-300 hover:scale-105 active:scale-95",
         className
       )}
     >
-      {icon}
-      <span className="text-left leading-tight">
-        <span className="block text-[9px] text-white/70 uppercase">{top}</span>
-        <span className="block text-sm font-bold text-white">{bottom}</span>
-      </span>
+      <Image
+        src={badge.src}
+        alt={label}
+        width={badge.width}
+        height={badge.height}
+        style={{ height: BADGE_HEIGHT, width: "auto" }}
+      />
     </a>
   );
 }

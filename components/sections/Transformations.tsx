@@ -326,7 +326,8 @@ export default function Transformations() {
           <span className="text-gradient-orange">promises.</span>
         </h2>
         <p className="mt-1 text-base text-silver-dim">
-          Real people. Real stories. Real results.
+          Every transformation tells a story of consistency, commitment, and
+          the right guidance. Real people. Real journeys. Real results.
         </p>
       </div>
 

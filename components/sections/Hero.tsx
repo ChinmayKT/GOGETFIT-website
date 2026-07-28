@@ -6,7 +6,7 @@ import GlassButton from "@/components/shared/GlassButton";
 import StoreButton from "@/components/shared/StoreButton";
 import DeviceFrame from "@/components/phone/DeviceFrame";
 import { PhoneScreen } from "@/components/phone/screens";
-import { ArrowDown, Sparkles, Apple, Play } from "lucide-react";
+import { ArrowDown, Sparkles } from "lucide-react";
 
 const stagger = {
   hidden: {},
@@ -57,40 +57,44 @@ export default function Hero() {
           variants={item}
           className="headline text-[clamp(2.4rem,11vw,4.5rem)] font-bold break-words sm:text-7xl lg:text-[5.6rem] xl:text-8xl"
         >
-          <span className="text-gradient-silver">Your Transformation</span>
+          <span className="text-gradient-silver">Simplifying Fitness</span>
           <br />
-          <span className="text-gradient-orange">Starts Here.</span>
+          <span className="text-gradient-orange">for the World.</span>
         </motion.h1>
 
         <motion.p
           variants={item}
           className="mt-7 max-w-2xl text-base leading-relaxed text-silver md:text-lg"
         >
-          Lose weight. Gain strength. Build a lifestyle that lasts — with a
-          dedicated coach, personalized nutrition, and accountability that
-          never sleeps.
+          GOGETFIT is a science-backed social fitness platform that
+          educates, empowers, and guides people towards healthier lifestyles
+          through personalized coaching, nutrition, technology, and
+          community.
+        </motion.p>
+
+        <motion.p
+          variants={item}
+          className="mt-3 max-w-2xl text-base leading-relaxed text-silver md:text-lg"
+        >
+          Fitness isn&apos;t a privilege. It&apos;s everyone&apos;s right.
         </motion.p>
 
         <motion.div variants={item} className="mt-10 flex flex-wrap items-center gap-4">
-          <GlassButton href="#contact" variant="primary">
-            Book Free Consultation
-          </GlassButton>
           <StoreButton
-            icon={<Apple size={20} className="text-white" />}
-            top="Download on the"
-            bottom="App Store"
+            store="apple"
             href={IOS_APP_STORE_URL}
             label="Download GOGETFIT on the App Store"
             className="cta-shimmer"
           />
           <StoreButton
-            icon={<Play size={18} className="text-white" />}
-            top="Get it on"
-            bottom="Google Play"
+            store="google"
             href={ANDROID_PLAY_STORE_URL}
             label="Get GOGETFIT on Google Play"
             className="cta-shimmer"
           />
+          <GlassButton href="#contact" variant="primary">
+            Book Free Consultation
+          </GlassButton>
         </motion.div>
 
         {/* Mobile phone (stacked storytelling) */}

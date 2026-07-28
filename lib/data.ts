@@ -1,7 +1,7 @@
 export const STATS = [
-  { value: "400+", label: "Transformations" },
-  { value: "500+", label: "Happy Clients" },
-  { value: "10k+", label: "App Downloads" },
+  { value: "500+", label: "Success Stories" },
+  { value: "2,000+", label: "Active Members" },
+  { value: "10K+", label: "App Downloads" },
 ] as const;
 
 /** Store URLs — placeholders until the real listings go live. */
@@ -11,23 +11,23 @@ export const ANDROID_PLAY_STORE_URL = "#";
 export const DOWNLOAD_BENEFITS = [
   {
     icon: "dumbbell",
-    title: "Personalized Workouts",
-    desc: "Plans tailored for your goals.",
+    title: "Personalized Fitness Plans",
+    desc: "Tailored workouts designed around your goals and lifestyle.",
   },
   {
     icon: "utensils",
-    title: "Smart Nutrition",
-    desc: "Track meals. Eat right. Feel amazing.",
+    title: "Science-Backed Nutrition",
+    desc: "Personalized meal plans built around the food you actually eat.",
   },
   {
     icon: "chart",
-    title: "Track Progress",
-    desc: "See results. Stay motivated.",
+    title: "Track Every Milestone",
+    desc: "Monitor your progress, celebrate victories, and stay motivated.",
   },
   {
     icon: "chat",
-    title: "Coach Support",
-    desc: "Real coaches. Real guidance.",
+    title: "Expert Coaching",
+    desc: "Get guidance, accountability, and support from certified GOGETFIT Coaches.",
   },
 ] as const;
 
@@ -41,20 +41,20 @@ export const NAV_LINKS = [
 
 export const VALUES = [
   {
-    title: "Sustainable, Not Extreme",
-    body: "No crash diets. No punishing routines. We build habits your body can keep for life.",
+    title: "Science-Backed",
+    body: "Every recommendation is rooted in evidence, not trends.",
   },
   {
-    title: "Human Accountability",
-    body: "A dedicated coach who checks in daily, adjusts your plan weekly, and never lets you drift.",
+    title: "Personalized",
+    body: "Every fitness journey is unique, and every plan should be too.",
   },
   {
-    title: "Rooted in Indian Living",
-    body: "Nutrition built around the food on your table — dal, roti, rice — not imported meal plans.",
+    title: "Educational",
+    body: "We don't just coach—you'll understand the \"why\" behind every recommendation.",
   },
   {
-    title: "Progress You Can See",
-    body: "Every metric tracked, every milestone celebrated. Data-backed transformation, week after week.",
+    title: "Community-Driven",
+    body: "Real progress is easier when you're supported by coaches and people who share your journey.",
   },
 ] as const;
 
@@ -67,42 +67,42 @@ export const APP_SHOWCASE = [
   {
     id: "dashboard",
     title: "Dashboard",
-    desc: "Your daily overview. Track calories, steps, workouts & more.",
+    desc: "Your fitness, at a glance.",
     screen: "dashboard",
     alt: "GOGETFIT dashboard screen with daily calories, steps and workouts",
   },
   {
     id: "food",
     title: "Food Tracking",
-    desc: "Log meals in seconds. Track calories, macros and daily nutrition.",
+    desc: "Eat smarter, every day. Log your meals, monitor calories and macros, and build healthier eating habits with ease.",
     screen: "food",
     alt: "GOGETFIT food tracking screen with logged Indian meals",
   },
   {
     id: "workouts",
     title: "Workouts",
-    desc: "Follow coach-guided workouts designed for your transformation.",
+    desc: "Train with purpose. Access structured workouts designed to match your goals, fitness level, and progress.",
     screen: "workout",
     alt: "GOGETFIT workout plan screen with coach-designed exercises",
   },
   {
     id: "hydration",
     title: "Hydration",
-    desc: "Track your daily water intake and stay consistently hydrated.",
+    desc: "Stay hydrated. Build better hydration habits with simple daily tracking and reminders.",
     screen: "water",
     alt: "GOGETFIT hydration screen with daily water intake progress",
   },
   {
     id: "chat",
-    title: "Coach Chat",
-    desc: "Stay connected with your dedicated coach throughout your journey.",
+    title: "Progress Photos",
+    desc: "See the change. Compare photos, measurements, and milestones to celebrate every step of your journey.",
     screen: "chat",
     alt: "GOGETFIT coach chat screen with messages from a dedicated coach",
   },
   {
     id: "progress",
-    title: "Progress",
-    desc: "Track your measurements, photos and transformation journey.",
+    title: "GOGETFeed",
+    desc: "Learn every day. Discover science-backed articles, tips, videos, and expert insights that make fitness easier to understand.",
     screen: "progress",
     alt: "GOGETFIT progress screen with weight trend and measurements",
   },
@@ -157,23 +157,31 @@ export interface Coach {
 
 /** Data-driven roster — add/remove coaches freely, the carousel adapts. */
 export const COACHES: Coach[] = [
-  { id: "arjun", name: "Arjun Mehta", alt: "Coach Arjun Mehta, GOGETFIT coach" },
-  { id: "priya", name: "Priya Sharma", alt: "Coach Priya Sharma, GOGETFIT coach" },
-  { id: "rahul", name: "Rahul Verma", alt: "Coach Rahul Verma, GOGETFIT coach" },
-  { id: "sneha", name: "Sneha Iyer", alt: "Coach Sneha Iyer, GOGETFIT coach" },
-  { id: "vivek", name: "Vivek Kulkarni", alt: "Coach Vivek Kulkarni, GOGETFIT coach" },
-  { id: "ritika", name: "Ritika Bansal", alt: "Coach Ritika Bansal, GOGETFIT coach" },
+  {
+    id: "prajwal",
+    name: "Prajwal A T",
+    image: "/team/prajwal-at.png",
+    alt: "Coach Prajwal A T, GOGETFIT coach",
+  },
+  {
+    id: "jyoti",
+    name: "Jyoti Singh",
+    image: "/team/jyoti-singh.png",
+    alt: "Coach Jyoti Singh, GOGETFIT coach",
+  },
+  {
+    id: "siri",
+    name: "Siri Shankar C",
+    image: "/team/siri-shankar-c.png",
+    alt: "Coach Siri Shankar C, GOGETFIT coach",
+  },
 ];
 
 export interface LeadershipMember {
   id: string;
   name: string;
   role: string;
-  /**
-   * TEMPORARY placeholders cropped from the design reference. Replace the
-   * files in public/images/leadership (same names → zero code changes), or
-   * point these paths at new files.
-   */
+  /** Path under public/images/leadership. */
   image: string;
   alt: string;
   /** Optional per-photo framing tweak, e.g. "50% 20%". */
@@ -182,32 +190,25 @@ export interface LeadershipMember {
 
 export const LEADERSHIP: LeadershipMember[] = [
   {
-    id: "founder",
-    name: "Vikram Singh",
-    role: "Founder",
-    image: "/images/leadership/founder-placeholder.png",
-    alt: "GOGETFIT Founder Vikram Singh",
+    id: "prajwal",
+    name: "Prajwal A T",
+    role: "Founder, Director and CEO",
+    image: "/images/leadership/prajwal-at.png",
+    alt: "GOGETFIT Founder, Director and CEO Prajwal A T",
   },
   {
-    id: "ceo",
-    name: "Ananya Rao",
-    role: "CEO",
-    image: "/images/leadership/ceo-placeholder.png",
-    alt: "GOGETFIT CEO Ananya Rao",
+    id: "chinmay",
+    name: "Chinmay K T",
+    role: "Co-founder, Director and CTO",
+    image: "/images/leadership/chinmay-kt.png",
+    alt: "GOGETFIT Co-founder, Director and CTO Chinmay K T",
   },
   {
-    id: "cto",
-    name: "Karthik Nair",
-    role: "CTO",
-    image: "/images/leadership/cto-placeholder.png",
-    alt: "GOGETFIT CTO Karthik Nair",
-  },
-  {
-    id: "director",
-    name: "Chinmay KT",
-    role: "Director",
-    image: "/images/leadership/director-placeholder.png",
-    alt: "GOGETFIT Director Chinmay KT",
+    id: "priyanka",
+    name: "Priyanka Rao",
+    role: "Director and Accounts",
+    image: "/images/leadership/priyanka-rao.png",
+    alt: "GOGETFIT Director and Accounts Priyanka Rao",
   },
 ];
 

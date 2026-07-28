@@ -14,7 +14,7 @@ const LEADERSHIP_IDX = (SNAP_SECTIONS as readonly string[]).indexOf("leadership"
 const MOBILE_OFFSET_X: Record<"left" | "right", number> = { left: -60, right: 60 };
 
 /**
- * Leadership — heading commands the top; four executive portraits sit
+ * Leadership — heading commands the top; three executive portraits sit
  * left/center below it, the persistent phone keeps its right-side journey
  * (outer 30% zone, pose owned by the global choreography). On section
  * entry the portraits unveil left→right with a curtain reveal; role, then
@@ -55,15 +55,15 @@ export default function Leadership() {
           let tl: gsap.core.Timeline | null = null;
           let prevIdx = -1;
 
-          // deck order: nearest to the phone first — Director, CTO, CEO, Founder
+          // deck order: nearest to the phone first, reverse of DOM order
           const dealOrder = [...cards].reverse();
-          const ROT_Z = [5, -3, 3, -4];
+          const ROT_Z = [5, -3, 3];
 
           /** Stack origin: just left of the phone body (phone center sits at 83vw). */
           const originX = () => window.innerWidth * 0.83 - 205;
 
           /**
-           * Deck deal: all four cards start stacked edge-on behind the phone's
+           * Deck deal: all cards start stacked edge-on behind the phone's
            * left edge, then spread right→left one after another — overlapping
            * mid-flight, arcing slightly, rotating from edge-on to front-facing —
            * and land exactly on their untouched DOM positions (transforms → 0).
@@ -136,7 +136,7 @@ export default function Leadership() {
             tl?.kill();
             grid?.classList.add("is-dealing");
             const ox = originX();
-            // Founder first, wave travels toward the phone
+            // First card in DOM order leads, wave travels toward the phone
             cards.forEach((card, i) => {
               const r = card.getBoundingClientRect();
               const cx = r.left + r.width / 2 - Number(gsap.getProperty(card, "x"));
@@ -144,7 +144,7 @@ export default function Leadership() {
                 x: ox - cx,
                 y: 26,
                 rotationY: -38,
-                rotationZ: ROT_Z[3 - i],
+                rotationZ: ROT_Z[cards.length - 1 - i],
                 scale: 0.85,
                 opacity: 0,
                 duration: 0.6,
@@ -264,17 +264,21 @@ export default function Leadership() {
         className="mx-auto w-full max-w-[1440px] text-center lg:pr-[30%] lg:text-left"
       >
         <p className="text-xs font-semibold tracking-[0.35em] text-primary uppercase">
-          Leadership
+          Meet the Team
         </p>
         <h2 className="headline mt-4 text-4xl md:text-5xl xl:text-[3.4rem] lg:whitespace-nowrap">
-          <span className="text-gradient-silver">The people behind the</span>{" "}
-          <span className="text-gradient-orange">transformation.</span>
+          <span className="text-gradient-silver">The People Behind</span>{" "}
+          <span className="text-gradient-orange">GOGETFIT.</span>
         </h2>
+        <p className="mx-auto mt-4 max-w-xl text-base text-silver-dim md:text-lg lg:mx-0">
+          A team united by one mission—to simplify fitness for the world
+          through science, technology, and human connection.
+        </p>
       </div>
 
       {/* Portraits left / persistent phone zone right (outer 30%) */}
       <div className="mx-auto mt-12 w-full max-w-[1440px] lg:mt-[3.5vh] lg:pr-[30%]">
-        <div className="lead-grid grid grid-cols-2 gap-4 sm:gap-5 lg:grid-cols-4 lg:gap-[1.2vw]">
+        <div className="lead-grid grid grid-cols-2 gap-4 sm:gap-5 lg:grid-cols-3 lg:gap-[1.2vw]">
           {LEADERSHIP.map((m) => (
             /* frameless portrait panel — image fills everything, role + name
                overlaid inside the lower area, orange floor light beneath */

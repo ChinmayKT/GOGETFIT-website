@@ -4,17 +4,11 @@ import { useEffect, useRef } from "react";
 import { gsap } from "gsap";
 import DeviceFrame from "@/components/phone/DeviceFrame";
 import { PhoneScreen } from "@/components/phone/screens";
-import Reveal from "@/components/shared/Reveal";
-import StoreButton from "@/components/shared/StoreButton";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
 import { SNAP_SECTIONS } from "@/components/animations/SnapScroll";
 import { QUERY_DESKTOP, QUERY_MOBILE } from "@/lib/breakpoints";
-import {
-  DOWNLOAD_BENEFITS,
-  IOS_APP_STORE_URL,
-  ANDROID_PLAY_STORE_URL,
-} from "@/lib/data";
-import { Dumbbell, Utensils, BarChart3, MessageSquare, Apple, Play } from "lucide-react";
+import { DOWNLOAD_BENEFITS } from "@/lib/data";
+import { Dumbbell, Utensils, BarChart3, MessageSquare } from "lucide-react";
 
 gsap.registerPlugin(ScrollTrigger);
 
@@ -356,7 +350,7 @@ export default function DownloadCta() {
       <div
         data-dl-platform
         aria-hidden
-        className="pointer-events-none absolute bottom-[1%] hidden lg:block"
+        className="pointer-events-none absolute bottom-[7%] hidden lg:block"
         style={{
           left: `calc(50% + ${(IOS_VW + ANDROID_VW) / 2}vw)`,
           transform: "translateX(-50%)",
@@ -440,16 +434,16 @@ export default function DownloadCta() {
         {/* LEFT: headline + benefits */}
         <div data-dl-head>
           <p className="text-xs font-semibold tracking-[0.35em] text-primary uppercase">
-            Carry Your Coach
+            Everything You Need.
           </p>
           <h2 className="headline mt-4 text-4xl md:text-5xl lg:text-[3.1rem]">
-            <span className="text-gradient-silver">Your transformation.</span>
-            <br />
-            <span className="text-gradient-silver">Now in your</span>{" "}
-            <span className="text-gradient-orange">pocket.</span>
+            <span className="text-gradient-silver">One App.</span>{" "}
+            <span className="text-gradient-orange">One Journey.</span>
           </h2>
           <p className="mt-4 max-w-sm text-sm text-silver-dim md:text-base">
-            Your coach, your plan, your progress — wherever you go.
+            Personalized nutrition. Expert coaching. Smart workouts. Progress
+            tracking. A supportive community. Everything working together to
+            help you build a healthier lifestyle—the right way.
           </p>
 
           <div className="mt-7 space-y-5">
@@ -466,39 +460,6 @@ export default function DownloadCta() {
         <div aria-hidden className="hidden lg:block" />
       </div>
 
-      {/* Store badges — each individually centered under ITS OWN phone (same
-          vw coordinate space the phones animate in), not a generic centered
-          row. App Store under iOS, Google Play under Android. Each Reveal IS
-          the positioned element directly — a wrapper wrapping only absolute
-          children would collapse to zero height and break `bottom` math. */}
-      <Reveal
-        margin="0px"
-        className="absolute bottom-[2%] z-10 hidden lg:block"
-        style={{ left: `calc(50% + ${IOS_VW}vw)`, x: "-50%" }}
-      >
-        <StoreButton
-          icon={<Apple size={20} className="text-white" />}
-          top="Download on the"
-          bottom="App Store"
-          href={IOS_APP_STORE_URL}
-          label="Download GOGETFIT on the App Store"
-        />
-      </Reveal>
-      <Reveal
-        margin="0px"
-        delay={0.08}
-        className="absolute bottom-[2%] z-10 hidden lg:block"
-        style={{ left: `calc(50% + ${ANDROID_VW}vw)`, x: "-50%" }}
-      >
-        <StoreButton
-          icon={<Play size={18} className="text-white" />}
-          top="Get it on"
-          bottom="Google Play"
-          href={ANDROID_PLAY_STORE_URL}
-          label="Get GOGETFIT on Google Play"
-        />
-      </Reveal>
-
       {/* Mobile: static single-phone showcase (no persistent-phone choreography) */}
       <div className="mt-10 flex flex-col items-center gap-6 lg:hidden">
         <DeviceFrame className="w-[clamp(200px,62vw,260px)]">
@@ -509,24 +470,6 @@ export default function DownloadCta() {
             <PhoneScreen screen="qr" />
           </div>
         </DeviceFrame>
-        <div className="flex w-full flex-col items-center gap-4 md:w-auto md:flex-row md:flex-wrap md:justify-center md:gap-3">
-          <StoreButton
-            icon={<Apple size={20} className="text-white" />}
-            top="Download on the"
-            bottom="App Store"
-            href={IOS_APP_STORE_URL}
-            label="Download GOGETFIT on the App Store"
-            className="cta-shimmer mx-auto w-[90%] max-w-[420px] justify-center md:mx-0 md:w-auto md:max-w-none md:justify-start"
-          />
-          <StoreButton
-            icon={<Play size={18} className="text-white" />}
-            top="Get it on"
-            bottom="Google Play"
-            href={ANDROID_PLAY_STORE_URL}
-            label="Get GOGETFIT on Google Play"
-            className="cta-shimmer mx-auto w-[90%] max-w-[420px] justify-center md:mx-0 md:w-auto md:max-w-none md:justify-start"
-          />
-        </div>
       </div>
     </section>
   );

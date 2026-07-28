@@ -236,6 +236,12 @@ body {
 /* Leadership: restrained executive hover — lift, warm photo, dim siblings.
    While the deck-deal entrance runs, .is-dealing suspends hover transitions
    and pointer events so CSS never fights the GSAP transforms. */
+/* Slight always-on zoom so the source photo's own edge/background seam
+   never peeks past the rounded card border (unconditional — not just on
+   hover-capable devices). */
+.lead-photo {
+  transform: scale(1.08);
+}
 .lead-grid.is-dealing .lead-card {
   transition: none !important;
   pointer-events: none;
@@ -264,7 +270,7 @@ body {
   }
   .lead-card:hover .lead-photo {
     filter: saturate(1);
-    transform: scale(1.03);
+    transform: scale(1.14);
   }
   .lead-name {
     transition: color 0.3s ease;

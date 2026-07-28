@@ -1,6 +1,7 @@
 "use client";
 
 import { useRef, useState } from "react";
+import Image from "next/image";
 import { flushSync } from "react-dom";
 import { gsap } from "gsap";
 import Reveal from "@/components/shared/Reveal";
@@ -119,15 +120,18 @@ export default function Coaches() {
     >
       <div className="mx-auto w-full max-w-[1440px] lg:pl-[30%]">
         <Reveal as="p" className="text-xs font-semibold tracking-[0.35em] text-primary uppercase">
-          Your Corner
+          Real Coaches.
         </Reveal>
         <Reveal as="h2" delay={0.1} mobileReveal="left" className="headline mt-4 text-5xl md:text-6xl">
-          <span className="text-gradient-silver">Coaches who never</span>{" "}
-          <span className="text-gradient-orange">let go.</span>
+          <span className="text-gradient-silver">Real Support.</span>{" "}
+          <span className="text-gradient-orange">Real Results.</span>
         </Reveal>
         <Reveal as="p" delay={0.2} mobileReveal="right" className="mt-5 max-w-xl text-base text-silver-dim md:text-lg">
-          Certified experts. Daily check-ins. Weekly plan reviews. Real humans
-          who know your name, your goals, and your journey.
+          Every GOGETFIT Coach is carefully selected, professionally trained,
+          and committed to helping you build healthier habits—not just
+          better physiques. Through personalized guidance, regular
+          check-ins, and continuous accountability, they&apos;re here to
+          support you every step of your journey.
         </Reveal>
 
         {/* Carousel */}
@@ -141,7 +145,17 @@ export default function Coaches() {
                   className="relative w-[62vw] shrink-0 snap-center overflow-hidden rounded-[28px] border border-white/10 sm:w-[38vw] md:w-[26vw] lg:w-[calc(33.333%-11px)]"
                   style={{ aspectRatio: "3/4" }}
                 >
-                  <CoachPortrait name={c.name} />
+                  {c.image ? (
+                    <Image
+                      src={c.image}
+                      alt={c.alt}
+                      fill
+                      sizes="(min-width: 1024px) 26vw, 45vw"
+                      className="object-cover"
+                    />
+                  ) : (
+                    <CoachPortrait name={c.name} />
+                  )}
                   <div
                     className="absolute inset-x-0 bottom-0 p-4 pt-10 text-center"
                     style={{

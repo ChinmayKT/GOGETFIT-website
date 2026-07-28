@@ -64,7 +64,13 @@ export default function Features() {
       let tl: gsap.core.Timeline | null = null;
       let prevIdx = -1;
 
-      const labelOf = (a: HTMLElement) => a.querySelector<HTMLElement>("[data-label]");
+      // Labels live in their own row now (not nested under the phone article),
+      // so they're paired with their phone by the shared data-id instead of
+      // DOM descendance.
+      const labelById = new Map(
+        gsap.utils.toArray<HTMLElement>("[data-label]").map((el) => [el.dataset.id, el])
+      );
+      const labelOf = (a: HTMLElement) => labelById.get(a.dataset.id) ?? null;
       const floatOf = (a: HTMLElement) => a.querySelector<HTMLElement>("[data-float]");
       const reflOf = (a: HTMLElement) => a.querySelector<HTMLElement>("[data-refl]");
 
@@ -265,33 +271,36 @@ export default function Features() {
       {/* Header */}
       <div data-showcase-header className="relative mx-auto max-w-6xl text-center">
         <p className="text-xs font-semibold tracking-[0.35em] text-primary uppercase">
-          Inside the App
+          One Platform. Endless Possibilities.
         </p>
-        <h2 className="headline text-gradient-silver mt-4 text-4xl md:text-5xl xl:text-6xl lg:whitespace-nowrap">
-          Everything you need, all in one place.
+        <h2 className="headline text-gradient-silver mt-4 text-4xl md:text-5xl xl:text-6xl 2xl:text-7xl lg:whitespace-nowrap">
+          Everything you need to build a healthier lifestyle—powered by science, personalized for you.
         </h2>
-        <p className="mt-4 text-base text-silver-dim md:text-lg">
+        <p className="mt-4 text-base text-silver-dim md:text-lg 2xl:text-xl">
           Powerful tools. Real coaches. Real results.
         </p>
       </div>
 
       {/* Six-device stage — desktop only. Tablet/mobile get their own
-          non-carousel layouts below (see APP_SHOWCASE.map blocks). */}
+          non-carousel layouts below (see APP_SHOWCASE.map blocks). Labels and
+          phones are two separate rows (not stacked per column) so a longer
+          description never pushes its phone out of line with the rest —
+          the phones row always starts straight regardless of label height. */}
       <div
         ref={stageRef}
-        className="app-stage no-scrollbar relative mt-10 hidden snap-x snap-mandatory gap-6 overflow-x-auto px-2 lg:mt-8 lg:flex lg:snap-none lg:justify-center lg:gap-[1.6vw] lg:overflow-visible"
+        className="app-stage no-scrollbar relative mt-10 hidden snap-x snap-mandatory gap-6 overflow-x-auto px-2 lg:mt-14 lg:flex lg:flex-col lg:snap-none lg:overflow-visible"
       >
-        {APP_SHOWCASE.map((f, i) => {
-          const Icon = ICONS[i];
-          return (
-            <article
-              key={f.id}
-              data-showcase-item
-              aria-label={f.alt}
-              className="w-[72vw] shrink-0 snap-center sm:w-[46vw] md:w-[30vw] lg:w-[11.8vw] lg:min-w-0"
-            >
-              {/* Floating label */}
-              <div data-label className="flex items-start gap-2.5 px-1">
+        {/* Labels row */}
+        <div className="hidden lg:flex lg:justify-center lg:gap-[1.6vw]">
+          {APP_SHOWCASE.map((f, i) => {
+            const Icon = ICONS[i];
+            return (
+              <div
+                key={f.id}
+                data-label
+                data-id={f.id}
+                className="flex w-[13.5vw] items-start gap-2.5 px-1"
+              >
                 <span className="glass shrink-0 rounded-xl p-2 text-primary">
                   <Icon size={15} strokeWidth={2} />
                 </span>
@@ -304,46 +313,57 @@ export default function Features() {
                   </p>
                 </div>
               </div>
+            );
+          })}
+        </div>
 
-              {/* Device */}
-              <div
-                className="app-phone mt-4"
-                style={{ transformStyle: "preserve-3d" }}
+        {/* Phones row — straight baseline, independent of label height above */}
+        <div className="flex justify-center gap-[1.6vw] overflow-visible lg:mt-4">
+          {APP_SHOWCASE.map((f, i) => {
+            return (
+              <article
+                key={f.id}
+                data-showcase-item
+                data-id={f.id}
+                aria-label={f.alt}
+                className="w-[72vw] shrink-0 snap-center sm:w-[46vw] md:w-[30vw] lg:w-[13.5vw] lg:min-w-0"
               >
-                <div
-                  data-float
-                  data-stage-phone={f.id}
-                  style={{ transformStyle: "preserve-3d" }}
-                >
-                <div style={{ transform: STAGE_POSE[i], transformStyle: "preserve-3d" }}>
-                  <DeviceFrame className="w-full">
-                    <div
-                      className="h-full w-full"
-                      style={{
-                        background:
-                          "linear-gradient(160deg, #101014 0%, #0a0a0c 60%, #16100b 100%)",
-                      }}
-                    >
-                      <PhoneScreen screen={f.screen as ScreenKey} />
-                    </div>
-                  </DeviceFrame>
+                <div className="app-phone" style={{ transformStyle: "preserve-3d" }}>
+                  <div
+                    data-float
+                    data-stage-phone={f.id}
+                    style={{ transformStyle: "preserve-3d" }}
+                  >
+                  <div style={{ transform: STAGE_POSE[i], transformStyle: "preserve-3d" }}>
+                    <DeviceFrame className="w-full">
+                      <div
+                        className="h-full w-full"
+                        style={{
+                          background:
+                            "linear-gradient(160deg, #101014 0%, #0a0a0c 60%, #16100b 100%)",
+                        }}
+                      >
+                        <PhoneScreen screen={f.screen as ScreenKey} />
+                      </div>
+                    </DeviceFrame>
+                  </div>
+                  </div>
+                  {/* floor reflection */}
+                  <div
+                    data-refl
+                    aria-hidden
+                    className="mx-auto mt-3 h-3 w-3/4 rounded-full"
+                    style={{
+                      background:
+                        "radial-gradient(ellipse, rgba(255,106,0,0.25), transparent 70%)",
+                      filter: "blur(6px)",
+                    }}
+                  />
                 </div>
-                </div>
-                {/* floor reflection */}
-                <div
-                  data-refl
-                  aria-hidden
-                  className="mx-auto mt-3 h-3 w-3/4 rounded-full"
-                  style={{
-                    background:
-                      "radial-gradient(ellipse, rgba(255,106,0,0.25), transparent 70%)",
-                    filter: "blur(6px)",
-                  }}
-                />
-              </div>
-            </article>
-          );
-        })}
+              </article>
+            );
+          })}
+        </div>
       </div>
 
       {/* Tablet — alternating text | phone rows, simple reveal, no carousel */}
