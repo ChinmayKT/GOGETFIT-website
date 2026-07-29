@@ -58,13 +58,14 @@ const jsonLd = {
   url: SITE_URL,
   description:
     "Indian health transformation company offering dedicated coaching, personalized workout plans, and nutrition guidance.",
-  email: "hello@gogetfit.in",
+  email: "prajwal@gogetfitonline.com",
   telephone: "+91-98765-43210",
   address: {
     "@type": "PostalAddress",
+    streetAddress: "11th cross road, Malleshwaram",
     addressLocality: "Bengaluru",
     addressRegion: "Karnataka",
-    postalCode: "560038",
+    postalCode: "560003",
     addressCountry: "IN",
   },
   sameAs: [

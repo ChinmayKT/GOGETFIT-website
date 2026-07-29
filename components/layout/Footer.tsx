@@ -16,11 +16,11 @@ gsap.registerPlugin(ScrollTrigger);
 
 const MOBILE_OFFSET_X: Record<"left" | "right", number> = { left: -60, right: 60 };
 
-const SOCIAL_ICON: Record<string, "instagram" | "youtube" | "linkedin" | "x"> = {
+const SOCIAL_ICON: Record<string, "instagram" | "youtube" | "linkedin" | "facebook"> = {
+  Facebook: "facebook",
   Instagram: "instagram",
   YouTube: "youtube",
   LinkedIn: "linkedin",
-  X: "x",
 };
 
 const COLUMNS = [
@@ -214,16 +214,21 @@ export default function Footer() {
                 {col.heading}
               </h3>
               <ul className="mt-4 space-y-2.5">
-                {col.items.map((l) => (
-                  <li key={l.label}>
-                    <SmartLink
-                      href={toSectionHref(l.href, isHome)}
-                      className="text-sm text-silver transition-colors hover:text-primary"
-                    >
-                      {l.label}
-                    </SmartLink>
-                  </li>
-                ))}
+                {col.items.map((l) => {
+                  const isPdf = l.href.endsWith(".pdf");
+                  return (
+                    <li key={l.label}>
+                      <SmartLink
+                        href={toSectionHref(l.href, isHome)}
+                        target={isPdf ? "_blank" : undefined}
+                        rel={isPdf ? "noopener noreferrer" : undefined}
+                        className="text-sm text-silver transition-colors hover:text-primary"
+                      >
+                        {l.label}
+                      </SmartLink>
+                    </li>
+                  );
+                })}
               </ul>
             </div>
           ))}
@@ -278,10 +283,9 @@ export default function Footer() {
         {/* Bottom line */}
         <div
           data-ft-bottom
-          className="mt-8 flex flex-col items-center justify-between gap-3 border-t border-white/10 pt-6 text-xs text-silver-dim sm:flex-row lg:mt-auto"
+          className="mt-8 flex flex-col items-center justify-center gap-3 border-t border-white/10 pt-6 text-xs text-silver-dim lg:mt-auto"
         >
-          <span>© {new Date().getFullYear()} GOGETFIT Health Pvt. Ltd. All rights reserved.</span>
-          <span>Made for transformations that last.</span>
+          <span>© {new Date().getFullYear()} GGF Lifestyle Technologies Private Limited. All rights reserved.</span>
         </div>
       </div>
     </footer>

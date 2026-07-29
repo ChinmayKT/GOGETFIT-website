@@ -286,6 +286,27 @@ export default function FloatingPhone() {
 
     window.addEventListener("snap:section", onSnap);
 
+    // Self-sync on attach: SnapScroll announces the starting section via a
+    // rAF-delayed event right after its own mount, but useIsDesktop only
+    // flips true (and this effect only then attaches) on a LATER render —
+    // on a cold/hard reload that can land after SnapScroll's announcement,
+    // leaving the phone stuck at its unset (viewport-center) default pose
+    // until the next real "snap:section" event. Compute the current
+    // section the same way SnapScroll does and self-correct immediately
+    // instead of trusting that announcement was still there to catch.
+    const syncEls = SNAP_SECTIONS.map((id) => document.getElementById(id)).filter(
+      Boolean
+    ) as HTMLElement[];
+    if (syncEls.length) {
+      const y = window.scrollY;
+      const nearest = syncEls.reduce(
+        (best, el, i) =>
+          Math.abs(el.offsetTop - y) < Math.abs(syncEls[best].offsetTop - y) ? i : best,
+        0
+      );
+      onSnap(new CustomEvent("snap:section", { detail: nearest }));
+    }
+
     // sections hold the phone during their own choreography (coach transfer):
     // breathing pauses so measured landings stay pixel-accurate
     const onHold = (e: Event) => {

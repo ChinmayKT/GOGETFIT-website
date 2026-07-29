@@ -24,6 +24,8 @@ export default function StoreButton({
   return (
     <a
       href={href}
+      target="_blank"
+      rel="noopener noreferrer"
       aria-label={label}
       className={cn(
         "inline-flex items-center transition-transform duration-300 hover:scale-105 active:scale-95",

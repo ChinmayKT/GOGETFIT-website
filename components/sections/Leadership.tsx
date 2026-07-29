@@ -1,10 +1,12 @@
 "use client";
 
-import { useEffect, useRef } from "react";
+import { useEffect, useRef, useState } from "react";
 import Image from "next/image";
 import { gsap } from "gsap";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
-import { LEADERSHIP } from "@/lib/data";
+import { AnimatePresence, motion } from "framer-motion";
+import { X } from "lucide-react";
+import { LEADERSHIP, type LeadershipMember } from "@/lib/data";
 import { SNAP_SECTIONS } from "@/components/animations/SnapScroll";
 import { QUERY_DESKTOP, QUERY_TABLET, QUERY_MOBILE } from "@/lib/breakpoints";
 
@@ -31,6 +33,7 @@ const MOBILE_OFFSET_X: Record<"left" | "right", number> = { left: -60, right: 60
  */
 export default function Leadership() {
   const sectionRef = useRef<HTMLElement>(null);
+  const [focused, setFocused] = useState<LeadershipMember | null>(null);
 
   useEffect(() => {
     const section = sectionRef.current;
@@ -283,7 +286,22 @@ export default function Leadership() {
             /* frameless portrait panel — image fills everything, role + name
                overlaid inside the lower area, orange floor light beneath */
             /* portrait panel + plain text below it — no card around the text */
-            <article key={m.id} data-lead-card className="lead-card">
+            <article
+              key={m.id}
+              data-lead-card
+              className="lead-card"
+              {...(m.bio
+                ? {
+                    role: "button",
+                    tabIndex: 0,
+                    onClick: () => setFocused(m),
+                    onKeyDown: (e: React.KeyboardEvent) => {
+                      if (e.key === "Enter" || e.key === " ") setFocused(m);
+                    },
+                  }
+                : {})}
+              style={m.bio ? { cursor: "pointer" } : undefined}
+            >
               <div
                 data-lead-img
                 className="relative w-full overflow-hidden rounded-2xl border border-white/[0.07]"
@@ -322,6 +340,57 @@ export default function Leadership() {
           ))}
         </div>
       </div>
+
+      {/* Bio modal */}
+      <AnimatePresence>
+        {focused && (
+          <motion.div
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            exit={{ opacity: 0 }}
+            className="fixed inset-0 z-[80] flex items-center justify-center p-6"
+            style={{ background: "rgba(8,8,8,0.88)", backdropFilter: "blur(12px)" }}
+            onClick={() => setFocused(null)}
+          >
+            <motion.div
+              initial={{ scale: 0.9, y: 24, opacity: 0 }}
+              animate={{ scale: 1, y: 0, opacity: 1 }}
+              exit={{ scale: 0.94, y: 16, opacity: 0 }}
+              transition={{ duration: 0.4, ease: [0.16, 1, 0.3, 1] }}
+              className="glass-strong relative flex w-full max-w-2xl overflow-hidden rounded-[28px]"
+              onClick={(e) => e.stopPropagation()}
+            >
+              <div
+                className="relative hidden w-[38%] shrink-0 sm:block"
+                style={{ aspectRatio: "1/1.3" }}
+              >
+                <Image
+                  src={focused.image}
+                  alt={focused.alt}
+                  fill
+                  sizes="320px"
+                  className="object-cover"
+                  style={focused.objectPosition ? { objectPosition: focused.objectPosition } : undefined}
+                />
+              </div>
+              <div className="flex flex-1 flex-col p-7">
+                <button
+                  aria-label="Close bio"
+                  onClick={() => setFocused(null)}
+                  className="glass absolute top-4 right-4 rounded-full p-3 transition hover:bg-white/10"
+                >
+                  <X size={16} />
+                </button>
+                <p className="text-[10px] font-semibold tracking-[0.3em] text-primary uppercase">
+                  {focused.role}
+                </p>
+                <h3 className="headline mt-1.5 text-2xl text-white/95">{focused.name}</h3>
+                <p className="mt-4 text-sm leading-relaxed text-silver">{focused.bio}</p>
+              </div>
+            </motion.div>
+          </motion.div>
+        )}
+      </AnimatePresence>
     </section>
   );
 }

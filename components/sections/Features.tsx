@@ -413,7 +413,6 @@ export default function Features() {
             <Reveal
               key={f.id}
               className="flex flex-col items-center gap-5 text-center"
-              mobileReveal={i % 2 === 0 ? "left" : "right"}
             >
               <span className="glass inline-flex shrink-0 rounded-xl p-2 text-primary">
                 <Icon size={18} strokeWidth={2} />

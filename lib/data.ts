@@ -4,9 +4,10 @@ export const STATS = [
   { value: "10K+", label: "App Downloads" },
 ] as const;
 
-/** Store URLs — placeholders until the real listings go live. */
-export const IOS_APP_STORE_URL = "#";
-export const ANDROID_PLAY_STORE_URL = "#";
+export const IOS_APP_STORE_URL =
+  "https://apps.apple.com/us/app/gogetfit-fat-loss-workouts/id6465083987";
+export const ANDROID_PLAY_STORE_URL =
+  "https://play.google.com/store/apps/details?id=com.flutterflow.gogetfit";
 
 export const DOWNLOAD_BENEFITS = [
   {
@@ -32,6 +33,7 @@ export const DOWNLOAD_BENEFITS = [
 ] as const;
 
 export const NAV_LINKS = [
+  { label: "Home", href: "#hero" },
   { label: "About", href: "#about" },
   { label: "Features", href: "#features" },
   { label: "Coaches", href: "#coaches" },
@@ -186,29 +188,34 @@ export interface LeadershipMember {
   alt: string;
   /** Optional per-photo framing tweak, e.g. "50% 20%". */
   objectPosition?: string;
+  /** Full bio — shown in a modal on click. Cards without one aren't clickable. */
+  bio?: string;
 }
 
 export const LEADERSHIP: LeadershipMember[] = [
   {
     id: "prajwal",
     name: "Prajwal A T",
-    role: "Founder, Director and CEO",
+    role: "Founder, Director & CEO",
     image: "/images/leadership/prajwal-at.png",
-    alt: "GOGETFIT Founder, Director and CEO Prajwal A T",
+    alt: "GOGETFIT Founder, Director & CEO Prajwal A T",
+    bio: "Prajwal founded GOGETFIT with one simple mission—to simplify fitness for the world. Passionate about health, education, and sustainable lifestyle transformation, he believes fitness should be accessible to everyone, regardless of age, profession, or experience. His vision is to build more than just a fitness app; a platform that educates, empowers, and helps people take control of their own health. Every feature, every program, and every decision at GOGETFIT is driven by that purpose.",
   },
   {
     id: "chinmay",
     name: "Chinmay K T",
-    role: "Co-founder, Director and CTO",
+    role: "Co-Founder, Director & CTO",
     image: "/images/leadership/chinmay-kt.png",
-    alt: "GOGETFIT Co-founder, Director and CTO Chinmay K T",
+    alt: "GOGETFIT Co-Founder, Director & CTO Chinmay K T",
+    bio: "Chinmay leads the technology behind GOGETFIT, transforming ideas into a seamless digital experience. As the driving force behind product development and innovation, he focuses on building technology that makes fitness simpler, smarter, and more accessible. His goal is to ensure every user enjoys an intuitive, reliable, and engaging experience while using the GOGETFIT platform.",
   },
   {
     id: "priyanka",
     name: "Priyanka Rao",
-    role: "Director and Accounts",
+    role: "Director & Head of Accounts",
     image: "/images/leadership/priyanka-rao.png",
-    alt: "GOGETFIT Director and Accounts Priyanka Rao",
+    alt: "GOGETFIT Director & Head of Accounts Priyanka Rao",
+    bio: "Priyanka oversees the financial operations and administrative foundation of GOGETFIT, ensuring the organization grows with stability and integrity. She manages the company's financial planning, compliance, and day-to-day operations while supporting strategic business decisions. Her commitment to transparency, efficiency, and sustainable growth helps strengthen the foundation on which GOGETFIT continues to evolve.",
   },
 ];
 
@@ -226,6 +233,9 @@ export interface TransformationStory {
   result: string;
   duration: string;
   alt: string;
+  /** real before/after cards with the story baked into the image itself —
+   * hides the card's own name/result overlay so captions never double up. */
+  selfCaptioned?: boolean;
 }
 
 /**
@@ -300,34 +310,35 @@ export interface TransformationRow {
 }
 
 /**
- * Three carousel rows for the Results section. ALL card data below is
- * PLACEHOLDER demo content (images are temporary crops from the design
- * reference, reused across rows) — replace items/images with real client
- * assets; layout adapts to any item count.
+ * Three carousel rows for the Results section. Real GOGETFIT client
+ * before/after cards — the story is already baked into each image
+ * (caption + BEFORE/AFTER labels), so these are all `selfCaptioned: true`
+ * and the card/modal skip their own text overlay for these items.
  */
 export const TRANSFORMATION_ROWS: TransformationRow[] = [
   {
     id: "weight-loss",
     title: "Weight Loss Transformations",
     items: [
-      { id: "wl-rohan", type: "image", image: "/images/transformations/transformation-02-placeholder.png", name: "Rohan", result: "-18 kg", duration: "6 months", alt: "Rohan after losing 18 kg with GOGETFIT" },
-      { id: "wl-neha", type: "image", image: "/images/transformations/transformation-01-placeholder.png", name: "Neha", result: "-12 kg", duration: "5 months", alt: "Neha after losing 12 kg with GOGETFIT" },
-      { id: "wl-ishita", type: "video", poster: "/images/transformations/video-testimonial-02-placeholder.png", videoSrc: "", name: "Ishita", result: "-15 kg", duration: "8 months", alt: "Ishita's video story after losing 15 kg" },
-      { id: "wl-kavya", type: "image", image: "/images/transformations/transformation-03-placeholder.png", name: "Kavya", result: "-9 kg", duration: "4 months", alt: "Kavya after losing 9 kg with GOGETFIT" },
-      { id: "wl-tarun", type: "image", image: "/images/transformations/transformation-04-placeholder.png", name: "Tarun", result: "-13 kg", duration: "6 months", alt: "Tarun after losing 13 kg with GOGETFIT" },
-      { id: "wl-megha", type: "video", poster: "/images/transformations/transformation-01-placeholder.png", videoSrc: "", name: "Megha", result: "-11 kg", duration: "5 months", alt: "Megha's transformation story video" },
+      { id: "client-01", type: "image", image: "/images/transformations/client-01.png", name: "GOGETFIT Client", result: "-19 kg", duration: "24 weeks", alt: "GOGETFIT client lost 19 kg in 24 weeks with Coach Prajwal's guidance", selfCaptioned: true },
+      { id: "client-02", type: "image", image: "/images/transformations/client-02.png", name: "GOGETFIT Client", result: "-9 kg", duration: "12 weeks", alt: "GOGETFIT client lost 9 kg in 12 weeks with Coach Karthik's guidance", selfCaptioned: true },
+      { id: "client-03", type: "image", image: "/images/transformations/client-03.png", name: "GOGETFIT Client", result: "-17 kg", duration: "", alt: "GOGETFIT client lost 17 kg with home workouts and home cooked food, guided by Coach Prajwal", selfCaptioned: true },
+      { id: "client-06", type: "image", image: "/images/transformations/client-06.png", name: "GOGETFIT Client", result: "-12+ kg", duration: "14 weeks", alt: "GOGETFIT client lost 12+ kg in 14 weeks with Coach Prajwal's support", selfCaptioned: true },
+      { id: "client-07", type: "image", image: "/images/transformations/client-07.png", name: "GOGETFIT Client", result: "-16 kg", duration: "", alt: "GOGETFIT client went from 98 kg to 82 kg with GOGETFIT's lifestyle-based approach", selfCaptioned: true },
+      { id: "client-10", type: "image", image: "/images/transformations/client-10.png", name: "GOGETFIT Client", result: "43% → 30% body fat", duration: "12 weeks", alt: "GOGETFIT client dropped from 43% to 30% body fat in 12 weeks with Coach Karthik's guidance", selfCaptioned: true },
+      { id: "client-13", type: "image", image: "/images/transformations/client-13.png", name: "Yashaswini", result: "-9 kg", duration: "", alt: "Yashaswini went from 67 kg to 58 kg, guided step by step by Coach Prajwal", selfCaptioned: true },
     ],
   },
   {
     id: "healthy-gain",
     title: "Healthy Weight Gain & Fitness",
     items: [
-      { id: "hg-aditya", type: "image", image: "/images/transformations/transformation-04-placeholder.png", name: "Aditya", result: "+10 kg", duration: "9 months", alt: "Aditya after gaining 10 kg of healthy weight" },
-      { id: "hg-arjun", type: "video", poster: "/images/transformations/video-testimonial-01-placeholder.png", videoSrc: "", name: "Arjun", result: "+8 kg", duration: "6 months", alt: "Arjun's video story after gaining 8 kg" },
-      { id: "hg-pooja", type: "image", image: "/images/transformations/transformation-03-placeholder.png", name: "Pooja", result: "+7 kg", duration: "6 months", alt: "Pooja after gaining 7 kg of healthy weight" },
-      { id: "hg-sneha", type: "image", image: "/images/transformations/video-testimonial-02-placeholder.png", name: "Sneha", result: "+6 kg", duration: "6 months", alt: "Sneha after her fitness transformation" },
-      { id: "hg-vihaan", type: "image", image: "/images/transformations/transformation-02-placeholder.png", name: "Vihaan", result: "+11 kg", duration: "10 months", alt: "Vihaan after gaining 11 kg of healthy weight" },
-      { id: "hg-karan", type: "video", poster: "/images/transformations/video-testimonial-02-placeholder.png", videoSrc: "", name: "Karan", result: "+9 kg", duration: "8 months", alt: "Karan's transformation story video" },
+      { id: "client-04", type: "image", image: "/images/transformations/client-04.png", name: "GOGETFIT Client", result: "Best-ever physique", duration: "8 weeks", alt: "GOGETFIT client achieved his best-ever physique in 8 weeks with Coach Karthik's guidance", selfCaptioned: true },
+      { id: "client-05", type: "image", image: "/images/transformations/client-05.png", name: "GOGETFIT Client", result: "Visible abs", duration: "11 weeks", alt: "GOGETFIT client shed belly fat and built visible abs in 11 weeks with Coach Prajwal's guidance", selfCaptioned: true },
+      { id: "client-08", type: "image", image: "/images/transformations/client-08.png", name: "GOGETFIT Client", result: "-18 kg", duration: "", alt: "GOGETFIT client 18 kgs down on his GOGETFIT journey with Coach Karthik", selfCaptioned: true },
+      { id: "client-09", type: "image", image: "/images/transformations/client-09.png", name: "GOGETFIT Client", result: "Stronger & healthier", duration: "", alt: "GOGETFIT client stands more confident, healthier, and stronger, coached by Karthik", selfCaptioned: true },
+      { id: "client-11", type: "image", image: "/images/transformations/client-11.png", name: "Darshan", result: "-6 kg", duration: "", alt: "Darshan's transformation from 74 kg to 68 kg", selfCaptioned: true },
+      { id: "client-12", type: "image", image: "/images/transformations/client-12.png", name: "GOGETFIT Client", result: "Total transformation", duration: "", alt: "GOGETFIT client transformation — trust the process, stay consistent, don't rush results", selfCaptioned: true },
     ],
   },
 ];
@@ -384,20 +395,22 @@ export const FOOTER_LINKS = {
     { label: "Book Consultation", href: "#contact" },
   ],
   legal: [
-    { label: "Privacy Policy", href: "/privacy-policy" },
-    { label: "Terms of Service", href: "/terms-of-service" },
-    { label: "Refund Policy", href: "/refund-policy" },
-    { label: "Shipping Policy", href: "/shipping" },
+    { label: "Privacy Policy", href: "/documents/privacy-policy.pdf" },
+    { label: "Terms of Service", href: "/documents/terms-of-service.pdf" },
+    { label: "Refund Policy", href: "/documents/refund-policy.pdf" },
   ],
   contact: {
-    address: "GOGETFIT Health Pvt. Ltd., 4th Floor, Indiranagar, Bengaluru, KA 560038",
-    email: "hello@gogetfit.in",
-    phone: "+91 98765 43210",
+    address:
+      "Registered Office: 11th cross road, Malleshwaram, Bengaluru, Karnataka 560003. Landmark: StartuphouZ",
+    email: "prajwal@gogetfitonline.com",
+    supportEmail: "support@gogetfitonline.com",
+    phone: "+91 99025 59808",
+    whatsapp: "+91 99025 59808",
   },
   social: [
-    { label: "Instagram", href: "https://instagram.com/gogetfit" },
-    { label: "YouTube", href: "https://youtube.com/@gogetfit" },
-    { label: "LinkedIn", href: "https://linkedin.com/company/gogetfit" },
-    { label: "X", href: "https://x.com/gogetfit" },
+    { label: "Facebook", href: "https://www.facebook.com/GOGETFITOFFICIAL/" },
+    { label: "Instagram", href: "https://www.instagram.com/gogetfitofficial/" },
+    { label: "YouTube", href: "https://www.youtube.com/channel/UC2jZ3OJY1AUyFxPAbfL4MXw/featured" },
+    { label: "LinkedIn", href: "https://www.linkedin.com/company/gogetfitofficial/" },
   ],
 } as const;

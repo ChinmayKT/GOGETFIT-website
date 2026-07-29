@@ -20,7 +20,6 @@ import {
   Star,
   ChevronLeft,
   ChevronRight,
-  ArrowRight,
   MessageCircle,
 } from "lucide-react";
 
@@ -68,7 +67,7 @@ function CarouselRow({
     pause();
     const card = trackRef.current?.children[0] as HTMLElement | undefined;
     const w = card ? card.offsetWidth + 14 : 200;
-    glide(pos.current - dir * w * 2);
+    glide(pos.current + dir * w * 2);
     scheduleResume();
   };
 
@@ -146,17 +145,10 @@ function CarouselRow({
       onMouseLeave={scheduleResume}
     >
       {/* Row header */}
-      <div className="mb-2 flex items-center justify-between px-1">
+      <div className="mb-2 flex items-center px-1">
         <h3 className="flex items-center gap-2.5 text-[11px] font-semibold tracking-[0.18em] text-white uppercase lg:text-xs">
           <Icon size={15} className="text-primary" /> {title}
         </h3>
-        <a
-          href="#contact"
-          className="group flex items-center gap-1.5 text-xs text-silver-dim transition-colors hover:text-primary"
-        >
-          View all
-          <ArrowRight size={13} className="transition-transform group-hover:translate-x-0.5" />
-        </a>
       </div>
 
       {/* Viewport with intentional partial peek + edge arrows */}
@@ -177,13 +169,16 @@ function CarouselRow({
                 }
                 onClick={() => onOpen(s)}
                 className="tf-card group/card relative shrink-0 snap-center overflow-hidden rounded-xl border border-white/10 text-left"
-                style={{ width: "clamp(150px, 11vw, 190px)", aspectRatio: "3/4" }}
+                style={{
+                  width: "clamp(175px, 14vw, 230px)",
+                  aspectRatio: s.selfCaptioned ? "4/5" : "3/4",
+                }}
               >
                 <Image
                   src={s.type === "video" ? s.poster! : s.image!}
                   alt=""
                   fill
-                  sizes="180px"
+                  sizes="230px"
                   className="object-cover transition-transform duration-500 group-hover/card:scale-[1.04]"
                 />
                 {s.type === "video" && (
@@ -191,20 +186,22 @@ function CarouselRow({
                     <Play size={13} className="text-white" fill="white" />
                   </span>
                 )}
-                <span
-                  className="absolute inset-x-0 bottom-0 p-2.5 pt-8"
-                  style={{
-                    background:
-                      "linear-gradient(180deg, transparent, rgba(8,8,8,0.92) 78%)",
-                  }}
-                >
-                  <span className="headline block text-base leading-tight text-white transition-colors group-hover/card:text-primary-soft lg:text-lg">
-                    {s.result}
+                {!s.selfCaptioned && (
+                  <span
+                    className="absolute inset-x-0 bottom-0 p-2.5 pt-8"
+                    style={{
+                      background:
+                        "linear-gradient(180deg, transparent, rgba(8,8,8,0.92) 78%)",
+                    }}
+                  >
+                    <span className="headline block text-base leading-tight text-white transition-colors group-hover/card:text-primary-soft lg:text-lg">
+                      {s.result}
+                    </span>
+                    <span className="mt-0.5 block text-[10px] text-silver-dim">
+                      {s.name} · {s.duration}
+                    </span>
                   </span>
-                  <span className="mt-0.5 block text-[10px] text-silver-dim">
-                    {s.name} · {s.duration}
-                  </span>
-                </span>
+                )}
                 <span className="pointer-events-none absolute inset-0 rounded-xl opacity-0 shadow-[inset_0_0_0_1px_rgba(255,106,0,0.45)] transition-opacity duration-300 group-hover/card:opacity-100" />
               </button>
             ))}
@@ -331,7 +328,7 @@ export default function Transformations() {
         </p>
       </div>
 
-      <div className="mx-auto grid w-full max-w-[1400px] flex-1 gap-8 lg:grid-cols-[29%_1fr]">
+      <div className="mx-auto grid w-full max-w-[1400px] flex-1 gap-8 lg:grid-cols-[25%_75%]">
         {/* ---------- LEFT: phone zone ---------- */}
         <div className="relative hidden lg:block">
           {/* soft orange energy connecting the phone to the carousels */}
@@ -388,16 +385,6 @@ export default function Transformations() {
         <span className="flex items-center gap-2.5 text-sm text-silver">
           <Play size={16} className="text-primary" /> Real Client Stories
         </span>
-        <a
-          href="#contact"
-          className="group glass-strong ml-2 flex items-center gap-2 rounded-full px-5 py-2.5 text-sm font-semibold text-white transition-all hover:border-primary/50 hover:shadow-[0_0_20px_rgba(255,106,0,0.25)]"
-        >
-          View All Transformations
-          <ArrowRight
-            size={15}
-            className="text-primary transition-transform duration-300 group-hover:translate-x-1"
-          />
-        </a>
       </div>
 
       {/* ---------- Focused story / video modal ---------- */}
@@ -419,7 +406,10 @@ export default function Transformations() {
               className="glass-strong relative w-full max-w-md overflow-hidden rounded-[28px]"
               onClick={(e) => e.stopPropagation()}
             >
-              <div className="relative w-full" style={{ aspectRatio: "3/4" }}>
+              <div
+                className="relative w-full"
+                style={{ aspectRatio: focused.selfCaptioned ? "4/5" : "3/4" }}
+              >
                 {focused.type === "video" && focused.videoSrc ? (
                   <video
                     src={focused.videoSrc}
@@ -447,12 +437,16 @@ export default function Transformations() {
               </div>
               <div className="flex items-end justify-between p-6">
                 <div>
-                  <div className="headline text-gradient-orange text-3xl">
-                    {focused.result}
-                  </div>
-                  <div className="mt-1 text-sm text-silver">
-                    {focused.name} · {focused.duration}
-                  </div>
+                  {!focused.selfCaptioned && (
+                    <>
+                      <div className="headline text-gradient-orange text-3xl">
+                        {focused.result}
+                      </div>
+                      <div className="mt-1 text-sm text-silver">
+                        {focused.name} · {focused.duration}
+                      </div>
+                    </>
+                  )}
                   {focused.type === "video" && !focused.videoSrc && (
                     <div className="mt-2 text-xs text-silver-dim">
                       Video testimonial coming soon.

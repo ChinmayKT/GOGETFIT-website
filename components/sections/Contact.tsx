@@ -2,15 +2,15 @@
 
 import Reveal from "@/components/shared/Reveal";
 import SocialIcon from "@/components/shared/SocialIcon";
-import ConsultationForm from "@/components/forms/ConsultationForm";
+// import ConsultationForm from "@/components/forms/ConsultationForm"; // TODO: re-enable Get Appointment form
 import { FOOTER_LINKS } from "@/lib/data";
 import { Mail, Phone, MapPin } from "lucide-react";
 
-const SOCIAL_ICON: Record<string, "instagram" | "youtube" | "linkedin" | "x"> = {
+const SOCIAL_ICON: Record<string, "instagram" | "youtube" | "linkedin" | "facebook"> = {
+  Facebook: "facebook",
   Instagram: "instagram",
   YouTube: "youtube",
   LinkedIn: "linkedin",
-  X: "x",
 };
 
 /**
@@ -18,7 +18,8 @@ const SOCIAL_ICON: Record<string, "instagram" | "youtube" | "linkedin" | "x"> = 
  * persistent phone (Book Consultation) on the RIGHT via the global pose.
  */
 export default function Contact() {
-  const { email, phone, address } = FOOTER_LINKS.contact;
+  const { email, supportEmail, phone, whatsapp, address } = FOOTER_LINKS.contact;
+  const whatsappDigits = whatsapp.replace(/[^\d]/g, "");
 
   return (
     <section
@@ -38,44 +39,85 @@ export default function Contact() {
           back to you soon.
         </Reveal>
 
+        {/* Get Appointment form — temporarily disabled, keep code for later re-enable
         <Reveal delay={0.22} mobileReveal="left" className="mt-6">
           <ConsultationForm />
         </Reveal>
+        */}
 
         {/* Unified contact info panel — directly under the form */}
         <Reveal delay={0.3} margin="0px" mobileReveal="right" className="glass mt-4 rounded-2xl border border-white/10 p-5">
-          <div className="grid gap-5 sm:grid-cols-3 sm:divide-x sm:divide-white/10">
-            <div className="flex items-start gap-3 sm:pr-4">
-              <span className="glass flex h-10 w-10 shrink-0 items-center justify-center rounded-full border-primary/30 text-primary">
-                <Mail size={16} />
-              </span>
-              <div className="min-w-0">
-                <div className="text-sm font-semibold text-white">Email</div>
-                <a
-                  href={`mailto:${email}`}
-                  className="mt-0.5 block truncate text-xs text-silver-dim transition-colors hover:text-primary"
-                >
-                  {email}
-                </a>
+          <div className="grid gap-5 sm:grid-cols-3">
+            {/* Emails */}
+            <div className="space-y-4 sm:pr-4">
+              <div className="flex items-start gap-3">
+                <span className="glass flex h-10 w-10 shrink-0 items-center justify-center rounded-full border-primary/30 text-primary">
+                  <Mail size={16} />
+                </span>
+                <div className="min-w-0">
+                  <div className="text-sm font-semibold text-white">Email</div>
+                  <a
+                    href={`mailto:${email}`}
+                    className="mt-0.5 block truncate text-xs text-silver-dim transition-colors hover:text-primary"
+                  >
+                    {email}
+                  </a>
+                </div>
+              </div>
+
+              <div className="flex items-start gap-3">
+                <span className="glass flex h-10 w-10 shrink-0 items-center justify-center rounded-full border-primary/30 text-primary">
+                  <Mail size={16} />
+                </span>
+                <div className="min-w-0">
+                  <div className="text-sm font-semibold text-white">Support Email</div>
+                  <a
+                    href={`mailto:${supportEmail}`}
+                    className="mt-0.5 block truncate text-xs text-silver-dim transition-colors hover:text-primary"
+                  >
+                    {supportEmail}
+                  </a>
+                </div>
               </div>
             </div>
 
-            <div className="flex items-start gap-3 sm:px-4">
-              <span className="glass flex h-10 w-10 shrink-0 items-center justify-center rounded-full border-primary/30 text-primary">
-                <Phone size={16} />
-              </span>
-              <div className="min-w-0">
-                <div className="text-sm font-semibold text-white">Call Now</div>
-                <a
-                  href={`tel:${phone.replace(/\s/g, "")}`}
-                  className="mt-0.5 block text-xs text-silver-dim transition-colors hover:text-primary"
-                >
-                  {phone}
-                </a>
+            {/* Numbers */}
+            <div className="space-y-4 sm:border-l sm:border-white/10 sm:px-4">
+              <div className="flex items-start gap-3">
+                <span className="glass flex h-10 w-10 shrink-0 items-center justify-center rounded-full border-primary/30 text-primary">
+                  <Phone size={16} />
+                </span>
+                <div className="min-w-0">
+                  <div className="text-sm font-semibold text-white">Call Now</div>
+                  <a
+                    href={`tel:${phone.replace(/\s/g, "")}`}
+                    className="mt-0.5 block text-xs text-silver-dim transition-colors hover:text-primary"
+                  >
+                    {phone}
+                  </a>
+                </div>
+              </div>
+
+              <div className="flex items-start gap-3">
+                <span className="glass flex h-10 w-10 shrink-0 items-center justify-center rounded-full border-primary/30 text-primary">
+                  <SocialIcon name="whatsapp" size={16} />
+                </span>
+                <div className="min-w-0">
+                  <div className="text-sm font-semibold text-white">WhatsApp</div>
+                  <a
+                    href={`https://wa.me/${whatsappDigits}`}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="mt-0.5 block text-xs text-silver-dim transition-colors hover:text-primary"
+                  >
+                    {whatsapp}
+                  </a>
+                </div>
               </div>
             </div>
 
-            <div className="flex items-start gap-3 sm:pl-4">
+            {/* Location */}
+            <div className="flex items-start gap-3 sm:border-l sm:border-white/10 sm:pl-4">
               <span className="glass flex h-10 w-10 shrink-0 items-center justify-center rounded-full border-primary/30 text-primary">
                 <MapPin size={16} />
               </span>

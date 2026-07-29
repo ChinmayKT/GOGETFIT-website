@@ -17,7 +17,7 @@ import {
 import type { ReactNode } from "react";
 import GoGetFitLogo from "@/components/brand/GoGetFitLogo";
 import { BADGES } from "@/components/shared/StoreButton";
-import { COACHES } from "@/lib/data";
+import { COACHES, IOS_APP_STORE_URL, ANDROID_PLAY_STORE_URL } from "@/lib/data";
 
 export type ScreenKey =
   | "dashboard"
@@ -645,13 +645,22 @@ function DownloadDashboard({
       </div>
 
       <div className="mt-auto flex justify-center pb-1">
-        <Image
-          src={badge.src}
-          alt={store === "apple" ? "Download on the App Store" : "Get it on Google Play"}
-          width={badge.width}
-          height={badge.height}
-          style={{ width: "90%", height: "auto" }}
-        />
+        <a
+          href={store === "apple" ? IOS_APP_STORE_URL : ANDROID_PLAY_STORE_URL}
+          target="_blank"
+          rel="noopener noreferrer"
+          aria-label={store === "apple" ? "Download on the App Store" : "Get it on Google Play"}
+          className="cta-shimmer pointer-events-auto inline-block rounded-lg"
+          onClick={(e) => e.stopPropagation()}
+        >
+          <Image
+            src={badge.src}
+            alt={store === "apple" ? "Download on the App Store" : "Get it on Google Play"}
+            width={badge.width}
+            height={badge.height}
+            style={{ width: "90%", height: "auto", margin: "0 auto" }}
+          />
+        </a>
       </div>
     </div>
   );
