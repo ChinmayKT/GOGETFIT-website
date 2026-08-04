@@ -25,6 +25,8 @@ const POSES: Record<
   leadership: { x: 33, y: 2, rotate: -2, rotateY: -9, scale: 0.85, screen: "brand" },
   // transformations: phone lower-left beneath the headline (reference layout)
   transformations: { x: -33, y: 2, rotate: 2, rotateY: 8, scale: 0.9, screen: "gallery" },
+  plans: { x: 33, y: 0, rotate: -1.5, rotateY: -8, scale: 0.9, screen: "plans" },
+  faq: { x: -33, y: 0, rotate: 1.5, rotateY: 8, scale: 0.9, screen: "faq" },
   contact: { x: 33, y: 0, rotate: -1.5, rotateY: -8, scale: 0.92, screen: "booking" },
   // download: this phone becomes the LEFT / iOS device of the twin-device
   // reveal; a second (Android) phone lives entirely in DownloadCta and

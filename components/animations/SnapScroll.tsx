@@ -16,6 +16,8 @@ export const SNAP_SECTIONS = [
   "coaches",
   "leadership",
   "transformations",
+  "plans",
+  "faq",
   "contact",
   "download",
   "footer",

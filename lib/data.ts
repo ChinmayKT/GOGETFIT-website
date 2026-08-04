@@ -41,6 +41,160 @@ export const NAV_LINKS = [
   { label: "Contact", href: "#contact" },
 ] as const;
 
+export interface Plan {
+  id: string;
+  name: string;
+  duration: string;
+  price: number;
+  people: number;
+  description: string;
+  highlighted?: boolean;
+}
+
+/** Shared across every plan — identical fine print, kept once instead of repeated per plan. */
+export const PLAN_INCLUDES = [
+  "A personalised diet plan (based on lifestyle, preferences, and goals)",
+  "A personalised workout plan (based on your goals and current level of training)",
+  "Daily/Weekly check-ins (to track your progress and adjust your diet/workout as needed)",
+  "WhatsApp group support",
+  "24/7 access to your coach via call, WhatsApp, or email",
+  "An active customer support team to answer all your queries",
+] as const;
+
+export const PLAN_NEXT_STEPS = [
+  "Once enrolled, go to 'My Bookings' and click 'Start My Journey'.",
+  "You'll be directed to an elaborate questionnaire — take your time answering carefully.",
+  "Your coach analyses your lifestyle, preferences, and goals to prepare the best plan for you.",
+  "A designated coach contacts you within 24 hours at your preferred time and shares your personalized plan, explains it, answers your queries, and sets expectations and weekly tasks.",
+  "Your coach checks in daily/weekly (as you prefer) and adjusts the plan as needed — repeating throughout your plan. Then, you GOGETFIT.",
+] as const;
+
+export const PLAN_TERMS = [
+  "Money refund is only valid for genuine cases (within 15 days of enrolment).",
+  "You can opt for a change of coach within 15 days of enrolment. Coach change is only provided within the same tier as the enrolled coach.",
+  "Plans selected under challenging a coach are non-refundable. You can opt for a change of coach within the same tier within 15 days of challenging.",
+  "Cancelling a package enrolled under a coach: 10% of the price will be deducted.",
+  "Cancelling a package (challenge) selected under challenging a coach: non-refundable.",
+] as const;
+
+export const PLAN_ELIGIBILITY =
+  "You must be at least 18 years old to enrol under a coach on GOGETFIT.";
+
+const SOLO_DESC =
+  "Healthy isn't a goal, it's a way of living. We at GOGETFIT do not only focus on losing weight, we establish and encourage healthier lifestyle changes. We take into consideration several aspects of your life, such as your schedule, lifestyle, preferences, current health state, dieting history, current eating habits and goals to create a more personalized and tailor-made diet and workout plan.";
+
+const COUPLES_DESC =
+  "Couple who trains together stays together. Motivate each other and become the best version of yourselves. With this plan you can transform your lives together and build a stronger emotional connect. Kickstart your fitness journey with your partner with GOGETFIT today!";
+
+const FAMILY_DESC =
+  "Grow fit with your family, because a healthier family is a happy family. Here's a plan that can help ensure your and your family's wellbeing and fitness. Take a step towards a more wholesome and active life with GOGETFIT today!";
+
+export const PLANS: Plan[] = [
+  {
+    id: "12-week",
+    name: "12 Weeks GOGETFIT Plan",
+    duration: "12 Weeks",
+    price: 4999,
+    people: 1,
+    description: SOLO_DESC,
+  },
+  {
+    id: "24-week",
+    name: "24 Weeks GOGETFIT Plan",
+    duration: "24 Weeks",
+    price: 8999,
+    people: 1,
+    description: SOLO_DESC,
+    highlighted: true,
+  },
+  {
+    id: "52-week",
+    name: "52 Weeks GOGETFIT Plan",
+    duration: "52 Weeks",
+    price: 16999,
+    people: 1,
+    description: SOLO_DESC,
+  },
+  {
+    id: "12-week-couples",
+    name: "12 Weeks Couples GOGETFIT Plan",
+    duration: "12 Weeks",
+    price: 8999,
+    people: 2,
+    description: COUPLES_DESC,
+  },
+  {
+    id: "24-week-couples",
+    name: "24 Weeks Couples GOGETFIT Plan",
+    duration: "24 Weeks",
+    price: 16999,
+    people: 2,
+    description: COUPLES_DESC,
+  },
+  {
+    id: "52-week-couples",
+    name: "52 Weeks Couples GOGETFIT Plan",
+    duration: "52 Weeks",
+    price: 32999,
+    people: 2,
+    description: COUPLES_DESC,
+  },
+  {
+    id: "24-week-family",
+    name: "24 Weeks Family GOGETFIT Plan",
+    duration: "24 Weeks",
+    price: 29999,
+    people: 4,
+    description: FAMILY_DESC,
+  },
+];
+
+export interface FaqItem {
+  id: string;
+  question: string;
+  answer: string;
+}
+
+/** Placeholder Q&A — swap in real support content before launch. */
+export const FAQS: FaqItem[] = [
+  {
+    id: "results-time",
+    question: "How soon will I see results?",
+    answer:
+      "Most members notice visible changes in energy and body composition within 3-4 weeks, with major transformations typically taking 3-6 months depending on your starting point and consistency.",
+  },
+  {
+    id: "diet-type",
+    question: "Do I have to give up Indian food?",
+    answer:
+      "No. Every meal plan is built around food you already eat — home-cooked Indian meals, restaurant staples, and regional cuisines — just balanced to hit your macros.",
+  },
+  {
+    id: "no-gym",
+    question: "Can I do this without a gym?",
+    answer:
+      "Yes. Coaches design home-workout plans using bodyweight and minimal equipment if you don't have gym access, and adjust as your situation changes.",
+  },
+  {
+    id: "coach-contact",
+    question: "How do I talk to my coach?",
+    answer:
+      "Through in-app chat. You get direct access to your dedicated coach for questions, plan adjustments, and accountability check-ins.",
+  },
+  {
+    id: "cancel",
+    question: "Can I cancel or change my plan anytime?",
+    answer:
+      "Yes. You can upgrade, downgrade, or cancel your plan anytime from your account — no long-term lock-in.",
+  },
+  {
+    id: "trial",
+    question: "Is there a free trial?",
+    answer:
+      "Book a free consultation call with our team first — we'll assess your goals and recommend the right plan before you commit.",
+  },
+];
+
 export const VALUES = [
   {
     title: "Science-Backed",

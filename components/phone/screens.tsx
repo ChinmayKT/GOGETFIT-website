@@ -17,7 +17,7 @@ import {
 import type { ReactNode } from "react";
 import GoGetFitLogo from "@/components/brand/GoGetFitLogo";
 import { BADGES } from "@/components/shared/StoreButton";
-import { COACHES, IOS_APP_STORE_URL, ANDROID_PLAY_STORE_URL } from "@/lib/data";
+import { COACHES, PLANS, FAQS, IOS_APP_STORE_URL, ANDROID_PLAY_STORE_URL } from "@/lib/data";
 
 export type ScreenKey =
   | "dashboard"
@@ -32,6 +32,8 @@ export type ScreenKey =
   | "progress"
   | "gallery"
   | "booking"
+  | "plans"
+  | "faq"
   | "qr"
   | "downloadAndroid"
   | "brand";
@@ -558,6 +560,51 @@ function Booking() {
   );
 }
 
+function Plans() {
+  return (
+    <ScreenShell title="Choose Your Plan">
+      <div className="flex flex-1 flex-col gap-2">
+        {PLANS.slice(0, 4).map((p) => (
+          <Tile
+            key={p.id}
+            className={p.highlighted ? "border-[#FF6A00] bg-[#FF6A00]/10" : undefined}
+          >
+            <div className="flex items-center justify-between gap-2">
+              <span className="text-[10px] leading-snug font-bold">{p.name}</span>
+              <ChevronRight size={13} className="shrink-0 text-[#FF8A3D]" />
+            </div>
+            <span className="text-[9px] font-semibold text-[#FF8A3D]">
+              ₹{p.price.toLocaleString("en-IN")}
+              <span className="font-normal text-[--silver-dim]"> / {p.duration}</span>
+            </span>
+          </Tile>
+        ))}
+      </div>
+      <div className="mt-auto rounded-full bg-[#FF6A00] py-3 text-center text-[11px] font-bold">
+        Get Started
+      </div>
+    </ScreenShell>
+  );
+}
+
+function Faq() {
+  return (
+    <ScreenShell title="FAQs">
+      <div className="flex flex-1 flex-col gap-2">
+        {FAQS.slice(0, 4).map((f, i) => (
+          <Tile key={f.id} className="flex items-center justify-between gap-2">
+            <span className="text-[10px] leading-snug font-semibold">{f.question}</span>
+            <ChevronRight
+              size={13}
+              className={`shrink-0 text-[#FF8A3D] ${i === 0 ? "rotate-90" : ""}`}
+            />
+          </Tile>
+        ))}
+      </div>
+    </ScreenShell>
+  );
+}
+
 /** Mini progress ring for the download-dashboard screens' "Today's Progress" card. */
 function MiniRing({ pct }: { pct: number }) {
   const r = 22;
@@ -714,6 +761,8 @@ const SCREENS: Record<
   progress: Progress,
   gallery: Gallery,
   booking: Booking,
+  plans: Plans,
+  faq: Faq,
   qr: Qr,
   downloadAndroid: DownloadAndroid,
   brand: Brand,

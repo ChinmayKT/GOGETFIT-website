@@ -10,6 +10,8 @@ import Features from "@/components/sections/Features";
 import Coaches from "@/components/sections/Coaches";
 import Leadership from "@/components/sections/Leadership";
 import Transformations from "@/components/sections/Transformations";
+import Plans from "@/components/sections/Plans";
+import FAQ from "@/components/sections/FAQ";
 import Contact from "@/components/sections/Contact";
 import DownloadCta from "@/components/sections/DownloadCta";
 
@@ -32,6 +34,8 @@ export default function Home() {
         <Coaches />
         <Leadership />
         <Transformations />
+        <Plans />
+        <FAQ />
         <Contact />
         <DownloadCta />
       </main>
