@@ -1,15 +1,16 @@
 "use client";
 
-import { useState } from "react";
-import { motion } from "framer-motion";
-import { ChevronDown } from "lucide-react";
+import { ArrowRight } from "lucide-react";
 import Reveal from "@/components/shared/Reveal";
+import GlassButton from "@/components/shared/GlassButton";
+import FaqAccordion from "./FaqAccordion";
 import { FAQS } from "@/lib/data";
-import { cn } from "@/lib/utils";
+
+const PREVIEW_COUNT = 3;
 
 /** FAQ — phone rides the LEFT (gallery pose family), content fills the right ~66%. */
 export default function FAQ() {
-  const [open, setOpen] = useState<string | null>(FAQS[0]?.id ?? null);
+  const preview = FAQS.slice(0, PREVIEW_COUNT);
 
   return (
     <section
@@ -28,47 +29,16 @@ export default function FAQ() {
           Everything you need to know before you get started.
         </Reveal>
 
-        <div className="mt-6 flex flex-col gap-3">
-          {FAQS.map((f, i) => {
-            const isOpen = open === f.id;
-            return (
-              <Reveal
-                key={f.id}
-                delay={0.22 + i * 0.05}
-                margin="0px"
-                mobileReveal={i % 2 === 0 ? "left" : "right"}
-              >
-                <div className="glass overflow-hidden rounded-2xl border border-white/10">
-                  <button
-                    type="button"
-                    onClick={() => setOpen(isOpen ? null : f.id)}
-                    aria-expanded={isOpen}
-                    className="flex w-full items-center justify-between gap-4 px-5 py-4 text-left"
-                  >
-                    <span className="text-sm font-semibold text-white">{f.question}</span>
-                    <ChevronDown
-                      size={18}
-                      className={cn(
-                        "shrink-0 text-primary transition-transform duration-300",
-                        isOpen && "rotate-180"
-                      )}
-                    />
-                  </button>
-                  <motion.div
-                    initial={false}
-                    animate={{ height: isOpen ? "auto" : 0 }}
-                    transition={{ duration: 0.3, ease: [0.16, 1, 0.3, 1] }}
-                    className="overflow-hidden"
-                  >
-                    <p className="px-5 pb-5 text-sm leading-relaxed text-silver-dim">
-                      {f.answer}
-                    </p>
-                  </motion.div>
-                </div>
-              </Reveal>
-            );
-          })}
+        <div className="mt-6">
+          <FaqAccordion items={preview} defaultOpenFirst />
         </div>
+
+        <Reveal delay={0.22 + preview.length * 0.05} margin="0px" mobileReveal="left" className="mt-4">
+          <GlassButton href="/faq" className="inline-flex text-sm">
+            View All FAQs
+            <ArrowRight size={15} />
+          </GlassButton>
+        </Reveal>
       </div>
     </section>
   );

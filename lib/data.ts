@@ -38,6 +38,8 @@ export const NAV_LINKS = [
   { label: "Features", href: "#features" },
   { label: "Coaches", href: "#coaches" },
   { label: "Results", href: "#transformations" },
+  { label: "Plans", href: "#plans" },
+  { label: "FAQ", href: "#faq" },
   { label: "Contact", href: "#contact" },
 ] as const;
 
@@ -48,7 +50,6 @@ export interface Plan {
   price: number;
   people: number;
   description: string;
-  highlighted?: boolean;
 }
 
 /** Shared across every plan — identical fine print, kept once instead of repeated per plan. */
@@ -80,6 +81,16 @@ export const PLAN_TERMS = [
 export const PLAN_ELIGIBILITY =
   "You must be at least 18 years old to enrol under a coach on GOGETFIT.";
 
+export const PLAN_PEOPLE_LABEL: Record<number, string> = {
+  1: "1 Person",
+  2: "2 People",
+  4: "4 People",
+};
+
+export function formatPlanPrice(n: number) {
+  return `₹${n.toLocaleString("en-IN")}`;
+}
+
 const SOLO_DESC =
   "Healthy isn't a goal, it's a way of living. We at GOGETFIT do not only focus on losing weight, we establish and encourage healthier lifestyle changes. We take into consideration several aspects of your life, such as your schedule, lifestyle, preferences, current health state, dieting history, current eating habits and goals to create a more personalized and tailor-made diet and workout plan.";
 
@@ -105,7 +116,6 @@ export const PLANS: Plan[] = [
     price: 8999,
     people: 1,
     description: SOLO_DESC,
-    highlighted: true,
   },
   {
     id: "52-week",
@@ -155,43 +165,66 @@ export interface FaqItem {
   answer: string;
 }
 
-/** Placeholder Q&A — swap in real support content before launch. */
 export const FAQS: FaqItem[] = [
   {
+    id: "what-is-gogetfit",
+    question: "What is GOGETFIT?",
+    answer:
+      "GOGETFIT is a science-backed social fitness platform built to simplify fitness for everyone. We combine personalized nutrition, workouts, expert coaching, technology, and community support to help you build a healthier lifestyle. Our goal is not just transformation, but long-term education and sustainable habits.",
+  },
+  {
+    id: "free-to-use",
+    question: "Is GOGETFIT free to use?",
+    answer:
+      "Yes! GOGETFIT is free to download and offers several free features. If you're looking for personalized coaching, customized plans, and one-on-one guidance, you can choose one of our coaching programs.",
+  },
+  {
+    id: "who-can-use",
+    question: "Who can use GOGETFIT?",
+    answer:
+      "Anyone who wants to improve their health and fitness can use GOGETFIT. Whether your goal is weight loss, muscle gain, improving fitness, or simply living a healthier lifestyle, our platform is designed to support your journey.",
+  },
+  {
+    id: "different-from-others",
+    question: "How is GOGETFIT different from other fitness apps?",
+    answer:
+      "GOGETFIT goes beyond workouts and calorie tracking. We focus on science-backed coaching, personalized guidance, education, and sustainable habit building. We don't believe in shortcuts—we believe in doing fitness the right way.",
+  },
+  {
+    id: "personalized-plan",
+    question: "Will I get a personalized diet and workout plan?",
+    answer:
+      "Yes. Every coaching program includes customized diet and workout plans based on your goals, lifestyle, food preferences, fitness level, and progress. We believe every individual's journey is unique, so every plan should be too.",
+  },
+  {
+    id: "personal-coach",
+    question: "Do I get a personal coach?",
+    answer:
+      "Yes. Every coaching member is assigned a dedicated GOGETFIT Coach who provides guidance, accountability, regular check-ins, and plan adjustments to help you stay on track throughout your journey.",
+  },
+  {
+    id: "strict-diet",
+    question: "Do I have to follow a strict diet?",
+    answer:
+      "No. We don't believe in crash diets or unrealistic meal plans. Our nutrition plans are designed around your lifestyle and food preferences, making healthy eating practical, enjoyable, and sustainable.",
+  },
+  {
     id: "results-time",
-    question: "How soon will I see results?",
+    question: "How long does it take to see results?",
     answer:
-      "Most members notice visible changes in energy and body composition within 3-4 weeks, with major transformations typically taking 3-6 months depending on your starting point and consistency.",
+      "Every fitness journey is different. Your progress depends on factors such as consistency, effort, lifestyle, and commitment to your plan. Our focus is on helping you build habits that create lasting results rather than quick fixes.",
   },
   {
-    id: "diet-type",
-    question: "Do I have to give up Indian food?",
+    id: "track-progress",
+    question: "Can I track my progress in the app?",
     answer:
-      "No. Every meal plan is built around food you already eat — home-cooked Indian meals, restaurant staples, and regional cuisines — just balanced to hit your macros.",
+      "Yes. GOGETFIT allows you to track your workouts, nutrition, body measurements, progress photos, and other health metrics, helping you stay motivated and monitor your improvement over time.",
   },
   {
-    id: "no-gym",
-    question: "Can I do this without a gym?",
+    id: "get-started",
+    question: "How do I get started?",
     answer:
-      "Yes. Coaches design home-workout plans using bodyweight and minimal equipment if you don't have gym access, and adjust as your situation changes.",
-  },
-  {
-    id: "coach-contact",
-    question: "How do I talk to my coach?",
-    answer:
-      "Through in-app chat. You get direct access to your dedicated coach for questions, plan adjustments, and accountability check-ins.",
-  },
-  {
-    id: "cancel",
-    question: "Can I cancel or change my plan anytime?",
-    answer:
-      "Yes. You can upgrade, downgrade, or cancel your plan anytime from your account — no long-term lock-in.",
-  },
-  {
-    id: "trial",
-    question: "Is there a free trial?",
-    answer:
-      "Book a free consultation call with our team first — we'll assess your goals and recommend the right plan before you commit.",
+      "Simply download the GOGETFIT app, explore the platform, and book a free consultation if you'd like personalized guidance. Our team will understand your goals, answer your questions, and help you choose the right coaching program.",
   },
 ];
 

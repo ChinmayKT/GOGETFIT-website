@@ -13,7 +13,7 @@ export default function LegalHero({
   eyebrow: string;
   title: string;
   description: string;
-  lastUpdated: string;
+  lastUpdated?: string;
 }) {
   return (
     <div className="relative overflow-hidden">
@@ -70,14 +70,16 @@ export default function LegalHero({
         {description}
       </motion.p>
 
-      <motion.p
-        initial={{ opacity: 0 }}
-        animate={{ opacity: 1 }}
-        transition={{ duration: 0.6, delay: 0.35 }}
-        className="mt-4 text-xs text-silver-dim"
-      >
-        Last updated: {lastUpdated}
-      </motion.p>
+      {lastUpdated && (
+        <motion.p
+          initial={{ opacity: 0 }}
+          animate={{ opacity: 1 }}
+          transition={{ duration: 0.6, delay: 0.35 }}
+          className="mt-4 text-xs text-silver-dim"
+        >
+          Last updated: {lastUpdated}
+        </motion.p>
+      )}
     </div>
   );
 }

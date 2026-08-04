@@ -565,10 +565,7 @@ function Plans() {
     <ScreenShell title="Choose Your Plan">
       <div className="flex flex-1 flex-col gap-2">
         {PLANS.slice(0, 4).map((p) => (
-          <Tile
-            key={p.id}
-            className={p.highlighted ? "border-[#FF6A00] bg-[#FF6A00]/10" : undefined}
-          >
+          <Tile key={p.id}>
             <div className="flex items-center justify-between gap-2">
               <span className="text-[10px] leading-snug font-bold">{p.name}</span>
               <ChevronRight size={13} className="shrink-0 text-[#FF8A3D]" />
