@@ -20,11 +20,11 @@ const SITE_URL = "https://gogetfit.in";
 export const metadata: Metadata = {
   metadataBase: new URL(SITE_URL),
   title: {
-    default: "GOGETFIT — Your Transformation Starts Here",
+    default: "GOGETFIT – Simplifying Fitness for the World | Personalized Fitness & Nutrition",
     template: "%s · GOGETFIT",
   },
   description:
-    "India's health transformation company. Lose weight, gain healthy weight, and build a lasting lifestyle with dedicated coaches, personalized nutrition, and real accountability.",
+    "GOGETFIT is a science-backed fitness app that simplifies fitness through personalized diet plans, workout plans, expert coaching, nutrition guidance, education, progress tracking, and a supportive community.",
   keywords: [
     "weight loss India",
     "health transformation",
@@ -37,16 +37,16 @@ export const metadata: Metadata = {
     type: "website",
     url: SITE_URL,
     siteName: "GOGETFIT",
-    title: "GOGETFIT — Your Transformation Starts Here",
+    title: "GOGETFIT – Simplifying Fitness for the World | Personalized Fitness & Nutrition",
     description:
-      "400+ transformations. Dedicated coaches, personalized plans, real accountability. India's most personal health transformation company.",
+      "GOGETFIT is a science-backed fitness app that simplifies fitness through personalized diet plans, workout plans, expert coaching, nutrition guidance, education, progress tracking, and a supportive community.",
     locale: "en_IN",
   },
   twitter: {
     card: "summary_large_image",
-    title: "GOGETFIT — Your Transformation Starts Here",
+    title: "GOGETFIT – Simplifying Fitness for the World | Personalized Fitness & Nutrition",
     description:
-      "400+ transformations. Dedicated coaches, personalized plans, real accountability.",
+      "GOGETFIT is a science-backed fitness app that simplifies fitness through personalized diet plans, workout plans, expert coaching, nutrition guidance, education, progress tracking, and a supportive community.",
   },
   robots: { index: true, follow: true },
 };
@@ -57,7 +57,7 @@ const jsonLd = {
   name: "GOGETFIT",
   url: SITE_URL,
   description:
-    "Indian health transformation company offering dedicated coaching, personalized workout plans, and nutrition guidance.",
+    "GOGETFIT is a science-backed fitness app that simplifies fitness through personalized diet plans, workout plans, expert coaching, nutrition guidance, education, progress tracking, and a supportive community.",
   email: "prajwal@gogetfitonline.com",
   telephone: "+91-98765-43210",
   address: {
