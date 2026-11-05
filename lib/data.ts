@@ -425,71 +425,6 @@ export interface TransformationStory {
   selfCaptioned?: boolean;
 }
 
-/**
- * Transformation stream stories. Images are TEMPORARY crops from the design
- * reference — replace files in public/images/transformations (same names →
- * zero code changes) or update paths here. Provide videoSrc when real
- * testimonial videos exist.
- */
-export const TRANSFORMATION_STREAM: TransformationStory[] = [
-  {
-    id: "neha",
-    type: "image",
-    image: "/images/transformations/transformation-01-placeholder.png",
-    name: "Neha",
-    result: "-12 kg",
-    duration: "5 months",
-    alt: "Neha after losing 12 kg with GOGETFIT",
-  },
-  {
-    id: "arjun-video",
-    type: "video",
-    poster: "/images/transformations/video-testimonial-01-placeholder.png",
-    videoSrc: "",
-    name: "Arjun",
-    result: "+8 kg",
-    duration: "6 months",
-    alt: "Arjun's video testimonial after gaining 8 kg of lean mass",
-  },
-  {
-    id: "rohan",
-    type: "image",
-    image: "/images/transformations/transformation-02-placeholder.png",
-    name: "Rohan",
-    result: "-18 kg",
-    duration: "6 months",
-    alt: "Rohan after losing 18 kg with GOGETFIT",
-  },
-  {
-    id: "kavya",
-    type: "image",
-    image: "/images/transformations/transformation-03-placeholder.png",
-    name: "Kavya",
-    result: "-9 kg",
-    duration: "4 months",
-    alt: "Kavya after losing 9 kg with GOGETFIT",
-  },
-  {
-    id: "ishita-video",
-    type: "video",
-    poster: "/images/transformations/video-testimonial-02-placeholder.png",
-    videoSrc: "",
-    name: "Ishita",
-    result: "-15 kg",
-    duration: "8 months",
-    alt: "Ishita's video testimonial after losing 15 kg",
-  },
-  {
-    id: "aditya",
-    type: "image",
-    image: "/images/transformations/transformation-04-placeholder.png",
-    name: "Aditya",
-    result: "+10 kg",
-    duration: "9 months",
-    alt: "Aditya after gaining 10 kg of lean mass",
-  },
-];
-
 export interface TransformationRow {
   id: string;
   title: string;
@@ -529,44 +464,6 @@ export const TRANSFORMATION_ROWS: TransformationRow[] = [
     ],
   },
 ];
-
-export const TRANSFORMATIONS = [
-  {
-    name: "Rohan K.",
-    result: "-18 kg",
-    duration: "6 months",
-    coach: "Arjun Mehta",
-    story:
-      "From breathless on stairs to finishing his first 10K. Rohan rebuilt his relationship with food — without giving up his mother's cooking.",
-  },
-  {
-    name: "Divya S.",
-    result: "-12 kg",
-    duration: "5 months",
-    coach: "Sneha Iyer",
-    story:
-      "Managed PCOS through nutrition and strength training. Energy back, confidence higher than ever.",
-  },
-  {
-    name: "Amit P.",
-    result: "+8 kg lean",
-    duration: "7 months",
-    coach: "Priya Sharma",
-    story:
-      "Healthy weight gain done right — muscle, not just mass. Amit went from skinny to strong on home-cooked food.",
-  },
-] as const;
-
-export const REEL_ITEMS = [
-  { name: "Kavya", result: "-9 kg", duration: "4 mo" },
-  { name: "Siddharth", result: "-15 kg", duration: "6 mo" },
-  { name: "Neha", result: "-11 kg", duration: "5 mo" },
-  { name: "Farhan", result: "+6 kg lean", duration: "5 mo" },
-  { name: "Ishita", result: "-20 kg", duration: "8 mo" },
-  { name: "Manish", result: "-7 kg", duration: "3 mo" },
-  { name: "Tanvi", result: "-13 kg", duration: "6 mo" },
-  { name: "Aditya", result: "+10 kg lean", duration: "9 mo" },
-] as const;
 
 export const FOOTER_LINKS = {
   company: [

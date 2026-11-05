@@ -27,7 +27,7 @@ export default function Hero() {
   return (
     <section
       id="hero"
-      className="relative z-10 flex min-h-[100svh] items-center overflow-hidden px-6 pt-28 pb-16 lg:h-screen lg:pt-0 lg:pb-0"
+      className="relative z-10 flex min-h-[100svh] items-center overflow-hidden px-6 pt-28 pb-16 lg:h-screen lg:items-center-safe lg:pt-0 lg:pb-0 lg-short:pt-12"
     >
       {/* Big orange floor glow */}
       <div
@@ -47,7 +47,7 @@ export default function Hero() {
       >
         <motion.div
           variants={item}
-          className="glass mb-8 inline-flex items-center gap-2 rounded-full px-4 py-2 text-xs font-medium text-silver"
+          className="glass mb-8 lg-short:mb-4 inline-flex items-center gap-2 rounded-full px-4 py-2 text-xs font-medium text-silver"
         >
           <Sparkles size={13} className="text-primary" />
           India&apos;s most personal health transformation company
@@ -55,7 +55,7 @@ export default function Hero() {
 
         <motion.h1
           variants={item}
-          className="headline text-[clamp(2.4rem,11vw,4.5rem)] font-bold break-words sm:text-7xl lg:text-[5.6rem] xl:text-8xl"
+          className="headline text-[clamp(2.4rem,11vw,4.5rem)] font-bold break-words sm:text-7xl lg:text-[5.6rem] xl:text-8xl lg-short:text-[4.2rem]"
         >
           <span className="text-gradient-silver">Simplifying Fitness</span>
           <br />
@@ -64,7 +64,7 @@ export default function Hero() {
 
         <motion.p
           variants={item}
-          className="mt-7 max-w-2xl text-base leading-relaxed text-silver md:text-lg"
+          className="mt-7 max-w-2xl text-base leading-relaxed text-silver md:text-lg lg-short:mt-4"
         >
           GOGETFIT is a science-backed social fitness platform that
           educates, empowers, and guides people towards healthier lifestyles
@@ -79,7 +79,7 @@ export default function Hero() {
           Fitness isn&apos;t a privilege. It&apos;s everyone&apos;s right.
         </motion.p>
 
-        <motion.div variants={item} className="mt-10 flex flex-wrap items-center gap-4">
+        <motion.div variants={item} className="mt-10 flex flex-wrap items-center gap-4 lg-short:mt-6">
           <StoreButton
             store="apple"
             href={IOS_APP_STORE_URL}
@@ -120,12 +120,12 @@ export default function Hero() {
         {/* Stats */}
         <motion.div
           variants={item}
-          className="mt-14 grid max-w-2xl grid-cols-3 gap-4 lg:mt-20"
+          className="mt-14 grid max-w-2xl grid-cols-3 gap-4 lg:mt-20 lg-short:mt-6"
         >
           {STATS.map((s) => (
             <div
               key={s.label}
-              className="glass glass-sheen rounded-3xl p-5 text-center lg:text-left"
+              className="glass glass-sheen rounded-3xl p-5 text-center lg:text-left lg-short:py-3"
             >
               <div className="headline text-3xl text-white lg:text-4xl">
                 {s.value}
@@ -145,7 +145,7 @@ export default function Hero() {
         initial={{ opacity: 0 }}
         animate={{ opacity: 1 }}
         transition={{ delay: 1.6, duration: 1 }}
-        className="absolute bottom-8 left-1/2 hidden -translate-x-1/2 flex-col items-center gap-2 lg:flex"
+        className="absolute bottom-8 left-1/2 hidden -translate-x-1/2 flex-col items-center gap-2 lg:flex lg-short:bottom-2"
       >
         <span className="text-[10px] tracking-[0.3em] text-silver-dim uppercase">
           Scroll

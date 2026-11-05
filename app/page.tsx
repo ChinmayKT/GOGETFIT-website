@@ -1,3 +1,4 @@
+import type { Metadata } from "next";
 import dynamic from "next/dynamic";
 import SmoothScroll from "@/components/animations/SmoothScroll";
 import SnapScroll from "@/components/animations/SnapScroll";
@@ -14,6 +15,14 @@ import Plans from "@/components/sections/Plans";
 import FAQ from "@/components/sections/FAQ";
 import Contact from "@/components/sections/Contact";
 import DownloadCta from "@/components/sections/DownloadCta";
+import { pageMetadata } from "@/lib/site";
+
+export const metadata: Metadata = pageMetadata({
+  title: "GOGETFIT – Simplifying Fitness for the World | Personalized Fitness & Nutrition",
+  description:
+    "GOGETFIT is a science-backed fitness app that simplifies fitness through personalized diet plans, workout plans, expert coaching, nutrition guidance, education, progress tracking, and a supportive community.",
+  path: "/",
+});
 
 // The phone only renders on desktop — load it lazily to keep mobile bundles lean.
 const FloatingPhone = dynamic(

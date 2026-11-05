@@ -1,6 +1,8 @@
 import type { Metadata } from "next";
 import { Manrope, Space_Grotesk } from "next/font/google";
-import { Analytics } from "@vercel/analytics/react";
+import { MotionConfig } from "framer-motion";
+import { FOOTER_LINKS } from "@/lib/data";
+import { SITE_NAME, SITE_URL } from "@/lib/site";
 import "./globals.css";
 
 const manrope = Manrope({
@@ -15,16 +17,14 @@ const spaceGrotesk = Space_Grotesk({
   display: "swap",
 });
 
-const SITE_URL = "https://gogetfit.in";
+const DESCRIPTION =
+  "GOGETFIT is a science-backed fitness app that simplifies fitness through personalized diet plans, workout plans, expert coaching, nutrition guidance, education, progress tracking, and a supportive community.";
 
+/** Site-wide defaults; each page sets its own title, description, canonical and social tags via pageMetadata(). */
 export const metadata: Metadata = {
-  metadataBase: new URL(SITE_URL),
-  title: {
-    default: "GOGETFIT – Simplifying Fitness for the World | Personalized Fitness & Nutrition",
-    template: "%s · GOGETFIT",
-  },
-  description:
-    "GOGETFIT is a science-backed fitness app that simplifies fitness through personalized diet plans, workout plans, expert coaching, nutrition guidance, education, progress tracking, and a supportive community.",
+  ...(SITE_URL && { metadataBase: new URL(SITE_URL) }),
+  title: "GOGETFIT – Simplifying Fitness for the World | Personalized Fitness & Nutrition",
+  description: DESCRIPTION,
   keywords: [
     "weight loss India",
     "health transformation",
@@ -33,33 +33,19 @@ export const metadata: Metadata = {
     "healthy weight gain",
     "GOGETFIT",
   ],
-  openGraph: {
-    type: "website",
-    url: SITE_URL,
-    siteName: "GOGETFIT",
-    title: "GOGETFIT – Simplifying Fitness for the World | Personalized Fitness & Nutrition",
-    description:
-      "GOGETFIT is a science-backed fitness app that simplifies fitness through personalized diet plans, workout plans, expert coaching, nutrition guidance, education, progress tracking, and a supportive community.",
-    locale: "en_IN",
-  },
-  twitter: {
-    card: "summary_large_image",
-    title: "GOGETFIT – Simplifying Fitness for the World | Personalized Fitness & Nutrition",
-    description:
-      "GOGETFIT is a science-backed fitness app that simplifies fitness through personalized diet plans, workout plans, expert coaching, nutrition guidance, education, progress tracking, and a supportive community.",
-  },
-  robots: { index: true, follow: true },
+  // no `robots` here: index/follow is the default, and the 404 page gets Next's noindex alone
 };
 
+// Every value mirrors what the site itself displays (lib/data.ts) — no extra claims.
+const { contact, social } = FOOTER_LINKS;
 const jsonLd = {
   "@context": "https://schema.org",
   "@type": "Organization",
-  name: "GOGETFIT",
-  url: SITE_URL,
-  description:
-    "GOGETFIT is a science-backed fitness app that simplifies fitness through personalized diet plans, workout plans, expert coaching, nutrition guidance, education, progress tracking, and a supportive community.",
-  email: "prajwal@gogetfitonline.com",
-  telephone: "+91-98765-43210",
+  name: SITE_NAME,
+  ...(SITE_URL && { url: SITE_URL, logo: `${SITE_URL}/apple-icon.png` }),
+  description: DESCRIPTION,
+  email: contact.email,
+  telephone: contact.phone.replace(/\s/g, ""),
   address: {
     "@type": "PostalAddress",
     streetAddress: "11th cross road, Malleshwaram",
@@ -68,11 +54,7 @@ const jsonLd = {
     postalCode: "560003",
     addressCountry: "IN",
   },
-  sameAs: [
-    "https://instagram.com/gogetfit",
-    "https://youtube.com/@gogetfit",
-    "https://linkedin.com/company/gogetfit",
-  ],
+  sameAs: social.map((s) => s.href),
 };
 
 export default function RootLayout({
@@ -89,8 +71,8 @@ export default function RootLayout({
           type="application/ld+json"
           dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }}
         />
-        {children}
-        <Analytics />
+        {/* honour the OS "reduce motion" setting: no slides/blur, fades only */}
+        <MotionConfig reducedMotion="user">{children}</MotionConfig>
       </body>
     </html>
   );

@@ -58,7 +58,7 @@ export default function Contact() {
                   <div className="text-sm font-semibold text-white">Email</div>
                   <a
                     href={`mailto:${email}`}
-                    className="mt-0.5 block truncate text-xs text-silver-dim transition-colors hover:text-primary"
+                    className="mt-0.5 block text-xs break-all text-silver-dim transition-colors hover:text-primary"
                   >
                     {email}
                   </a>
@@ -73,7 +73,7 @@ export default function Contact() {
                   <div className="text-sm font-semibold text-white">Support Email</div>
                   <a
                     href={`mailto:${supportEmail}`}
-                    className="mt-0.5 block truncate text-xs text-silver-dim transition-colors hover:text-primary"
+                    className="mt-0.5 block text-xs break-all text-silver-dim transition-colors hover:text-primary"
                   >
                     {supportEmail}
                   </a>

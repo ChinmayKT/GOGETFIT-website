@@ -256,7 +256,7 @@ export default function Features() {
     <section
       id="features"
       ref={sectionRef}
-      className="relative z-10 flex min-h-[100svh] flex-col justify-center px-6 py-24 lg:h-screen lg:overflow-hidden lg:pt-24 lg:pb-4"
+      className="relative z-10 flex min-h-[100svh] flex-col justify-center px-6 py-24 lg:h-screen lg:justify-center-safe lg:overflow-hidden lg:pt-24 lg:pb-4 lg-short:pt-20"
     >
       {/* Stage glow — light rising off the product floor */}
       <div
@@ -273,10 +273,10 @@ export default function Features() {
         <p className="text-xs font-semibold tracking-[0.35em] text-primary uppercase">
           One Platform. Endless Possibilities.
         </p>
-        <h2 className="headline text-gradient-silver mt-4 text-4xl md:text-5xl xl:text-6xl 2xl:text-7xl lg:whitespace-nowrap">
+        <h2 className="headline text-gradient-silver mt-4 text-4xl text-balance md:text-5xl lg:text-4xl xl:text-5xl lg-short:mt-3 lg-short:text-[2.1rem]">
           Everything you need to build a healthier lifestyle—powered by science, personalized for you.
         </h2>
-        <p className="mt-4 text-base text-silver-dim md:text-lg 2xl:text-xl">
+        <p className="mt-4 text-base text-silver-dim md:text-lg 2xl:text-xl lg-short:mt-2">
           Powerful tools. Real coaches. Real results.
         </p>
       </div>
@@ -288,7 +288,7 @@ export default function Features() {
           the phones row always starts straight regardless of label height. */}
       <div
         ref={stageRef}
-        className="app-stage no-scrollbar relative mt-10 hidden snap-x snap-mandatory gap-6 overflow-x-auto px-2 lg:mt-14 lg:flex lg:flex-col lg:snap-none lg:overflow-visible"
+        className="app-stage no-scrollbar relative mt-10 hidden snap-x snap-mandatory gap-6 overflow-x-auto px-2 lg:mt-14 lg:flex lg:flex-col lg-short:mt-5 lg-short:gap-3 lg:snap-none lg:overflow-visible"
       >
         {/* Labels row */}
         <div className="hidden lg:flex lg:justify-center lg:gap-[1.6vw]">
@@ -318,7 +318,7 @@ export default function Features() {
         </div>
 
         {/* Phones row — straight baseline, independent of label height above */}
-        <div className="flex justify-center gap-[1.6vw] overflow-visible lg:mt-4">
+        <div className="flex justify-center gap-[1.6vw] overflow-visible lg:mt-4 lg-short:mt-0">
           {APP_SHOWCASE.map((f, i) => {
             return (
               <article
@@ -328,7 +328,7 @@ export default function Features() {
                 aria-label={f.alt}
                 className="w-[72vw] shrink-0 snap-center sm:w-[46vw] md:w-[30vw] lg:w-[13.5vw] lg:min-w-0"
               >
-                <div className="app-phone" style={{ transformStyle: "preserve-3d" }}>
+                <div className="app-phone lg:mx-auto lg:w-[min(100%,22vh)] lg-short:w-[min(100%,17vh)]" style={{ transformStyle: "preserve-3d" }}>
                   <div
                     data-float
                     data-stage-phone={f.id}

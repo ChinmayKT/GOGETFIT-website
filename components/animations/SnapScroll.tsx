@@ -138,7 +138,18 @@ export default function SnapScroll() {
       allowClicks: true,
     });
 
+    // An open dialog (useDialog) owns input: no section snaps behind it, and
+    // wheel/touch inside the dialog scroll it natively instead of being eaten.
+    let modalOpen = false;
+    const onModal = (e: Event) => {
+      modalOpen = (e as CustomEvent<boolean>).detail;
+      if (modalOpen) obs.disable();
+      else obs.enable();
+    };
+    window.addEventListener("modal:toggle", onModal);
+
     const onKey = (e: KeyboardEvent) => {
+      if (modalOpen) return;
       const tag = (e.target as HTMLElement).tagName;
       if (tag === "INPUT" || tag === "TEXTAREA" || tag === "SELECT") return;
       switch (e.key) {
@@ -184,6 +195,7 @@ export default function SnapScroll() {
           obs.kill();
           window.removeEventListener("scroll", resync);
           window.removeEventListener("keydown", onKey);
+          window.removeEventListener("modal:toggle", onModal);
           document.removeEventListener("click", onClick);
           gsap.killTweensOf(window);
         };

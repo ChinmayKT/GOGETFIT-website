@@ -116,17 +116,17 @@ export default function Coaches() {
   return (
     <section
       id="coaches"
-      className="relative z-10 flex min-h-[100svh] items-center px-6 py-28 lg:h-screen lg:items-start lg:overflow-hidden lg:py-0 lg:pt-[13vh]"
+      className="relative z-10 flex min-h-[100svh] items-center px-6 py-28 lg:h-screen lg:items-start lg:overflow-hidden lg:py-0 lg:pt-[13vh] lg-short:pt-[11vh]"
     >
       <div className="mx-auto w-full max-w-[1440px] lg:pl-[30%]">
         <Reveal as="p" className="text-xs font-semibold tracking-[0.35em] text-primary uppercase">
           Real Coaches.
         </Reveal>
-        <Reveal as="h2" delay={0.1} mobileReveal="left" className="headline mt-4 text-5xl md:text-6xl">
+        <Reveal as="h2" delay={0.1} mobileReveal="left" className="headline mt-4 text-5xl md:text-6xl lg-short:text-5xl">
           <span className="text-gradient-silver">Real Support.</span>{" "}
           <span className="text-gradient-orange">Real Results.</span>
         </Reveal>
-        <Reveal as="p" delay={0.2} mobileReveal="right" className="mt-5 max-w-xl text-base text-silver-dim md:text-lg">
+        <Reveal as="p" delay={0.2} mobileReveal="right" className="mt-5 max-w-xl text-base text-silver-dim md:text-lg lg-short:mt-3 lg-short:text-base">
           Every GOGETFIT Coach is carefully selected, professionally trained,
           and committed to helping you build healthier habits—not just
           better physiques. Through personalized guidance, regular
@@ -135,8 +135,14 @@ export default function Coaches() {
         </Reveal>
 
         {/* Carousel */}
-        <Reveal delay={0.25} className="relative mt-8">
-          <div className="no-scrollbar snap-x snap-mandatory overflow-x-auto lg:snap-none lg:overflow-hidden lg:pr-8">
+        <Reveal delay={0.25} className="relative mt-8 lg-short:mt-5">
+          <div
+            // keyboard users can focus the swipe strip and scroll it with arrow keys
+            tabIndex={0}
+            role="region"
+            aria-label="GOGETFIT coaches"
+            className="no-scrollbar snap-x snap-mandatory overflow-x-auto lg:snap-none lg:overflow-hidden lg:pr-8"
+          >
             <div ref={trackRef} className="flex gap-4 will-change-transform">
               {order.map((c) => (
                 <article
@@ -204,7 +210,7 @@ export default function Coaches() {
           </button>
         </Reveal>
 
-        <p className="mt-5 hidden text-xs text-silver-dim lg:block">
+        <p className="mt-5 hidden text-xs text-silver-dim lg:block lg-short:mt-3">
           ← send a coach into the app&nbsp;&nbsp;·&nbsp;&nbsp;→ bring them back
         </p>
       </div>

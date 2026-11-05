@@ -9,6 +9,7 @@ import { X } from "lucide-react";
 import { LEADERSHIP, type LeadershipMember } from "@/lib/data";
 import { SNAP_SECTIONS } from "@/components/animations/SnapScroll";
 import { QUERY_DESKTOP, QUERY_TABLET, QUERY_MOBILE } from "@/lib/breakpoints";
+import { useDialog } from "@/hooks/useDialog";
 
 gsap.registerPlugin(ScrollTrigger);
 
@@ -34,6 +35,7 @@ const MOBILE_OFFSET_X: Record<"left" | "right", number> = { left: -60, right: 60
 export default function Leadership() {
   const sectionRef = useRef<HTMLElement>(null);
   const [focused, setFocused] = useState<LeadershipMember | null>(null);
+  const dialogRef = useDialog<HTMLDivElement>(!!focused, () => setFocused(null));
 
   useEffect(() => {
     const section = sectionRef.current;
@@ -286,7 +288,7 @@ export default function Leadership() {
             /* frameless portrait panel — image fills everything, role + name
                overlaid inside the lower area, orange floor light beneath */
             /* portrait panel + plain text below it — no card around the text */
-            <article
+            <div
               key={m.id}
               data-lead-card
               className="lead-card"
@@ -294,9 +296,13 @@ export default function Leadership() {
                 ? {
                     role: "button",
                     tabIndex: 0,
+                    "aria-label": `${m.name}, ${m.role} — read bio`,
                     onClick: () => setFocused(m),
                     onKeyDown: (e: React.KeyboardEvent) => {
-                      if (e.key === "Enter" || e.key === " ") setFocused(m);
+                      if (e.key === "Enter" || e.key === " ") {
+                        e.preventDefault(); // Space would also scroll the page
+                        setFocused(m);
+                      }
                     },
                   }
                 : {})}
@@ -304,9 +310,11 @@ export default function Leadership() {
             >
               <div
                 data-lead-img
-                className="relative w-full overflow-hidden rounded-2xl border border-white/[0.07]"
+                // desktop sections are one screen tall: cap height so name + role never fall off short laptops
+                className="relative w-full overflow-hidden rounded-2xl border border-white/[0.07] lg:max-h-[calc(100svh-300px)]"
                 style={{
-                  aspectRatio: "1/2",
+                  // shorter than the source portraits — the crop trims the bottom, faces stay
+                  aspectRatio: "3/5.2",
                   boxShadow: "0 30px 60px -18px rgba(255,106,0,0.16)",
                 }}
               >
@@ -314,10 +322,25 @@ export default function Leadership() {
                   src={m.image}
                   alt={m.alt}
                   fill
-                  sizes="(min-width: 1024px) 18vw, 45vw"
+                  sizes="(min-width: 1024px) 23vw, 45vw"
                   className="lead-photo object-cover"
-                  style={m.objectPosition ? { objectPosition: m.objectPosition } : undefined}
+                  style={{ objectPosition: m.objectPosition ?? "50% 0%" }}
                 />
+                {/* name + role overlaid on the portrait's lower edge */}
+                <div
+                  data-lead-label
+                  className="absolute inset-x-0 bottom-0 px-3 pt-12 pb-3 text-center sm:px-4 sm:pb-4"
+                  style={{
+                    background: "linear-gradient(180deg, transparent, rgba(8,8,8,0.9) 65%)",
+                  }}
+                >
+                  <h3 className="lead-name headline text-lg text-white/95 sm:text-xl lg:text-2xl">
+                    {m.name}
+                  </h3>
+                  <p className="mt-1 text-[9px] font-semibold tracking-[0.2em] text-primary uppercase sm:text-[10px] sm:tracking-[0.3em]">
+                    {m.role}
+                  </p>
+                </div>
                 {/* orange floor light on the portrait's bottom edge */}
                 <div
                   aria-hidden
@@ -328,15 +351,7 @@ export default function Leadership() {
                   }}
                 />
               </div>
-              <div data-lead-label className="pt-4">
-                <p className="text-[10px] font-semibold tracking-[0.3em] text-primary uppercase">
-                  {m.role}
-                </p>
-                <h3 className="lead-name headline mt-1.5 text-xl text-white/95 lg:text-2xl">
-                  {m.name}
-                </h3>
-              </div>
-            </article>
+            </div>
           ))}
         </div>
       </div>
@@ -357,7 +372,12 @@ export default function Leadership() {
               animate={{ scale: 1, y: 0, opacity: 1 }}
               exit={{ scale: 0.94, y: 16, opacity: 0 }}
               transition={{ duration: 0.4, ease: [0.16, 1, 0.3, 1] }}
-              className="glass-strong relative flex w-full max-w-2xl overflow-hidden rounded-[28px]"
+              ref={dialogRef}
+              role="dialog"
+              aria-modal="true"
+              aria-labelledby="lead-bio-name"
+              tabIndex={-1}
+              className="glass-strong relative flex max-h-[90vh] w-full max-w-2xl overflow-hidden rounded-[28px] outline-none"
               onClick={(e) => e.stopPropagation()}
             >
               <div
@@ -373,8 +393,9 @@ export default function Leadership() {
                   style={focused.objectPosition ? { objectPosition: focused.objectPosition } : undefined}
                 />
               </div>
-              <div className="flex flex-1 flex-col p-7">
+              <div className="flex flex-1 flex-col overflow-y-auto p-7">
                 <button
+                  type="button"
                   aria-label="Close bio"
                   onClick={() => setFocused(null)}
                   className="glass absolute top-4 right-4 rounded-full p-3 transition hover:bg-white/10"
@@ -384,7 +405,9 @@ export default function Leadership() {
                 <p className="text-[10px] font-semibold tracking-[0.3em] text-primary uppercase">
                   {focused.role}
                 </p>
-                <h3 className="headline mt-1.5 text-2xl text-white/95">{focused.name}</h3>
+                <h3 id="lead-bio-name" className="headline mt-1.5 text-2xl text-white/95">
+                  {focused.name}
+                </h3>
                 <p className="mt-4 text-sm leading-relaxed text-silver">{focused.bio}</p>
               </div>
             </motion.div>

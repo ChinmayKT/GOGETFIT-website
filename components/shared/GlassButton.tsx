@@ -36,7 +36,8 @@ export default function GlassButton({
   const classes = cn(
     "glass-sheen inline-flex cursor-pointer items-center justify-center gap-2 rounded-full px-7 py-3.5 text-sm font-semibold tracking-wide select-none",
     variant === "primary"
-      ? "bg-primary text-white shadow-[0_0_32px_var(--glow-orange),inset_0_1px_0_rgba(255,255,255,0.35)]"
+      ? // primary-deep, not primary: white on #ff6a00 is 2.9:1, on #cc4d00 it's 4.5:1 (WCAG AA)
+        "bg-primary-deep text-white shadow-[0_0_32px_var(--glow-orange),inset_0_1px_0_rgba(255,255,255,0.35)]"
       : "glass text-white",
     className
   );

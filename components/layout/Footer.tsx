@@ -210,9 +210,9 @@ export default function Footer() {
         <div className="mt-10 grid gap-8 sm:grid-cols-2 lg:mt-12 lg:grid-cols-4 lg:gap-6">
           {COLUMNS.map((col) => (
             <div key={col.heading} data-ft-col>
-              <h3 className="text-xs font-semibold tracking-widest text-silver-dim uppercase">
+              <h2 className="text-xs font-semibold tracking-widest text-silver-dim uppercase">
                 {col.heading}
-              </h3>
+              </h2>
               <ul className="mt-4 space-y-2.5">
                 {col.items.map((l) => {
                   const isPdf = l.href.endsWith(".pdf");
@@ -234,9 +234,9 @@ export default function Footer() {
           ))}
 
           <div data-ft-col>
-            <h3 className="text-xs font-semibold tracking-widest text-silver-dim uppercase">
+            <h2 className="text-xs font-semibold tracking-widest text-silver-dim uppercase">
               Contact
-            </h3>
+            </h2>
             <ul className="mt-4 space-y-2.5 text-sm text-silver">
               <li className="flex gap-2.5">
                 <MapPin size={14} className="mt-0.5 shrink-0 text-primary" />

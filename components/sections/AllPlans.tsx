@@ -34,7 +34,7 @@ export default function AllPlans() {
             >
               <div className="min-w-0 flex-1 p-7 md:p-10">
                 <div className="max-w-3xl">
-                  <PlanInfo plan={p} />
+                  <PlanInfo plan={p} headingLevel="h2" />
                 </div>
               </div>
               <PlanPriceSidebar

@@ -7,6 +7,7 @@ import Reveal from "@/components/shared/Reveal";
 import GlassButton from "@/components/shared/GlassButton";
 import PlanInfo from "./PlanInfo";
 import PlanPriceSidebar from "./PlanPriceSidebar";
+import { useDialog } from "@/hooks/useDialog";
 import { PLANS, formatPlanPrice, type Plan } from "@/lib/data";
 import { cn } from "@/lib/utils";
 
@@ -15,6 +16,7 @@ const PREVIEW_COUNT = 3;
 /** Plans — phone rides the RIGHT (booking pose family), content fills the left ~66%. */
 export default function Plans() {
   const [selected, setSelected] = useState<Plan | null>(null);
+  const dialogRef = useDialog<HTMLDivElement>(!!selected, () => setSelected(null));
   const preview = PLANS.slice(0, PREVIEW_COUNT);
 
   return (
@@ -91,10 +93,20 @@ export default function Plans() {
               animate={{ scale: 1, y: 0, opacity: 1 }}
               exit={{ scale: 0.96, y: 12, opacity: 0 }}
               transition={{ duration: 0.35, ease: [0.16, 1, 0.3, 1] }}
-              className="glass-strong relative flex max-h-[90vh] w-full max-w-6xl flex-col overflow-y-auto rounded-[28px] md:h-[min(760px,90vh)] md:flex-row md:overflow-hidden"
+              ref={dialogRef}
+              role="dialog"
+              aria-modal="true"
+              aria-label={`${selected.name} details`}
+              tabIndex={-1}
+              className="glass-strong relative flex max-h-[90vh] w-full max-w-6xl flex-col overflow-y-auto rounded-[28px] outline-none md:h-[min(760px,90vh)] md:flex-row md:overflow-hidden"
               onClick={(e) => e.stopPropagation()}
+              // "Book Now" jumps to #contact — close the popup on the way out
+              onClickCapture={(e) => {
+                if ((e.target as HTMLElement).closest('a[href^="#"]')) setSelected(null);
+              }}
             >
               <button
+                type="button"
                 aria-label="Close plan details"
                 onClick={() => setSelected(null)}
                 className="glass absolute top-4 right-4 z-10 rounded-full p-3 transition hover:bg-white/10"
@@ -103,7 +115,12 @@ export default function Plans() {
               </button>
 
               {/* Left — scrollable description + fine print */}
-              <div className="min-w-0 flex-1 overflow-y-auto p-7 pt-14 md:p-9 md:pt-9">
+              <div
+                tabIndex={0}
+                role="region"
+                aria-label="Plan description and terms"
+                className="min-w-0 flex-1 overflow-y-auto p-7 pt-14 md:p-9 md:pt-9"
+              >
                 <PlanInfo plan={selected} />
               </div>
 

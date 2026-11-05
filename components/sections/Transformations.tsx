@@ -10,6 +10,7 @@ import {
 } from "@/lib/data";
 import { SNAP_SECTIONS } from "@/components/animations/SnapScroll";
 import { QUERY_DESKTOP } from "@/lib/breakpoints";
+import { useDialog } from "@/hooks/useDialog";
 import {
   Play,
   X,
@@ -143,6 +144,18 @@ function CarouselRow({
       className="rounded-2xl border border-white/10 bg-white/[0.025] p-3"
       onMouseEnter={pause}
       onMouseLeave={scheduleResume}
+      // keyboard users: stop the drift and bring the focused card into view
+      onFocus={(e) => {
+        pause();
+        const card = (e.target as HTMLElement).closest<HTMLElement>("[data-tcard]");
+        const vp = viewportRef.current;
+        if (!card || !vp || getComputedStyle(vp).overflowX !== "hidden") return;
+        vp.scrollLeft = 0; // the browser scrolls hidden overflow on focus; the track moves via transform
+        const left = card.offsetLeft + pos.current;
+        if (left < 0 || left + card.offsetWidth > vp.clientWidth)
+          glide((vp.clientWidth - card.offsetWidth) / 2 - card.offsetLeft, 0.4);
+      }}
+      onBlur={scheduleResume}
     >
       {/* Row header */}
       <div className="mb-2 flex items-center px-1">
@@ -161,6 +174,7 @@ function CarouselRow({
             {items.map((s) => (
               <button
                 key={s.id}
+                type="button"
                 data-tcard
                 aria-label={
                   s.type === "video"
@@ -169,10 +183,7 @@ function CarouselRow({
                 }
                 onClick={() => onOpen(s)}
                 className="tf-card group/card relative shrink-0 snap-center overflow-hidden rounded-xl border border-white/10 text-left"
-                style={{
-                  width: "clamp(175px, 14vw, 230px)",
-                  aspectRatio: s.selfCaptioned ? "4/5" : "3/4",
-                }}
+                style={{ aspectRatio: s.selfCaptioned ? "4/5" : "3/4" }}
               >
                 <Image
                   src={s.type === "video" ? s.poster! : s.image!}
@@ -209,6 +220,7 @@ function CarouselRow({
         </div>
 
         <button
+          type="button"
           aria-label={`Scroll ${title} left`}
           onClick={() => step(-1)}
           className="glass-strong absolute top-1/2 -left-3 z-10 hidden h-9 w-9 -translate-y-1/2 items-center justify-center rounded-full text-white transition hover:border-primary/50 hover:shadow-[0_0_16px_rgba(255,106,0,0.3)] active:scale-90 lg:flex"
@@ -216,6 +228,7 @@ function CarouselRow({
           <ChevronLeft size={16} />
         </button>
         <button
+          type="button"
           aria-label={`Scroll ${title} right`}
           onClick={() => step(1)}
           className="glass-strong absolute top-1/2 -right-3 z-10 hidden h-9 w-9 -translate-y-1/2 items-center justify-center rounded-full text-white transition hover:border-primary/50 hover:shadow-[0_0_16px_rgba(255,106,0,0.3)] active:scale-90 lg:flex"
@@ -236,6 +249,7 @@ function CarouselRow({
 export default function Transformations() {
   const sectionRef = useRef<HTMLElement>(null);
   const [focused, setFocused] = useState<TransformationStory | null>(null);
+  const dialogRef = useDialog<HTMLDivElement>(!!focused, () => setFocused(null));
 
   // Entrance choreography: heading → energy glow from phone → rows cascade → stats
   useEffect(() => {
@@ -311,21 +325,24 @@ export default function Transformations() {
     <section
       id="transformations"
       ref={sectionRef}
-      className="relative z-10 flex min-h-[100svh] flex-col px-6 py-28 lg:h-screen lg:overflow-hidden lg:py-0 lg:pt-[9.5vh] lg:pb-3"
+      className="relative z-10 flex min-h-[100svh] flex-col px-6 py-28 lg:h-screen lg:overflow-hidden lg:py-0 lg:pt-[9.5vh] lg:pb-3 lg-short:pt-[11.5vh]"
     >
-      {/* ---------- Center-top header ---------- */}
-      <div data-thead className="mx-auto mb-4 max-w-6xl text-center lg:mb-[2.4vh]">
-        <p className="text-xs font-semibold tracking-[0.35em] text-primary uppercase">
-          Real Transformations
-        </p>
-        <h2 className="headline mt-3 text-4xl md:text-5xl xl:text-[3.2rem] lg:whitespace-nowrap">
-          <span className="text-gradient-silver">Proof, not</span>{" "}
-          <span className="text-gradient-orange">promises.</span>
-        </h2>
-        <p className="mt-1 text-base text-silver-dim">
-          Every transformation tells a story of consistency, commitment, and
-          the right guidance. Real people. Real journeys. Real results.
-        </p>
+      {/* ---------- Header: same columns as the rows below, so it clears the phone ---------- */}
+      <div className="mx-auto mb-4 w-full max-w-[1400px] lg:mb-[2.4vh] lg:grid lg:grid-cols-[25%_75%] lg:gap-8">
+        {/* below xl the phone reaches past the column start and the column past the viewport */}
+        <div data-thead className="min-w-0 text-center lg:col-start-2 lg:pr-10 lg:pl-[50px] xl:px-0">
+          <p className="text-xs font-semibold tracking-[0.35em] text-primary uppercase">
+            Real Transformations
+          </p>
+          <h2 className="headline mt-3 text-4xl md:text-5xl xl:text-[3.2rem] lg:whitespace-nowrap">
+            <span className="text-gradient-silver">Proof, not</span>{" "}
+            <span className="text-gradient-orange">promises.</span>
+          </h2>
+          <p className="mt-1 text-base text-silver-dim lg-short:text-sm">
+            Every transformation tells a story of consistency, commitment, and
+            the right guidance. Real people. Real journeys. Real results.
+          </p>
+        </div>
       </div>
 
       <div className="mx-auto grid w-full max-w-[1400px] flex-1 gap-8 lg:grid-cols-[25%_75%]">
@@ -403,7 +420,12 @@ export default function Transformations() {
               animate={{ scale: 1, y: 0, opacity: 1 }}
               exit={{ scale: 0.92, y: 20, opacity: 0 }}
               transition={{ duration: 0.45, ease: [0.16, 1, 0.3, 1] }}
-              className="glass-strong relative w-full max-w-md overflow-hidden rounded-[28px]"
+              ref={dialogRef}
+              role="dialog"
+              aria-modal="true"
+              aria-label={focused.alt}
+              tabIndex={-1}
+              className="glass-strong relative max-h-[90vh] w-full max-w-md overflow-y-auto rounded-[28px] outline-none"
               onClick={(e) => e.stopPropagation()}
             >
               <div
@@ -454,6 +476,7 @@ export default function Transformations() {
                   )}
                 </div>
                 <button
+                  type="button"
                   aria-label="Close story"
                   onClick={() => setFocused(null)}
                   className="glass rounded-full p-3 transition hover:bg-white/10"

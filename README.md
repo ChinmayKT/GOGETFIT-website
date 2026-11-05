@@ -17,7 +17,7 @@ Single-page marketing site (`app/page.tsx`) with section-snap scrolling, wrapped
 
 `Navbar` and `Footer` frame the page. `FloatingPhone` (desktop-only, lazy-loaded) renders an interactive phone mockup cycling through app screens (`components/phone/screens.tsx`) synced to scroll position.
 
-Other routes: `/privacy-policy`, `/terms-of-service`, `/refund-policy` (shared `LegalPageLayout`), plus `robots.ts` / `sitemap.ts` for SEO. Site metadata, OpenGraph/Twitter cards, and JSON-LD Organization schema are set in `app/layout.tsx`.
+Other routes: `/plans`, `/faq`, plus `robots.ts` / `sitemap.ts` for SEO. The official legal policies are the PDFs in `public/documents/`; the old `/privacy-policy`, `/terms-of-service` and `/refund-policy` URLs permanently redirect to them via `redirects()` in `next.config.ts`. Site metadata, OpenGraph/Twitter cards, and JSON-LD Organization schema are set in `app/layout.tsx`.
 
 ## Design System
 
@@ -53,14 +53,13 @@ Dark theme only. Tailwind v4 `@theme inline` maps these CSS vars to `color-*` / 
 - react-hook-form + zod (`@hookform/resolvers`) — form validation
 - `clsx` + `tailwind-merge` via `cn()` in `lib/utils.ts` — the most-used utility in the codebase, composing conditional class names everywhere
 - lucide-react — icons
-- Vercel Analytics
 
 **Component map**
 - `components/shared/` — `GlassButton`, `Reveal` (scroll-in animation wrapper), `SmartLink`, `SocialIcon`, `StoreButton`
 - `components/cards/TiltCard` — pointer-tilt hover card
 - `components/brand/GoGetFitLogo` — logo component
 - `components/layout/` — `Navbar`, `Footer`
-- `components/legal/` — shared legal-page shell + content renderer
+- `components/legal/LegalHero` — page hero shared by `/plans` and `/faq`
 - `components/phone/` — `DeviceFrame`, `FloatingPhone`, app screen catalog
 - `components/animations/` — `SmoothScroll`, `SnapScroll`
 - `components/3d/AmbientBackground`
@@ -77,6 +76,8 @@ Open [http://localhost:3000](http://localhost:3000). Edit `app/page.tsx` or any 
 npm run build   # production build (Turbopack)
 npm run lint
 ```
+
+**Production domain:** set `SITE_URL` (a bare https origin, e.g. `SITE_URL=https://www.example.com`) before `npm run build`. It is read once in `lib/site.ts` and drives canonical URLs, Open Graph URLs, `sitemap.xml`, the `robots.txt` sitemap line and the JSON-LD `url`. Without it, those domain-dependent tags are left out rather than guessed.
 
 ## Deploy
 

@@ -24,6 +24,11 @@
   --ease-spring: cubic-bezier(0.34, 1.56, 0.64, 1);
 }
 
+/* Short laptop screens (1024×768, 1280×720, 1366×768). Desktop sections are
+   exactly one screen tall (SnapScroll moves one section per gesture), so here
+   content is compacted to fit instead of letting the section grow. */
+@custom-variant lg-short (@media (min-width: 1024px) and (max-height: 860px));
+
 @theme inline {
   --color-bg: var(--bg);
   --color-bg-elevated: var(--bg-elevated);
@@ -38,6 +43,15 @@
 
 html {
   scroll-behavior: auto;
+}
+
+/* Visible keyboard focus everywhere (mouse clicks don't trigger :focus-visible).
+   In the base layer so a component's own focus styling still wins. */
+@layer base {
+  :where(a, button, summary, [role="button"], [tabindex]:not([tabindex="-1"])):focus-visible {
+    outline: 2px solid var(--primary);
+    outline-offset: 3px;
+  }
 }
 
 html.lenis,
@@ -324,5 +338,16 @@ body {
   }
   *, *::before, *::after {
     transition-duration: 0.01ms !important;
+  }
+}
+
+/* Transformation carousel cards. On short laptop screens they also scale with
+   viewport height so both rows + header fit the one-screen section. */
+.tf-card {
+  width: clamp(175px, 14vw, 230px);
+}
+@media (min-width: 1024px) and (max-height: 860px) {
+  .tf-card {
+    width: clamp(140px, min(14vw, 20vh), 230px);
   }
 }

@@ -41,7 +41,13 @@ export default function SmoothScroll({ children }: { children: ReactNode }) {
         gsap.ticker.add(raf);
         gsap.ticker.lagSmoothing(0);
 
+        // freeze the page behind an open dialog (see useDialog)
+        const onModal = (e: Event) =>
+          (e as CustomEvent<boolean>).detail ? lenis.stop() : lenis.start();
+        window.addEventListener("modal:toggle", onModal);
+
         return () => {
+          window.removeEventListener("modal:toggle", onModal);
           gsap.ticker.remove(raf);
           lenis.destroy();
         };
