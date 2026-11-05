@@ -17,15 +17,6 @@ export default function LegalHero({
 }) {
   return (
     <div className="relative overflow-hidden">
-      <div
-        aria-hidden
-        className="pointer-events-none absolute -top-24 -left-24 -z-10 h-72 w-72 rounded-full opacity-30"
-        style={{
-          background: "radial-gradient(circle, rgba(255,106,0,0.25), transparent 70%)",
-          filter: "blur(60px)",
-        }}
-      />
-
       <motion.div
         initial={{ opacity: 0 }}
         animate={{ opacity: 1 }}
@@ -47,7 +38,7 @@ export default function LegalHero({
         initial={{ opacity: 0 }}
         animate={{ opacity: 1 }}
         transition={{ duration: 0.6, delay: 0.1, ease: [0.16, 1, 0.3, 1] }}
-        className="mt-8 text-xs font-semibold tracking-[0.25em] text-primary uppercase"
+        className="mt-8 eyebrow"
       >
         {eyebrow}
       </motion.p>

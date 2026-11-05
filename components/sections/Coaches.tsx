@@ -119,14 +119,14 @@ export default function Coaches() {
       className="relative z-10 flex min-h-[100svh] items-center px-6 py-28 lg:h-screen lg:items-start lg:overflow-hidden lg:py-0 lg:pt-[13vh] lg-short:pt-[11vh]"
     >
       <div className="mx-auto w-full max-w-[1440px] lg:pl-[30%]">
-        <Reveal as="p" className="text-xs font-semibold tracking-[0.35em] text-primary uppercase">
-          Real Coaches.
+        <Reveal as="p" className="eyebrow">
+          Real Coaches
         </Reveal>
-        <Reveal as="h2" delay={0.1} mobileReveal="left" className="headline mt-4 text-5xl md:text-6xl lg-short:text-5xl">
-          <span className="text-gradient-silver">Real Support.</span>{" "}
-          <span className="text-gradient-orange">Real Results.</span>
+        <Reveal as="h2" delay={0.1} className="headline mt-4 text-5xl md:text-6xl lg-short:text-5xl">
+          Real Support.{" "}
+          Real Results.
         </Reveal>
-        <Reveal as="p" delay={0.2} mobileReveal="right" className="mt-5 max-w-xl text-base text-silver-dim md:text-lg lg-short:mt-3 lg-short:text-base">
+        <Reveal as="p" delay={0.2} className="mt-5 max-w-xl text-base text-silver-dim md:text-lg lg-short:mt-3 lg-short:text-base">
           Every GOGETFIT Coach is carefully selected, professionally trained,
           and committed to helping you build healthier habits—not just
           better physiques. Through personalized guidance, regular
@@ -148,7 +148,7 @@ export default function Coaches() {
                 <article
                   key={c.id}
                   aria-label={c.alt}
-                  className="relative w-[62vw] shrink-0 snap-center overflow-hidden rounded-[28px] border border-white/10 sm:w-[38vw] md:w-[26vw] lg:w-[calc(33.333%-11px)]"
+                  className="relative w-[62vw] shrink-0 snap-center overflow-hidden rounded-[20px] border border-white/10 sm:w-[38vw] md:w-[26vw] lg:w-[calc(33.333%-11px)]"
                   style={{ aspectRatio: "3/4" }}
                 >
                   {c.image ? (
@@ -195,7 +195,7 @@ export default function Coaches() {
             aria-label="Previous coach — send coach into the app"
             onClick={sendToPhone}
             disabled={!canSend}
-            className="glass-strong group absolute top-1/2 -left-16 z-10 hidden h-12 w-12 -translate-y-1/2 items-center justify-center rounded-full text-white transition-all duration-300 hover:scale-105 hover:border-primary/50 hover:shadow-[0_0_24px_rgba(255,106,0,0.35)] active:scale-95 disabled:cursor-not-allowed disabled:opacity-30 lg:flex"
+            className="glass-strong group absolute top-1/2 -left-16 z-10 hidden h-12 w-12 -translate-y-1/2 items-center justify-center rounded-full text-white transition-colors duration-150 hover:bg-raised active:scale-[0.98] disabled:cursor-not-allowed disabled:opacity-30 lg:flex"
           >
             <ChevronLeft size={20} className="transition-transform duration-300 group-hover:-translate-x-0.5" />
           </button>
@@ -204,7 +204,7 @@ export default function Coaches() {
             aria-label="Next coach — bring coach back from the app"
             onClick={returnFromPhone}
             disabled={!canReturn}
-            className="glass-strong group absolute top-1/2 -right-2 z-10 hidden h-12 w-12 -translate-y-1/2 items-center justify-center rounded-full text-white transition-all duration-300 hover:scale-105 hover:border-primary/50 hover:shadow-[0_0_24px_rgba(255,106,0,0.35)] active:scale-95 disabled:cursor-not-allowed disabled:opacity-30 lg:flex"
+            className="glass-strong group absolute top-1/2 -right-2 z-10 hidden h-12 w-12 -translate-y-1/2 items-center justify-center rounded-full text-white transition-colors duration-150 hover:bg-raised active:scale-[0.98] disabled:cursor-not-allowed disabled:opacity-30 lg:flex"
           >
             <ChevronRight size={20} className="transition-transform duration-300 group-hover:translate-x-0.5" />
           </button>

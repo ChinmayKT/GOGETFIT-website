@@ -59,7 +59,6 @@ export default function FloatingPhone() {
   const wrapRef = useRef<HTMLDivElement>(null); // section pose + travel
   const tiltRef = useRef<HTMLDivElement>(null); // mouse tilt
   const spinRef = useRef<HTMLDivElement>(null); // rolls / idle showcase
-  const breatheRef = useRef<HTMLDivElement>(null);
   const portalLayerRef = useRef<HTMLDivElement>(null);
   const [screen, setScreen] = useState<ScreenKey>("dashboard");
   const [coach, setCoach] = useState<{ name: string; portrait: boolean }>({
@@ -88,8 +87,7 @@ export default function FloatingPhone() {
     const wrap = wrapRef.current;
     const tilt = tiltRef.current;
     const spin = spinRef.current;
-    const breathe = breatheRef.current;
-    if (!root || !wrap || !tilt || !spin || !breathe) return;
+    if (!root || !wrap || !tilt || !spin) return;
 
     const reduced = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
     const vw = () => window.innerWidth / 100;
@@ -130,7 +128,6 @@ export default function FloatingPhone() {
     };
 
     const calmMotionLayers = () => {
-      breathe.style.animation = "none";
       gsap.killTweensOf(spin);
       gsap.set(spin, { rotationY: 0 });
       gsap.to(tilt, { rotationX: 0, rotationY: 0, duration: 0.35, overwrite: "auto" });
@@ -216,7 +213,6 @@ export default function FloatingPhone() {
             ease: "power4.inOut",
             overwrite: "auto",
             onComplete: () => {
-              breathe.style.animation = "";
               gsap.set(root, { clearProps: "opacity,visibility" });
             },
           });
@@ -268,7 +264,6 @@ export default function FloatingPhone() {
       if (from === FOOTER_IDX) {
         gsap.killTweensOf(root);
         gsap.set(root, { autoAlpha: 0 });
-        breathe.style.animation = "";
         setPose(SNAP_SECTIONS[idx], true);
         // SnapScroll's own scroll+crossfade runs ~1.05s; stay fully hidden
         // through it so the phone never bleeds over the outgoing footer,
@@ -279,7 +274,6 @@ export default function FloatingPhone() {
 
       // normal section-to-section travel
       gsap.set(root, { clearProps: "opacity,visibility" });
-      breathe.style.animation = "";
       setPose(SNAP_SECTIONS[idx], from !== -1);
       // no barrel roll into the twin-device reveal — it must arrive mostly
       // front-facing, never spinning, for the one-phone-becomes-two moment
@@ -309,14 +303,6 @@ export default function FloatingPhone() {
       onSnap(new CustomEvent("snap:section", { detail: nearest }));
     }
 
-    // sections hold the phone during their own choreography (coach transfer):
-    // breathing pauses so measured landings stay pixel-accurate
-    const onHold = (e: Event) => {
-      breathe.style.animationPlayState = (e as CustomEvent<boolean>).detail
-        ? "paused"
-        : "";
-    };
-    window.addEventListener("phone:hold", onHold);
 
     // scroll-velocity lean (works with tweened scroll too)
     const leanTo = gsap.quickTo(wrap, "rotationX", { duration: 0.6, ease: "power2.out" });
@@ -329,7 +315,6 @@ export default function FloatingPhone() {
 
     return () => {
       window.removeEventListener("snap:section", onSnap);
-      window.removeEventListener("phone:hold", onHold);
       lean.kill();
       gsap.killTweensOf([wrap, spin, tilt, root]);
     };
@@ -483,11 +468,6 @@ export default function FloatingPhone() {
             data-phone-spin
             style={{ transformStyle: "preserve-3d" }}
           >
-            <div
-              ref={breatheRef}
-              className="breathe"
-              style={{ transformStyle: "preserve-3d" }}
-            >
               <DeviceFrame>
                 {/* Morph transition — scale + blur, never a plain fade */}
                 <AnimatePresence mode="popLayout" initial={false}>
@@ -536,7 +516,6 @@ export default function FloatingPhone() {
                   style={{ left: "100%", top: "50%", width: 2, height: 2 }}
                 />
               </DeviceFrame>
-            </div>
           </div>
         </div>
       </div>

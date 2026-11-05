@@ -16,23 +16,23 @@ export default function PlanInfo({
   const Sub = Heading === "h2" ? "h3" : "h4";
   return (
     <>
-      <Heading className={cn("headline text-primary", headingClassName)}>{plan.name}</Heading>
+      <Heading className={cn("headline text-white", headingClassName)}>{plan.name}</Heading>
 
       <p className="mt-4 text-sm leading-relaxed text-silver">{plan.description}</p>
 
-      <Sub className="mt-6 text-xs font-semibold tracking-wide text-white uppercase">
+      <Sub className="mt-6 text-sm font-medium text-white">
         {plan.duration} plan includes
       </Sub>
       <ul className="mt-3 space-y-2">
         {PLAN_INCLUDES.map((f) => (
           <li key={f} className="flex items-start gap-2 text-sm text-silver">
-            <Check size={15} className="mt-0.5 shrink-0 text-primary" />
+            <Check size={15} className="mt-0.5 shrink-0 text-silver-dim" />
             {f}
           </li>
         ))}
       </ul>
 
-      <Sub className="mt-6 text-xs font-semibold tracking-wide text-white uppercase">
+      <Sub className="mt-6 text-sm font-medium text-white">
         What next, once you&apos;ve enrolled?
       </Sub>
       <ol className="mt-3 list-decimal space-y-2 pl-4 text-sm text-silver">
@@ -41,7 +41,7 @@ export default function PlanInfo({
         ))}
       </ol>
 
-      <Sub className="mt-6 text-xs font-semibold tracking-wide text-white uppercase">
+      <Sub className="mt-6 text-sm font-medium text-white">
         Terms and conditions
       </Sub>
       <ul className="mt-3 list-disc space-y-1.5 pl-4 text-xs text-silver-dim">
@@ -50,7 +50,7 @@ export default function PlanInfo({
         ))}
       </ul>
 
-      <Sub className="mt-6 text-xs font-semibold tracking-wide text-white uppercase">Eligibility</Sub>
+      <Sub className="mt-6 text-sm font-medium text-white">Eligibility</Sub>
       <p className="mt-2 text-xs text-silver-dim">{PLAN_ELIGIBILITY}</p>
     </>
   );

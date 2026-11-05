@@ -2,7 +2,6 @@ import type { Metadata } from "next";
 import dynamic from "next/dynamic";
 import SmoothScroll from "@/components/animations/SmoothScroll";
 import SnapScroll from "@/components/animations/SnapScroll";
-import AmbientBackground from "@/components/3d/AmbientBackground";
 import Navbar from "@/components/layout/Navbar";
 import Footer from "@/components/layout/Footer";
 import Hero from "@/components/sections/Hero";
@@ -32,7 +31,6 @@ const FloatingPhone = dynamic(
 export default function Home() {
   return (
     <SmoothScroll>
-      <AmbientBackground />
       <Navbar />
       <SnapScroll />
       <FloatingPhone />

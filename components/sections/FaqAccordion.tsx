@@ -28,7 +28,7 @@ export default function FaqAccordion({
             key={f.id}
             delay={0.22 + i * 0.05}
             margin="0px"
-            mobileReveal={i % 2 === 0 ? "left" : "right"}
+           
           >
             <div className="glass overflow-hidden rounded-2xl border border-white/10">
               <button
@@ -37,11 +37,11 @@ export default function FaqAccordion({
                 aria-expanded={isOpen}
                 className="flex w-full items-center justify-between gap-4 px-5 py-4 text-left"
               >
-                <span className="text-sm font-semibold text-primary">{f.question}</span>
+                <span className="text-sm font-medium text-white">{f.question}</span>
                 <ChevronDown
                   size={18}
                   className={cn(
-                    "shrink-0 text-primary transition-transform duration-300",
+                    "shrink-0 text-silver-dim transition-transform duration-150",
                     isOpen && "rotate-180"
                   )}
                 />
@@ -49,10 +49,10 @@ export default function FaqAccordion({
               <motion.div
                 initial={false}
                 animate={{ height: isOpen ? "auto" : 0 }}
-                transition={{ duration: 0.3, ease: [0.16, 1, 0.3, 1] }}
+                transition={{ duration: 0.3, ease: [0.22, 1, 0.36, 1] }}
                 className="overflow-hidden"
               >
-                <p className="px-5 pb-5 text-sm leading-relaxed text-white">{f.answer}</p>
+                <p className="px-5 pb-5 text-sm leading-relaxed text-silver">{f.answer}</p>
               </motion.div>
             </div>
           </Reveal>

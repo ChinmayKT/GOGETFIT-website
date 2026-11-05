@@ -184,14 +184,6 @@ export default function Footer() {
       >
         <GoGetFitLogo alt="" className="w-[80vw] opacity-[0.05]" priority />
       </div>
-      <div
-        aria-hidden
-        className="pointer-events-none absolute top-1/2 left-1/2 h-[50vh] w-[50vh] -translate-x-1/2 -translate-y-1/2 rounded-full"
-        style={{
-          background: "radial-gradient(circle, rgba(255,106,0,0.07), transparent 70%)",
-          filter: "blur(40px)",
-        }}
-      />
 
       <div className="relative z-10 mx-auto flex w-full max-w-[1400px] flex-1 flex-col">
         {/* Header */}
@@ -210,7 +202,7 @@ export default function Footer() {
         <div className="mt-10 grid gap-8 sm:grid-cols-2 lg:mt-12 lg:grid-cols-4 lg:gap-6">
           {COLUMNS.map((col) => (
             <div key={col.heading} data-ft-col>
-              <h2 className="text-xs font-semibold tracking-widest text-silver-dim uppercase">
+              <h2 className="text-sm font-medium text-silver-dim">
                 {col.heading}
               </h2>
               <ul className="mt-4 space-y-2.5">
@@ -234,16 +226,16 @@ export default function Footer() {
           ))}
 
           <div data-ft-col>
-            <h2 className="text-xs font-semibold tracking-widest text-silver-dim uppercase">
+            <h2 className="text-sm font-medium text-silver-dim">
               Contact
             </h2>
             <ul className="mt-4 space-y-2.5 text-sm text-silver">
               <li className="flex gap-2.5">
-                <MapPin size={14} className="mt-0.5 shrink-0 text-primary" />
+                <MapPin size={14} className="mt-0.5 shrink-0 text-silver-dim" />
                 <span className="text-xs leading-relaxed">{FOOTER_LINKS.contact.address}</span>
               </li>
               <li className="flex items-center gap-2.5">
-                <Mail size={14} className="shrink-0 text-primary" />
+                <Mail size={14} className="shrink-0 text-silver-dim" />
                 <a
                   href={`mailto:${FOOTER_LINKS.contact.email}`}
                   className="transition-colors hover:text-primary"
@@ -252,7 +244,7 @@ export default function Footer() {
                 </a>
               </li>
               <li className="flex items-center gap-2.5">
-                <Phone size={14} className="shrink-0 text-primary" />
+                <Phone size={14} className="shrink-0 text-silver-dim" />
                 <a
                   href={`tel:${FOOTER_LINKS.contact.phone.replace(/\s/g, "")}`}
                   className="transition-colors hover:text-primary"
@@ -273,7 +265,7 @@ export default function Footer() {
               target="_blank"
               rel="noopener noreferrer"
               aria-label={s.label}
-              className="glass flex h-10 w-10 items-center justify-center rounded-full text-silver transition-all duration-300 hover:scale-105 hover:border-primary/50 hover:text-primary hover:shadow-[0_0_16px_rgba(255,106,0,0.3)]"
+              className="glass flex h-10 w-10 items-center justify-center rounded-full text-silver transition-colors duration-150 hover:text-primary"
             >
               <SocialIcon name={SOCIAL_ICON[s.label] ?? "x"} />
             </a>

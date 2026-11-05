@@ -73,15 +73,15 @@ export default function Navbar() {
   return (
     <motion.header
       ref={headerRef}
-      initial={{ y: -80, opacity: 0 }}
+      initial={{ y: -8, opacity: 0 }}
       animate={{ y: 0, opacity: 1 }}
-      transition={{ duration: 1, ease: [0.16, 1, 0.3, 1], delay: 0.2 }}
+      transition={{ duration: 0.5, ease: [0.22, 1, 0.36, 1] }}
       className="fixed inset-x-0 top-0 z-50 flex justify-center px-4 pt-4"
     >
       <nav
         aria-label="Main"
         className={cn(
-          "flex w-full max-w-[1400px] items-center justify-between rounded-full px-5 py-2.5 transition-all duration-700",
+          "flex w-full max-w-[1400px] items-center justify-between rounded-2xl px-5 py-2.5 transition-colors duration-300",
           scrolled ? "glass-strong" : "border border-transparent"
         )}
       >
@@ -130,7 +130,7 @@ export default function Navbar() {
           }}
           className={cn(
             "rounded-full p-2.5 min-[1152px]:hidden",
-            open ? "border border-primary bg-[#171412] text-white" : "glass"
+            open ? "glass-strong text-white" : "glass"
           )}
         >
           {open ? <X size={18} /> : <Menu size={18} />}
@@ -149,7 +149,7 @@ export default function Navbar() {
             exit={{ opacity: 0, y: -8 }}
             transition={{ duration: 0.25, ease: [0.16, 1, 0.3, 1] }}
             data-lenis-prevent
-            className="absolute top-full right-4 left-4 mt-3 flex max-h-[calc(100svh-6.5rem)] flex-col overflow-y-auto overscroll-contain rounded-3xl border border-primary/35 bg-[#171412] px-6 pt-3 pb-6 shadow-[0_24px_60px_rgba(0,0,0,0.6)] sm:left-auto sm:w-96 min-[1152px]:hidden"
+            className="absolute top-full right-4 left-4 mt-3 flex max-h-[calc(100svh-6.5rem)] flex-col overflow-y-auto overscroll-contain rounded-2xl border border-white/10 bg-raised px-6 pt-3 pb-6 shadow-[0_24px_60px_rgba(0,0,0,0.6)] sm:left-auto sm:w-96 min-[1152px]:hidden"
           >
             <ul className="divide-y divide-white/10">
               {NAV_LINKS.map((l) => {
@@ -181,7 +181,7 @@ export default function Navbar() {
               href={toSectionHref("#contact", isHome)}
               variant="primary"
               onClick={() => setOpen(false)}
-              className="mt-4 w-full rounded-2xl py-4 text-base font-bold"
+              className="mt-4 w-full py-4 text-base"
             >
               Book Free Consultation
             </GlassButton>

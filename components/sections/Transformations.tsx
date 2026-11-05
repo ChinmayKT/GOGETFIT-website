@@ -159,8 +159,8 @@ function CarouselRow({
     >
       {/* Row header */}
       <div className="mb-2 flex items-center px-1">
-        <h3 className="flex items-center gap-2.5 text-[11px] font-semibold tracking-[0.18em] text-white uppercase lg:text-xs">
-          <Icon size={15} className="text-primary" /> {title}
+        <h3 className="flex items-center gap-2 text-sm font-medium text-white">
+          <Icon size={15} className="text-silver-dim" /> {title}
         </h3>
       </div>
 
@@ -190,10 +190,10 @@ function CarouselRow({
                   alt=""
                   fill
                   sizes="230px"
-                  className="object-cover transition-transform duration-500 group-hover/card:scale-[1.04]"
+                  className="object-cover transition-transform duration-500"
                 />
                 {s.type === "video" && (
-                  <span className="glass absolute top-[38%] left-1/2 -translate-x-1/2 -translate-y-1/2 rounded-full p-2.5 transition-all duration-300 group-hover/card:scale-110 group-hover/card:shadow-[0_0_18px_rgba(255,106,0,0.4)]">
+                  <span className="glass absolute top-[38%] left-1/2 -translate-x-1/2 -translate-y-1/2 rounded-full p-2.5 transition-colors duration-150">
                     <Play size={13} className="text-white" fill="white" />
                   </span>
                 )}
@@ -205,7 +205,7 @@ function CarouselRow({
                         "linear-gradient(180deg, transparent, rgba(8,8,8,0.92) 78%)",
                     }}
                   >
-                    <span className="headline block text-base leading-tight text-white transition-colors group-hover/card:text-primary-soft lg:text-lg">
+                    <span className="headline block text-base leading-tight text-white lg:text-lg">
                       {s.result}
                     </span>
                     <span className="mt-0.5 block text-[10px] text-silver-dim">
@@ -213,7 +213,6 @@ function CarouselRow({
                     </span>
                   </span>
                 )}
-                <span className="pointer-events-none absolute inset-0 rounded-xl opacity-0 shadow-[inset_0_0_0_1px_rgba(255,106,0,0.45)] transition-opacity duration-300 group-hover/card:opacity-100" />
               </button>
             ))}
           </div>
@@ -223,7 +222,7 @@ function CarouselRow({
           type="button"
           aria-label={`Scroll ${title} left`}
           onClick={() => step(-1)}
-          className="glass-strong absolute top-1/2 -left-3 z-10 hidden h-9 w-9 -translate-y-1/2 items-center justify-center rounded-full text-white transition hover:border-primary/50 hover:shadow-[0_0_16px_rgba(255,106,0,0.3)] active:scale-90 lg:flex"
+          className="glass-strong absolute top-1/2 -left-3 z-10 hidden h-9 w-9 -translate-y-1/2 items-center justify-center rounded-full text-white transition active:scale-[0.98] lg:flex"
         >
           <ChevronLeft size={16} />
         </button>
@@ -231,7 +230,7 @@ function CarouselRow({
           type="button"
           aria-label={`Scroll ${title} right`}
           onClick={() => step(1)}
-          className="glass-strong absolute top-1/2 -right-3 z-10 hidden h-9 w-9 -translate-y-1/2 items-center justify-center rounded-full text-white transition hover:border-primary/50 hover:shadow-[0_0_16px_rgba(255,106,0,0.3)] active:scale-90 lg:flex"
+          className="glass-strong absolute top-1/2 -right-3 z-10 hidden h-9 w-9 -translate-y-1/2 items-center justify-center rounded-full text-white transition active:scale-[0.98] lg:flex"
         >
           <ChevronRight size={16} />
         </button>
@@ -241,17 +240,16 @@ function CarouselRow({
 }
 
 /**
- * "Proof, not promises." — reference-faithful Results section.
- * LEFT ~30%: eyebrow, headline, sub-copy; the persistent phone (GoGetFeed)
- * sits lower-left via the global pose. RIGHT ~70%: three premium carousel
- * rows. Bottom: editorial trust bar + View-all pill.
+ * "Proof, not promises" — reference-faithful Results section.
+ * LEFT 30%: the persistent phone (GoGetFeed) via its global pose. RIGHT:
+ * header above three carousel rows. Bottom: editorial trust bar + View-all pill.
  */
 export default function Transformations() {
   const sectionRef = useRef<HTMLElement>(null);
   const [focused, setFocused] = useState<TransformationStory | null>(null);
   const dialogRef = useDialog<HTMLDivElement>(!!focused, () => setFocused(null));
 
-  // Entrance choreography: heading → energy glow from phone → rows cascade → stats
+  // Entrance choreography: heading → rows cascade → stats
   useEffect(() => {
     const section = sectionRef.current;
     if (!section) return;
@@ -278,18 +276,12 @@ export default function Transformations() {
           { opacity: 1, y: 0, duration: 0.6, stagger: 0.1, ease: "power3.out" },
           0.15
         );
-        t.fromTo(
-          "[data-tglow]",
-          { opacity: 0, scaleX: 0.2, transformOrigin: "left center" },
-          { opacity: 1, scaleX: 1, duration: 0.9, ease: "power2.out" },
-          0.35
-        );
         section.querySelectorAll("[data-trow]").forEach((row, i) => {
           const at = 0.5 + i * 0.22;
           t.fromTo(
             row,
-            { opacity: 0, x: 46, filter: "blur(6px)" },
-            { opacity: 1, x: 0, filter: "blur(0px)", duration: 0.65, ease: "power3.out" },
+            { opacity: 0, y: 12 },
+            { opacity: 1, y: 0, duration: 0.5, ease: "power3.out" },
             at
           );
           t.fromTo(
@@ -328,15 +320,14 @@ export default function Transformations() {
       className="relative z-10 flex min-h-[100svh] flex-col px-6 py-28 lg:h-screen lg:overflow-hidden lg:py-0 lg:pt-[9.5vh] lg:pb-3 lg-short:pt-[11.5vh]"
     >
       {/* ---------- Header: same columns as the rows below, so it clears the phone ---------- */}
-      <div className="mx-auto mb-4 w-full max-w-[1400px] lg:mb-[2.4vh] lg:grid lg:grid-cols-[25%_75%] lg:gap-8">
-        {/* below xl the phone reaches past the column start and the column past the viewport */}
-        <div data-thead className="min-w-0 text-center lg:col-start-2 lg:pr-10 lg:pl-[50px] xl:px-0">
-          <p className="text-xs font-semibold tracking-[0.35em] text-primary uppercase">
+      <div className="mx-auto mb-4 w-full max-w-[1400px] lg:mb-[2.4vh] lg:grid lg:grid-cols-[30%_1fr] lg:gap-8">
+        <div data-thead className="min-w-0 text-center lg:col-start-2">
+          <p className="eyebrow justify-center">
             Real Transformations
           </p>
-          <h2 className="headline mt-3 text-4xl md:text-5xl xl:text-[3.2rem] lg:whitespace-nowrap">
-            <span className="text-gradient-silver">Proof, not</span>{" "}
-            <span className="text-gradient-orange">promises.</span>
+          <h2 className="headline mt-3 text-4xl md:text-5xl xl:text-[3.2rem] lg:whitespace-nowrap lg-short:mt-1 lg-short:text-[2.4rem]">
+            Proof, not{" "}
+            promises
           </h2>
           <p className="mt-1 text-base text-silver-dim lg-short:text-sm">
             Every transformation tells a story of consistency, commitment, and
@@ -345,20 +336,9 @@ export default function Transformations() {
         </div>
       </div>
 
-      <div className="mx-auto grid w-full max-w-[1400px] flex-1 gap-8 lg:grid-cols-[25%_75%]">
+      <div className="mx-auto grid w-full max-w-[1400px] flex-1 gap-8 lg:grid-cols-[30%_1fr]">
         {/* ---------- LEFT: phone zone ---------- */}
         <div className="relative hidden lg:block">
-          {/* soft orange energy connecting the phone to the carousels */}
-          <div
-            data-tglow
-            aria-hidden
-            className="pointer-events-none absolute top-[46%] -right-10 h-px w-[130%]"
-            style={{
-              background:
-                "linear-gradient(90deg, rgba(255,106,0,0.45), rgba(255,106,0,0.08), transparent)",
-              filter: "blur(0.5px)",
-            }}
-          />
           {/* the persistent phone occupies this space via its global pose */}
         </div>
 
@@ -382,25 +362,25 @@ export default function Transformations() {
         className="mx-auto mt-6 mb-1 flex w-full max-w-[1400px] flex-wrap items-center justify-center gap-x-8 gap-y-4 lg:mt-[0.6vh] lg:justify-end"
       >
         <span className="flex items-center gap-2.5 text-sm text-silver">
-          <Users size={16} className="text-primary" />
+          <Users size={16} className="text-silver-dim" />
           <span>
             <b className="text-white">400+</b> Transformations
           </span>
         </span>
         <span aria-hidden className="hidden h-4 w-px bg-white/15 lg:block" />
         <span className="flex items-center gap-2.5 text-sm text-silver">
-          <Heart size={16} className="text-primary" />
+          <Heart size={16} className="text-silver-dim" />
           <span>
             <b className="text-white">500+</b> Happy Clients
           </span>
         </span>
         <span aria-hidden className="hidden h-4 w-px bg-white/15 lg:block" />
         <span className="flex items-center gap-2.5 text-sm text-silver">
-          <MessageCircle size={16} className="text-primary" /> Personalized Coaching
+          <MessageCircle size={16} className="text-silver-dim" /> Personalized Coaching
         </span>
         <span aria-hidden className="hidden h-4 w-px bg-white/15 lg:block" />
         <span className="flex items-center gap-2.5 text-sm text-silver">
-          <Play size={16} className="text-primary" /> Real Client Stories
+          <Play size={16} className="text-silver-dim" /> Real Client Stories
         </span>
       </div>
 
@@ -425,7 +405,7 @@ export default function Transformations() {
               aria-modal="true"
               aria-label={focused.alt}
               tabIndex={-1}
-              className="glass-strong relative max-h-[90vh] w-full max-w-md overflow-y-auto rounded-[28px] outline-none"
+              className="glass-strong relative max-h-[90vh] w-full max-w-md overflow-y-auto rounded-[20px] outline-none"
               onClick={(e) => e.stopPropagation()}
             >
               <div
@@ -461,7 +441,7 @@ export default function Transformations() {
                 <div>
                   {!focused.selfCaptioned && (
                     <>
-                      <div className="headline text-gradient-orange text-3xl">
+                      <div className="headline text-3xl text-primary">
                         {focused.result}
                       </div>
                       <div className="mt-1 text-sm text-silver">

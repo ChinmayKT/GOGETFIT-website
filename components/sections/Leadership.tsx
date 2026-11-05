@@ -268,12 +268,12 @@ export default function Leadership() {
         data-lead-header
         className="mx-auto w-full max-w-[1440px] text-center lg:pr-[30%] lg:text-left"
       >
-        <p className="text-xs font-semibold tracking-[0.35em] text-primary uppercase">
+        <p className="eyebrow justify-center lg:justify-start">
           Meet the Team
         </p>
         <h2 className="headline mt-4 text-4xl md:text-5xl xl:text-[3.4rem] lg:whitespace-nowrap">
-          <span className="text-gradient-silver">The People Behind</span>{" "}
-          <span className="text-gradient-orange">GOGETFIT.</span>
+          The People Behind{" "}
+          GOGETFIT
         </h2>
         <p className="mx-auto mt-4 max-w-xl text-base text-silver-dim md:text-lg lg:mx-0">
           A team united by one mission—to simplify fitness for the world
@@ -315,7 +315,7 @@ export default function Leadership() {
                 style={{
                   // shorter than the source portraits — the crop trims the bottom, faces stay
                   aspectRatio: "3/5.2",
-                  boxShadow: "0 30px 60px -18px rgba(255,106,0,0.16)",
+                  
                 }}
               >
                 <Image
@@ -337,19 +337,10 @@ export default function Leadership() {
                   <h3 className="lead-name headline text-lg text-white/95 sm:text-xl lg:text-2xl">
                     {m.name}
                   </h3>
-                  <p className="mt-1 text-[9px] font-semibold tracking-[0.2em] text-primary uppercase sm:text-[10px] sm:tracking-[0.3em]">
+                  <p className="mt-1 text-xs text-silver">
                     {m.role}
                   </p>
                 </div>
-                {/* orange floor light on the portrait's bottom edge */}
-                <div
-                  aria-hidden
-                  className="absolute inset-x-0 bottom-0 h-px"
-                  style={{
-                    background:
-                      "linear-gradient(90deg, transparent, rgba(255,106,0,0.55), transparent)",
-                  }}
-                />
               </div>
             </div>
           ))}
@@ -377,7 +368,7 @@ export default function Leadership() {
               aria-modal="true"
               aria-labelledby="lead-bio-name"
               tabIndex={-1}
-              className="glass-strong relative flex max-h-[90vh] w-full max-w-2xl overflow-hidden rounded-[28px] outline-none"
+              className="glass-strong relative flex max-h-[90vh] w-full max-w-2xl overflow-hidden rounded-[20px] outline-none"
               onClick={(e) => e.stopPropagation()}
             >
               <div
@@ -402,7 +393,7 @@ export default function Leadership() {
                 >
                   <X size={16} />
                 </button>
-                <p className="text-[10px] font-semibold tracking-[0.3em] text-primary uppercase">
+                <p className="text-sm text-silver">
                   {focused.role}
                 </p>
                 <h3 id="lead-bio-name" className="headline mt-1.5 text-2xl text-white/95">

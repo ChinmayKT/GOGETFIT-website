@@ -1,4 +1,3 @@
-import AmbientBackground from "@/components/3d/AmbientBackground";
 import Navbar from "@/components/layout/Navbar";
 import Footer from "@/components/layout/Footer";
 import LegalHero from "@/components/legal/LegalHero";
@@ -15,7 +14,6 @@ import { PLANS } from "@/lib/data";
 export default function AllPlans() {
   return (
     <>
-      <AmbientBackground />
       <Navbar />
       <main className="relative z-10 mx-auto max-w-[1800px] px-6 pt-36 pb-24 md:px-10 md:pt-40">
         <LegalHero
@@ -30,7 +28,7 @@ export default function AllPlans() {
               key={p.id}
               // no overflow-hidden here — it would make this card the nearest
               // scroll container and break the sidebar's sticky positioning
-              className="glass-strong flex flex-col rounded-[28px] md:flex-row"
+              className="glass-strong flex flex-col rounded-[20px] md:flex-row"
             >
               <div className="min-w-0 flex-1 p-7 md:p-10">
                 <div className="max-w-3xl">

@@ -209,7 +209,7 @@ function BenefitRow({
   const Icon = BENEFIT_ICON[icon];
   return (
     <div className="flex items-center gap-3.5">
-      <span className="glass flex h-11 w-11 shrink-0 items-center justify-center rounded-full border-primary/30 text-primary">
+      <span className="glass flex h-11 w-11 shrink-0 items-center justify-center rounded-[10px] text-silver">
         <Icon size={18} />
       </span>
       <div>
@@ -224,7 +224,7 @@ function BenefitRow({
  * Download — the culmination of the phone journey. The persistent traveling
  * phone arrives, settles as the iOS device, and a second Android device
  * emerges from directly behind it (AndroidPhone above); together they stand
- * on a glowing product-stage ring. LEFT ~38%: headline + benefits. Bottom:
+ * on a plain surface. LEFT ~38%: headline + benefits. Bottom:
  * one glass trust bar.
  */
 export default function DownloadCta() {
@@ -341,12 +341,7 @@ export default function DownloadCta() {
       ref={sectionRef}
       className="relative z-10 flex min-h-[100svh] flex-col px-6 py-28 lg:h-screen lg:overflow-hidden lg:py-0 lg:pt-[11vh] lg:pb-3"
     >
-      {/* Black titanium product-display platform the twin devices stand on.
-          Centered under the midpoint of iOS (IOS_VW) and Android (ANDROID_VW)
-          so both phones visually rest on the same stage. Layered: ambient
-          glow → filled surface → dim back rim → bright front rim → per-phone
-          contact shadows. Front (bottom arc) is brighter than back (top arc)
-          to read as a real lit stage, not a flat neon ring. */}
+      {/* Surface the twin devices stand on, centered under iOS and Android */}
       <div
         data-dl-platform
         aria-hidden
@@ -358,49 +353,17 @@ export default function DownloadCta() {
           height: "20vh",
         }}
       >
-        {/* ambient bloom */}
-        <div
-          className="absolute inset-0"
-          style={{
-            background: "radial-gradient(ellipse 62% 58% at 50% 52%, rgba(255,106,0,0.3), transparent 72%)",
-            filter: "blur(22px)",
-          }}
-        />
         <svg viewBox="0 0 600 220" className="absolute inset-0 h-full w-full overflow-visible">
           <defs>
             <radialGradient id="dlSurface" cx="50%" cy="42%" r="65%">
-              <stop offset="0%" stopColor="#2a2a2d" stopOpacity="0.95" />
-              <stop offset="70%" stopColor="#131315" stopOpacity="0.75" />
-              <stop offset="100%" stopColor="#080808" stopOpacity="0" />
+              <stop offset="0%" stopColor="#1c1c1c" stopOpacity="0.95" />
+              <stop offset="70%" stopColor="#111111" stopOpacity="0.75" />
+              <stop offset="100%" stopColor="#000000" stopOpacity="0" />
             </radialGradient>
-            <filter id="dlBlurSm"><feGaussianBlur stdDeviation="4" /></filter>
           </defs>
           {/* surface */}
           <ellipse cx="300" cy="90" rx="290" ry="48" fill="url(#dlSurface)" />
-          {/* back rim — dimmer */}
-          <path
-            d="M14,90 A286,46 0 0 1 586,90"
-            fill="none"
-            stroke="#FF6A00"
-            strokeOpacity="0.3"
-            strokeWidth="2.5"
-          />
-          {/* front rim — bloom then sharp bright stroke */}
-          <path
-            d="M14,90 A286,46 0 0 0 586,90"
-            fill="none"
-            stroke="#FF6A00"
-            strokeOpacity="0.6"
-            strokeWidth="11"
-            filter="url(#dlBlurSm)"
-          />
-          <path
-            d="M14,90 A286,46 0 0 0 586,90"
-            fill="none"
-            stroke="#FFB37A"
-            strokeOpacity="1"
-            strokeWidth="2.5"
-          />
+
         </svg>
         {/* contact shadows directly beneath each phone */}
         <div
@@ -433,12 +396,12 @@ export default function DownloadCta() {
       <div className="mx-auto grid w-full max-w-[1500px] flex-1 items-center gap-8 lg:grid-cols-[38%_1fr]">
         {/* LEFT: headline + benefits */}
         <div data-dl-head>
-          <p className="text-xs font-semibold tracking-[0.35em] text-primary uppercase">
-            Everything You Need.
+          <p className="eyebrow">
+            Everything You Need
           </p>
           <h2 className="headline mt-4 text-4xl md:text-5xl lg:text-[3.1rem]">
-            <span className="text-gradient-silver">One App.</span>{" "}
-            <span className="text-gradient-orange">One Journey.</span>
+            One App.{" "}
+            One Journey.
           </h2>
           <p className="mt-4 max-w-sm text-sm text-silver-dim md:text-base">
             Personalized nutrition. Expert coaching. Smart workouts. Progress

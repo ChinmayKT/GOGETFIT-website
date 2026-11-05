@@ -4,7 +4,7 @@ India's health transformation company — dedicated coaches, personalized nutrit
 
 ## Synopsis
 
-Single-page marketing site (`app/page.tsx`) with section-snap scrolling, wrapped in a smooth-scroll container (Lenis via `SmoothScroll`) and a 3D ambient background (`AmbientBackground`, react-three-fiber). Section order:
+Single-page marketing site (`app/page.tsx`) with section-snap scrolling, wrapped in a smooth-scroll container (Lenis via `SmoothScroll`). Section order:
 
 1. **Hero** — headline, CTA, floating phone mockup
 2. **About** — brand story
@@ -37,12 +37,12 @@ Other routes: `/plans`, `/faq`, plus `robots.ts` / `sitemap.ts` for SEO. The off
 Dark theme only. Tailwind v4 `@theme inline` maps these CSS vars to `color-*` / `font-*` utilities.
 
 **Signature visual language**
-- **Liquid glass** — `.glass` / `.glass-strong` utility classes: translucent background, heavy backdrop-blur + saturate, inset highlight border, soft drop shadow. Used for cards, nav, buttons.
-- **Glass sheen** — `.glass-sheen` adds a diagonal light sweep on hover.
-- **Noise overlay** — fixed full-viewport SVG fractal-noise texture (`.noise`, applied on `<body>`) for a grainy, non-flat dark background.
-- **Gradient text** — `.text-gradient-orange` (white → orange) and `.text-gradient-silver` (white → silver) for headline emphasis.
-- **Headline style** — `.headline`: Space Grotesk, tight tracking (`-0.04em`), tight leading (`0.95`), weight 600.
-- **Motion** — custom easings `--ease-out-expo` / `--ease-spring`; drifting mesh-gradient blobs (`.blob-a`/`.blob-b`, GPU transform-only), phone "breathing" float, scroll-dot indicator, marquee reel, restrained hover lifts on leadership/app cards. All animation is disabled under `prefers-reduced-motion`.
+- **Direction** — direct, coached, grounded. Chrome stays quiet, and client photos, coach portraits and the app phone carry the color.
+- **Color** — pure black page with neutral surface steps (`--bg`, `--bg-elevated`, `--raised`) with one accent, orange, on primary actions. Dark text on orange (`--on-primary`) for contrast.
+- **Surfaces** — `.glass` / `.glass-strong` are flat surface steps with a hairline, no blur or glow.
+- **Section marker** — `.eyebrow`: the barbell rule from the logo beside a sentence-case label.
+- **Headline style** — `.headline`: Space Grotesk, weight 500, `-0.03em` tracking, `1.05` leading, solid color.
+- **Motion** — one curve (`--ease-out-expo`). `Reveal` is a short fade and rise. Hover is a color change, press a slight scale down. The phone traveling between sections is the one big movement.
 
 **Stack**
 - Next.js 15 (Turbopack build) + React 19 + TypeScript
@@ -56,13 +56,11 @@ Dark theme only. Tailwind v4 `@theme inline` maps these CSS vars to `color-*` / 
 
 **Component map**
 - `components/shared/` — `GlassButton`, `Reveal` (scroll-in animation wrapper), `SmartLink`, `SocialIcon`, `StoreButton`
-- `components/cards/TiltCard` — pointer-tilt hover card
 - `components/brand/GoGetFitLogo` — logo component
 - `components/layout/` — `Navbar`, `Footer`
 - `components/legal/LegalHero` — page hero shared by `/plans` and `/faq`
 - `components/phone/` — `DeviceFrame`, `FloatingPhone`, app screen catalog
 - `components/animations/` — `SmoothScroll`, `SnapScroll`
-- `components/3d/AmbientBackground`
 
 ## Getting Started
 

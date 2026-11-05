@@ -72,16 +72,15 @@ export default function Features() {
       );
       const labelOf = (a: HTMLElement) => labelById.get(a.dataset.id) ?? null;
       const floatOf = (a: HTMLElement) => a.querySelector<HTMLElement>("[data-float]");
-      const reflOf = (a: HTMLElement) => a.querySelector<HTMLElement>("[data-refl]");
 
       /**
        * Rotating left→right wave, timed to the hero phone's landing.
-       * The traveler becomes #1 (down) / #6 (up); after a small rim-light
-       * pulse each following device rotates out of its neighbour —
+       * The traveler becomes #1 (down) / #6 (up); each following
+       * device rotates out of its neighbour —
        * side-facing on the hero's side, turning toward the camera while it
        * travels into its slot. Position/opacity live on the article, the
        * Y-rotation on the device layer, so the app screen is revealed by the
-       * physical turn itself. Labels + orange floor light ride the wave.
+       * physical turn itself. Labels ride the wave.
        */
       const play = (dir: 1 | -1) => {
         tl?.kill();
@@ -92,7 +91,6 @@ export default function Features() {
         gsap.set(phones, { opacity: 0, x: 0, y: 0, scale: 1 });
         gsap.set(floats, { opacity: 1, rotationY: 0, rotationZ: 0 });
         gsap.set(phones.map(labelOf), { opacity: 0, y: 10 });
-        gsap.set(phones.map(reflOf), { opacity: 1, scaleX: 1 });
 
         const t = gsap.timeline();
         tl = t;
@@ -106,15 +104,7 @@ export default function Features() {
         // hero slot fills the instant the traveling phone lands on it
         t.set(hero, { opacity: 1 }, 1.05);
         t.to(labelOf(hero), { opacity: 1, y: 0, duration: 0.45, ease: "power2.out" }, 1.1);
-        // orange energy pulse that kicks off the wave
-        t.fromTo(
-          reflOf(hero),
-          { opacity: 0.4, scaleX: 0.7 },
-          { opacity: 1, scaleX: 1.35, duration: 0.28, ease: "power2.out" },
-          1.05
-        ).to(reflOf(hero), { scaleX: 1, duration: 0.5, ease: "power2.inOut" }, 1.35);
-
-        const WAVE = 1.28; // wave start — right after the pulse
+        const WAVE = 1.28; // wave start
         const EACH = 0.16;
         const DUR = 0.85;
 
@@ -152,13 +142,6 @@ export default function Features() {
               immediateRender: false,
             },
             at
-          );
-          // rim/floor light activates as the phone turns toward the viewer
-          t.fromTo(
-            reflOf(article),
-            { opacity: 0.15, scaleX: 0.7 },
-            { opacity: 1, scaleX: 1, duration: 0.5, ease: "power2.out", immediateRender: false },
-            at + DUR * 0.35
           );
           // label lands once the screen is readable (~60% of the turn)
           t.to(
@@ -256,24 +239,14 @@ export default function Features() {
     <section
       id="features"
       ref={sectionRef}
-      className="relative z-10 flex min-h-[100svh] flex-col justify-center px-6 py-24 lg:h-screen lg:justify-center-safe lg:overflow-hidden lg:pt-24 lg:pb-4 lg-short:pt-20"
+      className="relative z-10 flex min-h-[100svh] flex-col justify-center px-6 py-24 lg:h-screen lg:justify-center-safe lg:overflow-hidden lg:pt-[88px] lg:pb-4 lg-short:pt-20"
     >
-      {/* Stage glow — light rising off the product floor */}
-      <div
-        aria-hidden
-        className="pointer-events-none absolute inset-x-0 bottom-0 h-[45vh]"
-        style={{
-          background:
-            "radial-gradient(ellipse 75% 100% at 50% 100%, rgba(255,106,0,0.16), transparent 70%)",
-        }}
-      />
-
       {/* Header */}
       <div data-showcase-header className="relative mx-auto max-w-6xl text-center">
-        <p className="text-xs font-semibold tracking-[0.35em] text-primary uppercase">
+        <p className="eyebrow justify-center">
           One Platform. Endless Possibilities.
         </p>
-        <h2 className="headline text-gradient-silver mt-4 text-4xl text-balance md:text-5xl lg:text-4xl xl:text-5xl lg-short:mt-3 lg-short:text-[2.1rem]">
+        <h2 className="headline mt-4 text-4xl text-balance md:text-5xl lg:text-4xl xl:text-5xl lg-short:mt-3 lg-short:text-[2.1rem]">
           Everything you need to build a healthier lifestyle—powered by science, personalized for you.
         </h2>
         <p className="mt-4 text-base text-silver-dim md:text-lg 2xl:text-xl lg-short:mt-2">
@@ -288,7 +261,7 @@ export default function Features() {
           the phones row always starts straight regardless of label height. */}
       <div
         ref={stageRef}
-        className="app-stage no-scrollbar relative mt-10 hidden snap-x snap-mandatory gap-6 overflow-x-auto px-2 lg:mt-14 lg:flex lg:flex-col lg-short:mt-5 lg-short:gap-3 lg:snap-none lg:overflow-visible"
+        className="app-stage no-scrollbar relative mt-10 hidden snap-x snap-mandatory gap-6 overflow-x-auto px-2 lg:mt-6 lg:flex lg:flex-col lg-short:mt-4 lg-short:gap-3 lg:snap-none lg:overflow-visible"
       >
         {/* Labels row */}
         <div className="hidden lg:flex lg:justify-center lg:gap-[1.6vw]">
@@ -301,7 +274,7 @@ export default function Features() {
                 data-id={f.id}
                 className="flex w-[13.5vw] items-start gap-2.5 px-1"
               >
-                <span className="glass shrink-0 rounded-xl p-2 text-primary">
+                <span className="glass shrink-0 rounded-xl p-2 text-silver">
                   <Icon size={15} strokeWidth={2} />
                 </span>
                 <div>
@@ -348,17 +321,6 @@ export default function Features() {
                     </DeviceFrame>
                   </div>
                   </div>
-                  {/* floor reflection */}
-                  <div
-                    data-refl
-                    aria-hidden
-                    className="mx-auto mt-3 h-3 w-3/4 rounded-full"
-                    style={{
-                      background:
-                        "radial-gradient(ellipse, rgba(255,106,0,0.25), transparent 70%)",
-                      filter: "blur(6px)",
-                    }}
-                  />
                 </div>
               </article>
             );
@@ -377,7 +339,7 @@ export default function Features() {
               className={cn("flex items-center gap-10", reverse && "flex-row-reverse")}
             >
               <Reveal className="flex-1">
-                <span className="glass inline-flex shrink-0 rounded-xl p-2 text-primary">
+                <span className="glass inline-flex shrink-0 rounded-xl p-2 text-silver">
                   <Icon size={18} strokeWidth={2} />
                 </span>
                 <h3 className="app-title mt-3 text-lg font-semibold text-white">
@@ -414,7 +376,7 @@ export default function Features() {
               key={f.id}
               className="flex flex-col items-center gap-5 text-center"
             >
-              <span className="glass inline-flex shrink-0 rounded-xl p-2 text-primary">
+              <span className="glass inline-flex shrink-0 rounded-xl p-2 text-silver">
                 <Icon size={18} strokeWidth={2} />
               </span>
               <div>

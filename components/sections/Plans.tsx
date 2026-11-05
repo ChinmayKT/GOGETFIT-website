@@ -23,7 +23,7 @@ export default function Plans() {
     <section
       id="plans"
       className={cn(
-        "relative flex min-h-[100svh] items-center px-6 py-28 lg:h-screen lg:items-start lg:overflow-hidden lg:py-0 lg:pt-[11vh]",
+        "relative flex min-h-[100svh] items-center px-6 py-28 lg:h-screen lg:items-center-safe lg:overflow-hidden lg:py-0 lg:pt-20",
         // Bumped above the persistent floating phone (fixed, z-40) only while
         // the popup is open — otherwise this section sits at the normal z-10
         // shared by every other section.
@@ -31,14 +31,14 @@ export default function Plans() {
       )}
     >
       <div className="mx-auto w-full max-w-[1440px] lg:pr-[34%]">
-        <Reveal as="p" className="text-xs font-semibold tracking-[0.35em] text-primary uppercase">
+        <Reveal as="p" className="eyebrow">
           Plans & Pricing
         </Reveal>
-        <Reveal as="h2" delay={0.08} mobileReveal="left" className="headline mt-3 text-4xl md:text-5xl lg:text-[3.2rem]">
-          <span className="text-gradient-silver">Coaching that fits</span>{" "}
-          <span className="text-gradient-orange">your goals.</span>
+        <Reveal as="h2" delay={0.08} className="headline mt-3 text-4xl md:text-5xl lg:text-[3.2rem]">
+          Coaching that fits{" "}
+          your goals
         </Reveal>
-        <Reveal as="p" delay={0.15} mobileReveal="right" className="mt-3 max-w-lg text-sm text-silver-dim md:text-base">
+        <Reveal as="p" delay={0.15} className="mt-3 max-w-lg text-sm text-silver-dim md:text-base">
           Pick a plan and get a dedicated coach, a personalized program, and real accountability.
         </Reveal>
 
@@ -48,28 +48,28 @@ export default function Plans() {
               key={p.id}
               delay={0.22 + i * 0.04}
               margin="0px"
-              mobileReveal={i % 2 === 0 ? "left" : "right"}
+             
             >
               <button
                 type="button"
                 onClick={() => setSelected(p)}
-                className="glass flex w-full items-center justify-between gap-4 rounded-2xl border border-white/10 px-5 py-4 text-left transition-colors hover:border-primary/40"
+                className="glass flex w-full items-center justify-between gap-4 rounded-2xl border border-white/10 px-5 py-4 text-left transition-colors hover:bg-raised"
               >
                 <span className="flex flex-wrap items-center gap-2">
-                  <span className="text-sm font-semibold text-primary md:text-base">{p.name}</span>
+                  <span className="text-sm font-medium text-white md:text-base">{p.name}</span>
                 </span>
                 <span className="flex shrink-0 items-center gap-3">
-                  <span className="headline text-gradient-silver text-lg">
+                  <span className="headline text-lg text-white tabular-nums">
                     {formatPlanPrice(p.price)}
                   </span>
-                  <ChevronRight size={18} className="shrink-0 text-primary" />
+                  <ChevronRight size={18} className="shrink-0 text-silver-dim" />
                 </span>
               </button>
             </Reveal>
           ))}
         </div>
 
-        <Reveal delay={0.22 + preview.length * 0.04} margin="0px" mobileReveal="left" className="mt-4">
+        <Reveal delay={0.22 + preview.length * 0.04} margin="0px" className="mt-4">
           <GlassButton href="/plans" className="inline-flex text-sm">
             View All Plans
             <ArrowRight size={15} />
@@ -98,7 +98,7 @@ export default function Plans() {
               aria-modal="true"
               aria-label={`${selected.name} details`}
               tabIndex={-1}
-              className="glass-strong relative flex max-h-[90vh] w-full max-w-6xl flex-col overflow-y-auto rounded-[28px] outline-none md:h-[min(760px,90vh)] md:flex-row md:overflow-hidden"
+              className="glass-strong relative flex max-h-[90vh] w-full max-w-6xl flex-col overflow-y-auto rounded-[20px] outline-none md:h-[min(760px,90vh)] md:flex-row md:overflow-hidden"
               onClick={(e) => e.stopPropagation()}
               // "Book Now" jumps to #contact — close the popup on the way out
               onClickCapture={(e) => {

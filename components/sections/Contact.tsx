@@ -24,38 +24,38 @@ export default function Contact() {
   return (
     <section
       id="contact"
-      className="relative z-10 flex min-h-[100svh] items-center px-6 py-28 lg:h-screen lg:items-start lg:overflow-hidden lg:py-0 lg:pt-[11vh]"
+      className="relative z-10 flex min-h-[100svh] items-center px-6 py-28 lg:h-screen lg:items-center-safe lg:overflow-hidden lg:py-0 lg:pt-20"
     >
       <div className="mx-auto w-full max-w-[1440px] lg:pr-[34%]">
-        <Reveal as="p" className="text-xs font-semibold tracking-[0.35em] text-primary uppercase">
+        <Reveal as="p" className="eyebrow">
           Contact Us
         </Reveal>
-        <Reveal as="h2" delay={0.08} mobileReveal="left" className="headline mt-3 text-4xl md:text-5xl lg:text-[3.2rem]">
-          <span className="text-gradient-silver">Get in</span>{" "}
-          <span className="text-gradient-orange">Touch.</span>
+        <Reveal as="h2" delay={0.08} className="headline mt-3 text-4xl md:text-5xl lg:text-[3.2rem]">
+          Get in{" "}
+          Touch
         </Reveal>
-        <Reveal as="p" delay={0.15} mobileReveal="right" className="mt-3 max-w-lg text-sm text-silver-dim md:text-base">
+        <Reveal as="p" delay={0.15} className="mt-3 max-w-lg text-sm text-silver-dim md:text-base">
           We&apos;d love to hear from you. Fill the form and our team will get
           back to you soon.
         </Reveal>
 
         {/* Get Appointment form — temporarily disabled, keep code for later re-enable
-        <Reveal delay={0.22} mobileReveal="left" className="mt-6">
+        <Reveal delay={0.22} className="mt-6">
           <ConsultationForm />
         </Reveal>
         */}
 
         {/* Unified contact info panel — directly under the form */}
-        <Reveal delay={0.3} margin="0px" mobileReveal="right" className="glass mt-4 rounded-2xl border border-white/10 p-5">
+        <Reveal delay={0.3} margin="0px" className="glass mt-4 rounded-2xl border border-white/10 p-5">
           <div className="grid gap-5 sm:grid-cols-3">
             {/* Emails */}
             <div className="space-y-4 sm:pr-4">
               <div className="flex items-start gap-3">
-                <span className="glass flex h-10 w-10 shrink-0 items-center justify-center rounded-full border-primary/30 text-primary">
+                <span className="glass flex h-10 w-10 shrink-0 items-center justify-center rounded-[10px] text-silver">
                   <Mail size={16} />
                 </span>
                 <div className="min-w-0">
-                  <div className="text-sm font-semibold text-white">Email</div>
+                  <div className="text-sm font-medium text-white">Email</div>
                   <a
                     href={`mailto:${email}`}
                     className="mt-0.5 block text-xs break-all text-silver-dim transition-colors hover:text-primary"
@@ -66,11 +66,11 @@ export default function Contact() {
               </div>
 
               <div className="flex items-start gap-3">
-                <span className="glass flex h-10 w-10 shrink-0 items-center justify-center rounded-full border-primary/30 text-primary">
+                <span className="glass flex h-10 w-10 shrink-0 items-center justify-center rounded-[10px] text-silver">
                   <Mail size={16} />
                 </span>
                 <div className="min-w-0">
-                  <div className="text-sm font-semibold text-white">Support Email</div>
+                  <div className="text-sm font-medium text-white">Support Email</div>
                   <a
                     href={`mailto:${supportEmail}`}
                     className="mt-0.5 block text-xs break-all text-silver-dim transition-colors hover:text-primary"
@@ -84,11 +84,11 @@ export default function Contact() {
             {/* Numbers */}
             <div className="space-y-4 sm:border-l sm:border-white/10 sm:px-4">
               <div className="flex items-start gap-3">
-                <span className="glass flex h-10 w-10 shrink-0 items-center justify-center rounded-full border-primary/30 text-primary">
+                <span className="glass flex h-10 w-10 shrink-0 items-center justify-center rounded-[10px] text-silver">
                   <Phone size={16} />
                 </span>
                 <div className="min-w-0">
-                  <div className="text-sm font-semibold text-white">Call Now</div>
+                  <div className="text-sm font-medium text-white">Call Now</div>
                   <a
                     href={`tel:${phone.replace(/\s/g, "")}`}
                     className="mt-0.5 block text-xs text-silver-dim transition-colors hover:text-primary"
@@ -99,11 +99,11 @@ export default function Contact() {
               </div>
 
               <div className="flex items-start gap-3">
-                <span className="glass flex h-10 w-10 shrink-0 items-center justify-center rounded-full border-primary/30 text-primary">
+                <span className="glass flex h-10 w-10 shrink-0 items-center justify-center rounded-[10px] text-silver">
                   <SocialIcon name="whatsapp" size={16} />
                 </span>
                 <div className="min-w-0">
-                  <div className="text-sm font-semibold text-white">WhatsApp</div>
+                  <div className="text-sm font-medium text-white">WhatsApp</div>
                   <a
                     href={`https://wa.me/${whatsappDigits}`}
                     target="_blank"
@@ -118,11 +118,11 @@ export default function Contact() {
 
             {/* Location */}
             <div className="flex items-start gap-3 sm:border-l sm:border-white/10 sm:pl-4">
-              <span className="glass flex h-10 w-10 shrink-0 items-center justify-center rounded-full border-primary/30 text-primary">
+              <span className="glass flex h-10 w-10 shrink-0 items-center justify-center rounded-[10px] text-silver">
                 <MapPin size={16} />
               </span>
               <div className="min-w-0">
-                <div className="text-sm font-semibold text-white">Location</div>
+                <div className="text-sm font-medium text-white">Location</div>
                 <p className="mt-0.5 text-xs leading-relaxed text-silver-dim">
                   {address}
                 </p>
@@ -132,7 +132,7 @@ export default function Contact() {
         </Reveal>
 
         {/* Social links — directly under the contact panel */}
-        <Reveal delay={0.36} margin="0px" mobileReveal="left" className="mt-4 flex gap-3">
+        <Reveal delay={0.36} margin="0px" className="mt-4 flex gap-3">
           {FOOTER_LINKS.social.map((s) => (
             <a
               key={s.label}
@@ -140,7 +140,7 @@ export default function Contact() {
               target="_blank"
               rel="noopener noreferrer"
               aria-label={s.label}
-              className="glass flex h-10 w-10 items-center justify-center rounded-full text-silver transition-all duration-300 hover:scale-105 hover:border-primary/50 hover:text-primary hover:shadow-[0_0_16px_rgba(255,106,0,0.3)]"
+              className="glass flex h-10 w-10 items-center justify-center rounded-full text-silver transition-colors duration-150 hover:text-primary"
             >
               <SocialIcon name={SOCIAL_ICON[s.label] ?? "x"} />
             </a>

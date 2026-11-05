@@ -15,17 +15,17 @@ export default function FAQ() {
   return (
     <section
       id="faq"
-      className="relative z-10 flex min-h-[100svh] items-center px-6 py-28 lg:h-screen lg:items-start lg:overflow-hidden lg:py-0 lg:pt-[11vh]"
+      className="relative z-10 flex min-h-[100svh] items-center px-6 py-28 lg:h-screen lg:items-center-safe lg:overflow-hidden lg:py-0 lg:pt-20"
     >
       <div className="mx-auto w-full max-w-[1440px] lg:pl-[32%]">
-        <Reveal as="p" className="text-xs font-semibold tracking-[0.35em] text-primary uppercase">
+        <Reveal as="p" className="eyebrow">
           FAQ
         </Reveal>
-        <Reveal as="h2" delay={0.08} mobileReveal="left" className="headline mt-3 text-4xl md:text-5xl lg:text-[3.2rem]">
-          <span className="text-gradient-silver">Got</span>{" "}
-          <span className="text-gradient-orange">questions?</span>
+        <Reveal as="h2" delay={0.08} className="headline mt-3 text-4xl md:text-5xl lg:text-[3.2rem]">
+          Got{" "}
+          questions?
         </Reveal>
-        <Reveal as="p" delay={0.15} mobileReveal="right" className="mt-3 max-w-lg text-sm text-silver-dim md:text-base">
+        <Reveal as="p" delay={0.15} className="mt-3 max-w-lg text-sm text-silver-dim md:text-base">
           Everything you need to know before you get started.
         </Reveal>
 
@@ -33,7 +33,7 @@ export default function FAQ() {
           <FaqAccordion items={preview} defaultOpenFirst />
         </div>
 
-        <Reveal delay={0.22 + preview.length * 0.05} margin="0px" mobileReveal="left" className="mt-4">
+        <Reveal delay={0.22 + preview.length * 0.05} margin="0px" className="mt-4">
           <GlassButton href="/faq" className="inline-flex text-sm">
             View All FAQs
             <ArrowRight size={15} />

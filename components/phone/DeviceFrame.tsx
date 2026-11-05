@@ -92,20 +92,6 @@ export default function DeviceFrame({
       className={cn("relative aspect-[780/1634] w-[340px] select-none", className)}
       style={{ transformStyle: "preserve-3d" }}
     >
-      {/* Orange ambient glow — backface hidden so it never washes over the
-          rear panel while the phone rotates; the back stays pure black */}
-      <div
-        aria-hidden
-        className="absolute -inset-6 rounded-[64px] opacity-70"
-        style={{
-          background:
-            "radial-gradient(closest-side, rgba(255,106,0,0.28), transparent 75%)",
-          filter: "blur(24px)",
-          transform: "translateZ(-60px)",
-          backfaceVisibility: "hidden",
-        }}
-      />
-
       {/* BACK — camera module, flush at z = -8 */}
       <div
         aria-hidden
@@ -268,7 +254,7 @@ export default function DeviceFrame({
           background:
             "linear-gradient(135deg,#d9dade 0%,#63646a 12%,#232327 30%,#0a0a0b 50%,#232327 70%,#6a6b71 88%,#cfd0d4 100%)",
           boxShadow:
-            "0 40px 90px rgba(0,0,0,0.55), 0 0 60px rgba(255,106,0,0.12)",
+            "0 40px 90px rgba(0,0,0,0.55)",
         }}
       >
         <div

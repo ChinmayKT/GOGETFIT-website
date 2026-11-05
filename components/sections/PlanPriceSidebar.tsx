@@ -16,7 +16,7 @@ export default function PlanPriceSidebar({
 }) {
   return (
     <div className={cn("flex flex-col", className)}>
-      <div className="headline text-gradient-silver text-3xl">{formatPlanPrice(plan.price)}</div>
+      <div className="headline text-3xl text-white tabular-nums">{formatPlanPrice(plan.price)}</div>
       <p className="mt-1 text-xs text-silver-dim">Inclusive of taxes</p>
 
       <div className="mt-5 space-y-2 border-t border-white/10 pt-5 text-sm text-silver">

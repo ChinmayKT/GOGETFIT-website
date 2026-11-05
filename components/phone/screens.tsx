@@ -694,7 +694,7 @@ function DownloadDashboard({
           target="_blank"
           rel="noopener noreferrer"
           aria-label={store === "apple" ? "Download on the App Store" : "Get it on Google Play"}
-          className="cta-shimmer pointer-events-auto inline-block rounded-lg"
+          className="pointer-events-auto inline-block rounded-lg"
           onClick={(e) => e.stopPropagation()}
         >
           <Image

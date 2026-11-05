@@ -152,7 +152,7 @@ export default function ConsultationForm() {
           disabled={isSubmitting}
           whileHover={{ scale: 1.01 }}
           whileTap={{ scale: 0.98 }}
-          className="glass-sheen flex w-full items-center justify-center gap-2 rounded-2xl bg-primary py-4 text-sm font-semibold tracking-wide text-white uppercase shadow-[0_0_32px_var(--glow-orange)] disabled:opacity-60"
+          className="flex w-full items-center justify-center gap-2 rounded-2xl bg-primary py-4 text-sm font-semibold tracking-wide text-white uppercase shadow-[0_0_32px_var(--glow-orange)] disabled:opacity-60"
         >
           {isSubmitting ? (
             <>

@@ -28,7 +28,7 @@ export default function StoreButton({
       rel="noopener noreferrer"
       aria-label={label}
       className={cn(
-        "inline-flex items-center transition-transform duration-300 hover:scale-105 active:scale-95",
+        "inline-flex items-center transition-[opacity,transform] duration-150 hover:opacity-80 active:scale-[0.98]",
         className
       )}
     >

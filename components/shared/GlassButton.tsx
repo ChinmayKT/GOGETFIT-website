@@ -1,58 +1,20 @@
-"use client";
-
-import Link from "next/link";
-import { motion } from "framer-motion";
+import type { ComponentProps } from "react";
+import SmartLink from "@/components/shared/SmartLink";
 import { cn } from "@/lib/utils";
-import type { ReactNode, ComponentProps } from "react";
 
-const MotionLink = motion.create(Link);
+type Props = ComponentProps<typeof SmartLink> & { variant?: "primary" | "glass" };
 
-type Props = {
-  children: ReactNode;
-  variant?: "primary" | "glass";
-  className?: string;
-  href: string;
-} & Omit<ComponentProps<typeof motion.a>, "href">;
-
-const motionProps = {
-  whileHover: { scale: 1.04 },
-  whileTap: { scale: 0.96 },
-  transition: { type: "spring", stiffness: 400, damping: 22 } as const,
-};
-
-/**
- * "#section" hashes stay a native <motion.a> — SnapScroll's document click
- * listener owns those for the cinematic same-page snap. Anything else (a
- * real route, or "/#section" from a non-home page) goes through Next's Link
- * for a client-side transition instead of a full page reload.
- */
-export default function GlassButton({
-  children,
-  variant = "glass",
-  className,
-  href,
-  ...rest
-}: Props) {
-  const classes = cn(
-    "glass-sheen inline-flex cursor-pointer items-center justify-center gap-2 rounded-full px-7 py-3.5 text-sm font-semibold tracking-wide select-none",
-    variant === "primary"
-      ? // primary-deep, not primary: white on #ff6a00 is 2.9:1, on #cc4d00 it's 4.5:1 (WCAG AA)
-        "bg-primary-deep text-white shadow-[0_0_32px_var(--glow-orange),inset_0_1px_0_rgba(255,255,255,0.35)]"
-      : "glass text-white",
-    className
-  );
-
-  if (href.startsWith("#")) {
-    return (
-      <motion.a href={href} className={classes} {...motionProps} {...rest}>
-        {children}
-      </motion.a>
-    );
-  }
-
+export default function GlassButton({ variant = "glass", className, ...rest }: Props) {
   return (
-    <MotionLink href={href} className={classes} {...motionProps} {...rest}>
-      {children}
-    </MotionLink>
+    <SmartLink
+      className={cn(
+        "inline-flex cursor-pointer items-center justify-center gap-2 rounded-[10px] px-6 py-3.5 text-sm font-semibold select-none transition-[color,background-color,border-color,transform] duration-150 active:scale-[0.98]",
+        variant === "primary"
+          ? "bg-primary text-on-primary hover:bg-primary-soft"
+          : "glass text-white hover:bg-raised",
+        className
+      )}
+      {...rest}
+    />
   );
 }

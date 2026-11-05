@@ -65,7 +65,7 @@ export default function RootLayout({
   return (
     <html lang="en">
       <body
-        className={`${manrope.variable} ${spaceGrotesk.variable} noise antialiased`}
+        className={`${manrope.variable} ${spaceGrotesk.variable} antialiased`}
       >
         <script
           type="application/ld+json"

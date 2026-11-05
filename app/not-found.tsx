@@ -1,5 +1,4 @@
 import type { Metadata } from "next";
-import AmbientBackground from "@/components/3d/AmbientBackground";
 import Navbar from "@/components/layout/Navbar";
 import Footer from "@/components/layout/Footer";
 import GlassButton from "@/components/shared/GlassButton";
@@ -13,10 +12,9 @@ export const metadata: Metadata = {
 export default function NotFound() {
   return (
     <>
-      <AmbientBackground />
       <Navbar />
       <main className="relative z-10 mx-auto flex min-h-[80svh] max-w-4xl flex-col justify-center px-6 pt-36 pb-24 md:px-8 md:pt-40">
-        <p className="text-xs font-semibold tracking-[0.25em] text-primary uppercase">
+        <p className="eyebrow">
           Error 404
         </p>
         <h1 className="headline mt-3 text-4xl text-white sm:text-5xl md:text-6xl">
