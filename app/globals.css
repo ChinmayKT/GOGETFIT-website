@@ -12,10 +12,10 @@
   --primary-soft: #ff8a3d;
   --primary-deep: #cc4d00;
   --on-primary: #000000; /* 7:1 on --primary */
-  --white: #efe9de;
+  --white: #ffffff;
   --silver: #b8b0a4;
   --silver-dim: #8f897e;
-  --hairline: rgba(239, 233, 222, 0.1);
+  --hairline: rgba(255, 255, 255, 0.1);
 
   --ease-out-expo: cubic-bezier(0.22, 1, 0.36, 1);
 }

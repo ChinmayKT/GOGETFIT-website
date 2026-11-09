@@ -59,6 +59,25 @@ export default function FloatingPhone() {
   const wrapRef = useRef<HTMLDivElement>(null); // section pose + travel
   const tiltRef = useRef<HTMLDivElement>(null); // mouse tilt
   const spinRef = useRef<HTMLDivElement>(null); // rolls / idle showcase
+
+  // Feeds the back's moving highlight: --ry runs -90..90 while the back faces the viewer.
+  useEffect(() => {
+    const spin = spinRef.current;
+    if (!spin) return;
+    let last = NaN;
+    spin.style.setProperty("--back-vis", "hidden");
+    const tick = () => {
+      const deg = Number(gsap.getProperty(spin, "rotationY")) || 0;
+      if (deg === last) return;
+      last = deg;
+      const ry = ((deg % 360) + 360) % 360 - 180;
+      spin.style.setProperty("--ry", String(ry));
+      // skip the back's 3D layers while it faces away; margin covers the section poses (±14°)
+      spin.style.setProperty("--back-vis", Math.abs(ry) < 115 ? "visible" : "hidden");
+    };
+    gsap.ticker.add(tick);
+    return () => gsap.ticker.remove(tick);
+  }, [isDesktop]);
   const portalLayerRef = useRef<HTMLDivElement>(null);
   const [screen, setScreen] = useState<ScreenKey>("dashboard");
   const [coach, setCoach] = useState<{ name: string; portrait: boolean }>({
@@ -351,12 +370,14 @@ export default function FloatingPhone() {
         return;
       }
       spinning = true;
+      // idle: a slow lean, so the app stays readable instead of a full 360°
       gsap.to(spin, {
-        rotationY: 360,
-        duration: 3.4,
-        ease: "power2.inOut",
+        rotationY: 7,
+        duration: 2.4,
+        ease: "sine.inOut",
+        yoyo: true,
+        repeat: 1,
         onComplete: () => {
-          gsap.set(spin, { rotationY: 0 });
           spinning = false;
           arm();
         },
@@ -468,7 +489,7 @@ export default function FloatingPhone() {
             data-phone-spin
             style={{ transformStyle: "preserve-3d" }}
           >
-              <DeviceFrame>
+              <DeviceFrame detailedBack>
                 {/* Morph transition — scale + blur, never a plain fade */}
                 <AnimatePresence mode="popLayout" initial={false}>
                   <motion.div

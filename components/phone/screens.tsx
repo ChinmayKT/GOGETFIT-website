@@ -137,7 +137,7 @@ function ScreenShell({
   children: ReactNode;
 }) {
   return (
-    <div className="flex h-full w-full flex-col gap-2.5 px-4 pt-7 pb-5 text-white">
+    <div className="flex h-full w-full flex-col gap-2.5 px-4 pt-2 pb-6 text-white">
       <div className="flex items-center justify-between">
         <span className="text-[13px] font-bold tracking-tight">{title}</span>
         <div className="h-6 w-6 rounded-full bg-gradient-to-br from-[#FF8A3D] to-[#FF6A00] text-center text-[10px] leading-6 font-bold">
@@ -378,7 +378,7 @@ function CoachIntro({
       </div>
       {showPortrait && (
         <div
-          className="absolute inset-x-0 top-0 px-4 pt-10 pb-6"
+          className="absolute inset-x-0 top-0 px-4 pt-2 pb-6"
           style={{
             background: "linear-gradient(180deg, rgba(8,8,8,0.8), transparent)",
           }}
@@ -644,7 +644,7 @@ function DownloadDashboard({
 }) {
   const badge = BADGES[store];
   return (
-    <div className="flex h-full w-full flex-col px-4 pt-11 pb-3 text-white">
+    <div className="flex h-full w-full flex-col px-4 pt-2 pb-6 text-white">
       <div className="flex items-center justify-between">
         <span className="text-[13px] font-bold tracking-tight">
           GO<span className="text-[#FF6A00]">GET</span>FIT
@@ -688,7 +688,7 @@ function DownloadDashboard({
         <ChefHat size={14} className="text-[#FF8A3D]" />
       </div>
 
-      <div className="mt-auto flex justify-center pb-1">
+      <div className="mt-auto flex justify-center pb-5">
         <a
           href={store === "apple" ? IOS_APP_STORE_URL : ANDROID_PLAY_STORE_URL}
           target="_blank"
@@ -766,12 +766,12 @@ const SCREENS: Record<
 };
 
 /**
- * Real app screenshots (public/screens). Each is a full device mockup with
- * its own bezel + status bar + notch, so the shot renders inside a crop
- * frame: the top 7.2% of the screen stays black (status area under the
- * Dynamic Island), the image is widened 12% to shed the side bezels, and
- * pulled up ~17% of its width to discard the baked-in status bar — the app
- * header lands exactly below the island.
+ * App screenshots (public/screens). Each is a simulator capture with its own
+ * device frame, status bar and DEV banner, so it renders cropped: widened 8%
+ * to shed the side bezels and pulled up to discard the status bar. DeviceFrame
+ * supplies the real status bar above it.
+ * ponytail: ~860px captures look soft on 2x screens; replace with clean
+ * 1320×2868 exports and drop the crop.
  */
 const SHOTS: Partial<Record<ScreenKey, string>> = {
   coachProfile: "/screens/coach-profile.png",
@@ -799,9 +799,6 @@ export function PhoneScreen({
   if (shot) {
     return (
       <div className="relative h-full w-full overflow-hidden bg-black">
-        {/* Image widened 12% to shed the source's side bezels and pulled up
-            ~17% of its width to discard its baked-in status bar + notch —
-            app content starts at the very top of the screen. */}
         <Image
           src={shot}
           alt=""
@@ -809,8 +806,12 @@ export function PhoneScreen({
           height={1788}
           sizes="400px"
           priority={screen === "dashboard"}
-          className="mt-[-17.2%] ml-[-6%] h-auto w-[112%] max-w-none"
+          className="mt-[-16.3%] ml-[-4%] h-auto w-[108%] max-w-none"
         />
+        {/* blends the capture into the status area above it */}
+        <div className="absolute inset-x-0 top-0 h-[4%] bg-gradient-to-b from-black to-transparent" />
+        {/* hides the capture's bottom bezel behind the home indicator */}
+        <div className="absolute inset-x-0 bottom-0 h-[7%] bg-gradient-to-t from-black from-40% to-transparent" />
       </div>
     );
   }

@@ -184,7 +184,7 @@ function AndroidPhone() {
       style={{ perspective: 1600, opacity: 0, visibility: "hidden" }}
     >
       <div ref={stageRef} className="will-change-transform" style={{ transformStyle: "preserve-3d" }}>
-        <DeviceFrame>
+        <DeviceFrame variant="android">
           <div
             className="h-full w-full"
             style={{ background: "linear-gradient(160deg, #101014 0%, #0a0a0c 60%, #16100b 100%)" }}
